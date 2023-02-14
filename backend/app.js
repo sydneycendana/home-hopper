@@ -17,16 +17,20 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 
+// Security middleware
 if (!isProduction) {
+  // enable cors only in development
   app.use(cors());
 }
 
+// helmet helps set a variety of headers to better secure app
 app.use(
   helmet.crossOriginResourcePolicy({
     policy: "cross-origin",
   })
 );
 
+// set the csrf token and create req.csrfToken methid
 app.use(
   csurf({
     cookie: {
@@ -48,6 +52,7 @@ app.use((_req, _res, next) => {
 });
 
 app.use((err, _req, _res, next) => {
+  // check if error is a Sequelize error
   if (err instanceof ValidationError) {
     err.errors = err.errors.map((e) => e.message);
     err.title = "Validation error";
