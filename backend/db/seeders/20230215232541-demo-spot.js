@@ -14,7 +14,7 @@ module.exports = {
       [
         {
           id: 1,
-          ownerId: "4",
+          ownerId: 4,
           address: "123 Madison Ave",
           city: "New York",
           state: "New York",
@@ -28,7 +28,7 @@ module.exports = {
         },
         {
           id: 2,
-          ownerId: "2",
+          ownerId: 2,
           address: "124 Madison Ave",
           city: "New York",
           state: "New York",
@@ -42,7 +42,7 @@ module.exports = {
         },
         {
           id: 3,
-          ownerId: "1",
+          ownerId: 1,
           address: "12 Bleecker St",
           city: "New York",
           state: "New York",
