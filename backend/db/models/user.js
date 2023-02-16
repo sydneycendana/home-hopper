@@ -103,7 +103,9 @@ module.exports = (sequelize, DataTypes) => {
           attributes: { exclude: ["hashedPassword"] },
         },
         loginUser: {
-          attributes: {},
+          attributes: {
+            //needs to be limited
+          },
         },
       },
     }
