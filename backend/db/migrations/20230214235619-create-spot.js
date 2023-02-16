@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      "Users",
+      "Spots",
       {
         id: {
           allowNull: false,
@@ -17,42 +17,63 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        firstName: {
+        ownerId: {
+          type: Sequelize.INTEGER,
+          references: { model: "Users" },
+          onDelete: "cascade",
+        },
+        address: {
           type: Sequelize.STRING,
+          allowNull: false,
         },
-        lastName: {
+        city: {
           type: Sequelize.STRING,
-        },
-        username: {
           allowNull: false,
-          unique: true,
-          type: Sequelize.STRING(30),
         },
-        email: {
+        state: {
+          type: Sequelize.STRING,
           allowNull: false,
-          unique: true,
-          type: Sequelize.STRING(256),
         },
-        hashedPassword: {
+        country: {
+          type: Sequelize.STRING,
           allowNull: false,
-          type: Sequelize.STRING.BINARY,
+        },
+        lat: {
+          type: Sequelize.DECIMAL,
+          allowNull: false,
+        },
+        lng: {
+          type: Sequelize.DECIMAL,
+          allowNull: false,
+        },
+        name: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        description: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        price: {
+          type: Sequelize.DECIMAL,
+          allowNull: false,
         },
         createdAt: {
           allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updatedAt: {
           allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       options
     );
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Users";
+    options.tableName = "Spots";
     await queryInterface.dropTable(options);
   },
 };

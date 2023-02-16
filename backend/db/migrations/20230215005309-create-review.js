@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      "Users",
+      "Reviews",
       {
         id: {
           allowNull: false,
@@ -17,42 +17,36 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        firstName: {
+        userId: {
+          type: Sequelize.INTEGER,
+          references: { model: "Users" },
+        },
+        spotId: {
+          type: Sequelize.INTEGER,
+          references: { model: "Spots" },
+        },
+        review: {
           type: Sequelize.STRING,
         },
-        lastName: {
-          type: Sequelize.STRING,
-        },
-        username: {
-          allowNull: false,
-          unique: true,
-          type: Sequelize.STRING(30),
-        },
-        email: {
-          allowNull: false,
-          unique: true,
-          type: Sequelize.STRING(256),
-        },
-        hashedPassword: {
-          allowNull: false,
-          type: Sequelize.STRING.BINARY,
+        stars: {
+          type: Sequelize.INTEGER,
         },
         createdAt: {
           allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updatedAt: {
           allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       options
     );
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Users";
+    options.tableName = "Reviews";
     await queryInterface.dropTable(options);
   },
 };

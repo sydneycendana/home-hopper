@@ -60,6 +60,8 @@ app.use((err, _req, _res, next) => {
   next(err);
 });
 
+//request resource could not be found 404
+
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
