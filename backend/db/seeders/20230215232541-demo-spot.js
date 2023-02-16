@@ -13,6 +13,7 @@ module.exports = {
       options,
       [
         {
+          id: 1,
           ownerId: "4",
           address: "123 Madison Ave",
           city: "New York",
@@ -26,6 +27,7 @@ module.exports = {
           price: 250.0,
         },
         {
+          id: 2,
           ownerId: "2",
           address: "124 Madison Ave",
           city: "New York",
@@ -39,6 +41,7 @@ module.exports = {
           price: 100.0,
         },
         {
+          id: 3,
           ownerId: "1",
           address: "12 Bleecker St",
           city: "New York",

@@ -16,6 +16,7 @@ module.exports = {
       options,
       [
         {
+          id: 1,
           firstName: "Rachel",
           lastName: "Green",
           email: "rachel@friends.com",
@@ -23,6 +24,7 @@ module.exports = {
           hashedPassword: bcrypt.hashSync("mypassword"),
         },
         {
+          id: 2,
           firstName: "Chandler",
           lastName: "Bing",
           email: "chandler@friends.com",
@@ -30,6 +32,7 @@ module.exports = {
           hashedPassword: bcrypt.hashSync("password1"),
         },
         {
+          id: 3,
           firstName: "Joey",
           lastName: "Tribbiani",
           email: "joey@friends.com",
@@ -37,6 +40,7 @@ module.exports = {
           hashedPassword: bcrypt.hashSync("password"),
         },
         {
+          id: 4,
           firstName: "Monica",
           lastName: "Geller",
           email: "monica@friends.com",
