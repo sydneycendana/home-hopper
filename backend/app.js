@@ -13,13 +13,14 @@ const isProduction = environment === "production";
 
 const app = express();
 
+// GLOBAL MIDDLEWARE
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 
-// Security middleware
+// SECURITY MIDDLEWARE
+// enable cors only in development
 if (!isProduction) {
-  // enable cors only in development
   app.use(cors());
 }
 
@@ -41,8 +42,10 @@ app.use(
   })
 );
 
+//Connect all routes
 app.use(routes);
 
+// ERROR HANDLING MIDDLEWARE
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
@@ -59,8 +62,6 @@ app.use((err, _req, _res, next) => {
   }
   next(err);
 });
-
-//request resource could not be found 404
 
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
