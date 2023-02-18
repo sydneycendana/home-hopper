@@ -13,11 +13,13 @@ const validateSignup = [
   check("email")
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage("Please provide a valid email."),
+    .withMessage("Invalid email."),
   check("username")
-    .exists({ checkFalsy: true })
     .isLength({ min: 4 })
     .withMessage("Please provide a username with at least 4 characters."),
+  check("username")
+    .exists({ checkFalsy: true })
+    .withMessage("Username is required"),
   check("username").not().isEmail().withMessage("Username cannot be an email."),
   check("password")
     .exists({ checkFalsy: true })
@@ -35,33 +37,52 @@ const validateSignup = [
 router.post("/", validateSignup, async (req, res, next) => {
   const { email, username, password, firstName, lastName } = req.body;
 
-  const emailExists = await User.findOne({ where: { email } });
+  try {
+    const emailExists = await User.findOne({ where: { email } });
 
-  if (emailExists) {
-    const err = new Error("Email already exists.");
-    err.status = 403;
-    err.title = "Email already exists.";
-    err.errors = ["The provided credentials were invalid."];
-    return next(err);
+    if (emailExists) {
+      return res.status(403).json({
+        message: "User already exists",
+        statusCode: 403,
+        errors: {
+          email: "User with that email already exists",
+        },
+      });
+    }
+
+    const usernameExists = await User.findOne({ where: { username } });
+
+    if (usernameExists) {
+      return res.status(403).json({
+        message: "User already exists",
+        statusCode: 403,
+        errors: {
+          email: "User with that username already exists",
+        },
+      });
+    }
+
+    const user = await User.signup({
+      email,
+      username,
+      password,
+      firstName,
+      lastName,
+    });
+
+    const token = await setTokenCookie(res, user);
+
+    return res.json({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+      token: token,
+    });
+  } catch (err) {
+    next(err);
   }
-
-  const user = await User.signup({
-    email,
-    username,
-    password,
-    firstName,
-    lastName,
-  });
-
-  const token = await setTokenCookie(res, user);
-
-  return res.json({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    token: token,
-  });
 });
 
 module.exports = router;
