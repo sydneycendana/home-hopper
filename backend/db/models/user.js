@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     validatePassword(password) {
+      if (!this.hashedPassword) {
+        throw new Error("User password is not set");
+        return;
+      }
       return bcrypt.compareSync(password, this.hashedPassword.toString());
     }
 
@@ -32,14 +36,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({ username, email, password, firstName, lastName }) {
+    static async signup({ firstName, lastName, username, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
+        firstName,
+        lastName,
         username,
         email,
         hashedPassword,
-        firstName,
-        lastName,
       });
 
       return await User.scope("currentUser").findByPk(user.id);
@@ -104,7 +108,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         loginUser: {
           attributes: {
-            //needs to be limited
+            exclude: ["createdAt", "updatedAt"],
           },
         },
       },
