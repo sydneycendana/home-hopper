@@ -32,7 +32,7 @@ const validateSignup = [
   handleValidationErrors,
 ];
 
-router.post("/", validateSignup, async (req, res) => {
+router.post("/", validateSignup, async (req, res, next) => {
   const { email, username, password, firstName, lastName } = req.body;
 
   const emailExists = await User.findOne({ where: { email } });
@@ -40,7 +40,7 @@ router.post("/", validateSignup, async (req, res) => {
   if (emailExists) {
     const err = new Error("Email already exists.");
     err.status = 403;
-    err.title = "Email already exists";
+    err.title = "Email already exists.";
     err.errors = ["The provided credentials were invalid."];
     return next(err);
   }
@@ -53,14 +53,14 @@ router.post("/", validateSignup, async (req, res) => {
     lastName,
   });
 
-  await setTokenCookie(res, user);
+  const token = await setTokenCookie(res, user);
 
   return res.json({
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    token,
+    token: token,
   });
 });
 
