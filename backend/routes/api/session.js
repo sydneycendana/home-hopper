@@ -41,7 +41,7 @@ router.post("/", validateLogin, async (req, res, next) => {
     err.status = 401;
     // err.title = "Login failed";
     // err.errors = ["The provided credentials were invalid."];
-    return res.json({
+    return res.status(401).json({
       message: err.message,
       statusCode: err.status,
     });
@@ -51,9 +51,10 @@ router.post("/", validateLogin, async (req, res, next) => {
 
   const { id, username, email, firstName, lastName } = user;
 
-  return res.json({
+  res.json({
     user: { id, firstName, lastName, email, username },
   });
+  next();
 });
 
 //user logout
