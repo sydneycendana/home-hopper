@@ -81,7 +81,7 @@ router.post("/", validateSpot, requireAuth, async (req, res, next) => {
 
 // get all spots **STILL NEED AVGRATING AND PREVIEW IMAGE**
 router.get("/", async (req, res, next) => {
-  const spots = await Spot.findAll();
+  const spots = await Spot.findAll({});
   if (spots) {
     return res.status(200).json({
       Spots: spots,
