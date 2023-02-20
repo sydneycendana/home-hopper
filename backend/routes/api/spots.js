@@ -81,10 +81,39 @@ router.post("/", validateSpot, requireAuth, async (req, res, next) => {
 
 // get all spots **STILL NEED AVGRATING AND PREVIEW IMAGE**
 router.get("/", async (req, res, next) => {
-  const spots = await Spot.findAll({});
-  if (spots) {
+  const Spots = await Spot.findAll({
+    attributes: [
+      "id",
+      "ownerId",
+      "address",
+      "city",
+      "state",
+      "country",
+      "lat",
+      "lng",
+      "name",
+      "description",
+      "price",
+      "createdAt",
+      "updatedAt",
+      [
+        Sequelize.literal(
+          "(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)"
+        ),
+        "avgRating",
+      ],
+      [
+        Sequelize.literal(
+          "(SELECT url FROM SpotImages WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true LIMIT 1)"
+        ),
+        "previewImage",
+      ],
+    ],
+  });
+
+  if (Spots) {
     return res.status(200).json({
-      Spots: spots,
+      Spots,
     });
   }
 
