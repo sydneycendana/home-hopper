@@ -9,13 +9,16 @@ const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
 
 //get all spots
-router.get("/", restoreUser, (req, res) => {
-  const { user } = req;
-  if (user) {
-    return res.json({
-      user: user.toSafeObject(),
+router.get("/", async (req, res, next) => {
+  try {
+    const spots = await Spot.findAll();
+    res.json;
+    ({
+      spots,
     });
-  } else return res.json({});
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
