@@ -9,7 +9,7 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
-//get all spots
+// get all spots **STILL NEED AVGRATING AND PREVIEW IMAGE**
 router.get("/", async (req, res, next) => {
   const spots = await Spot.findAll();
   if (spots) {
