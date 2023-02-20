@@ -1,0 +1,95 @@
+// backend/routes/api/session.js
+const express = require("express");
+
+const {
+  setTokenCookie,
+  requireAuth,
+  restoreUser,
+} = require("../../utils/auth");
+const { Spot, User, Review } = require("../../db/models");
+const { Sequelize } = require("sequelize");
+const { check } = require("express-validator");
+const { handleValidationErrors } = require("../../utils/validation");
+
+const router = express.Router();
+
+const validateSpot = [
+  // check("ownerId").exists({ checkFalsy: true }).withMessage("Invalid owner"),
+  check("address")
+    .exists({ checkFalsy: true })
+    .withMessage("Street address is required"),
+  check("city").exists({ checkFalsy: true }).withMessage("City is required"),
+  check("state").exists({ checkFalsy: true }).withMessage("State is required"),
+  check("country")
+    .exists({ checkFalsy: true })
+    .withMessage("Country is required"),
+  check("lat")
+    .exists({ checkFalsy: true })
+    .toFloat()
+    .isDecimal()
+    .withMessage("Latitude is not valid"),
+  check("lng")
+    .exists({ checkFalsy: true })
+    .toFloat()
+    .isDecimal()
+    .withMessage("Longitude is not valid"),
+  check("name")
+    .isLength({ max: 50 })
+    .withMessage("Name must be less than 50 characters"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .withMessage("Description is required"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .withMessage("Price per day is required"),
+  handleValidationErrors,
+];
+
+//create spot
+router.post("/", validateSpot, requireAuth, async (req, res, next) => {
+  if (req.user) {
+    const {
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+    } = req.body;
+
+    const ownerId = req.user.id;
+
+    const spot = await Spot.create({
+      ownerId,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+    });
+
+    if (spot) return res.status(201).json(spot);
+  }
+});
+
+// get all spots **STILL NEED AVGRATING AND PREVIEW IMAGE**
+router.get("/", async (req, res, next) => {
+  const spots = await Spot.findAll();
+  if (spots) {
+    return res.status(200).json({
+      Spots: spots,
+    });
+  }
+
+  res.status(400).json({ message: "Could not find Spots" });
+  next(err);
+});
+
+module.exports = router;
