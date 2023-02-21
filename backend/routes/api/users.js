@@ -28,6 +28,7 @@ const validateSignup = [
   check("firstName")
     .exists({ checkFalsy: true })
     .withMessage("First name is required"),
+  //maybe add .isAlpha()
   check("lastName")
     .exists({ checkFalsy: true })
     .withMessage("Last name is required"),
