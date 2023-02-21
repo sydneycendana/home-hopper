@@ -71,7 +71,7 @@ router.post(
 );
 
 //get current users spots
-router.get("/current", restoreUser, async (req, res, next) => {
+router.get("/current", requireAuth, async (req, res, next) => {
   const Spots = await Spot.findAll({
     where: {
       ownerId: req.user.id,
@@ -105,11 +105,16 @@ router.get("/current", restoreUser, async (req, res, next) => {
     ],
   });
 
-  if (Spots) {
+  if (Spots.length > 0) {
     return res.status(200).json({
       Spots,
     });
   }
+
+  res.status(404).json({
+    message: "No Spots found",
+  });
+  next();
 });
 
 //create spot
