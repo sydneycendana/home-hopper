@@ -70,6 +70,64 @@ router.post(
   }
 );
 
+router.get("/:spotId", async (req, res, next) => {
+  const spotId = req.params.spotId;
+
+  const spot = await Spot.findOne({
+    where: {
+      id: spotId,
+    },
+    attributes: [
+      "id",
+      "ownerId",
+      "address",
+      "city",
+      "state",
+      "country",
+      "lat",
+      "lng",
+      "name",
+      "description",
+      "price",
+      "createdAt",
+      "updatedAt",
+      [
+        Sequelize.literal(
+          "(SELECT COUNT(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)"
+        ),
+        "numReviews",
+      ],
+      [
+        Sequelize.literal(
+          "(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)"
+        ),
+        "avgStarRating",
+      ],
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ["id", "firstName"], //FINISHHHHH
+      },
+    ],
+  });
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  if (spot) {
+    return res.status(200).json({
+      id: newSpotImage.id,
+      url: newSpotImage.url,
+      preview: newSpotImage.preview,
+    });
+  }
+});
+
 //get current users spots
 router.get("/current", requireAuth, async (req, res, next) => {
   const Spots = await Spot.findAll({
