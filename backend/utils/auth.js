@@ -59,26 +59,4 @@ const requireAuth = function (req, _res, next) {
   return next(err);
 };
 
-const requireSpotOwner = async (req, res, next) => {
-  const spot = await Spot.findOne({
-    where: { id: req.params.spotId },
-  });
-
-  if (!spot) {
-    return res.status(404).json({
-      message: "Spot couldn't be found",
-      statusCode: 404,
-    });
-  }
-
-  if (spot.ownerId !== req.user.id) {
-    return res.status(403).json({
-      message: "You are not authorized to create an image for this spot",
-      statusCode: 403,
-    });
-  }
-
-  next();
-};
-
-module.exports = { setTokenCookie, restoreUser, requireAuth, requireSpotOwner };
+module.exports = { setTokenCookie, restoreUser, requireAuth };
