@@ -36,7 +36,7 @@ const validateSpot = [
     .isDecimal()
     .withMessage("Longitude is not valid"),
   check("name")
-    .isLength({ max: 49 })
+    .isLength({ min: 1, max: 49 })
     .withMessage("Name must be less than 50 characters"),
   check("description")
     .exists({ checkFalsy: true })
@@ -143,15 +143,12 @@ router.get("/current", requireAuth, async (req, res) => {
       "price",
       "createdAt",
       "updatedAt",
+      [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
       [
-        Sequelize.literal(
-          "(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)"
-        ),
-        "avgRating",
-      ],
-      [
-        Sequelize.literal(
-          "(SELECT url FROM SpotImages WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true LIMIT 1)"
+        Sequelize.fn(
+          "COALESCE",
+          Sequelize.fn("MAX", Sequelize.col("SpotImages.url")),
+          ""
         ),
         "previewImage",
       ],
@@ -235,6 +232,60 @@ router.get("/:spotId", async (req, res, next) => {
   return res.status(200).json({
     spot,
   });
+});
+
+//edit a spot
+router.put("/:spotId", validateSpot, requireAuth, async (req, res, next) => {
+  const spotId = req.params.spotId;
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+
+  const ownerId = req.user.id;
+
+  const spot = await Spot.findOne({
+    where: {
+      id: spotId,
+      ownerId: ownerId,
+    },
+  });
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  const updatedSpot = await spot.update({
+    ownerId,
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+  });
+
+  if (updatedSpot) {
+    return res.status(200).json({
+      id: updatedSpot.id,
+      ownerId: updatedSpot.ownerId,
+      address: updatedSpot.address,
+      city: updatedSpot.city,
+      state: updatedSpot.state,
+      country: updatedSpot.country,
+      lat: updatedSpot.lat,
+      lng: updatedSpot.lng,
+      name: updatedSpot.name,
+      description: updatedSpot.description,
+      price: updatedSpot.price,
+      createdAt: updatedSpot.createdAt,
+      updatedAt: updatedSpot.updatedAt,
+    });
+  }
 });
 
 //add image to spot by spot id
