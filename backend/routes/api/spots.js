@@ -120,6 +120,7 @@ router.get("/current", requireAuth, async (req, res) => {
       {
         model: SpotImage,
         attributes: ["url"],
+        where: { preview: true },
       },
       { model: Review, attributes: [] },
     ],
