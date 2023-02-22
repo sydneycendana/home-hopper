@@ -13,19 +13,16 @@ module.exports = {
       options,
       [
         {
-          id: 1,
           spotId: 1,
           url: "fakeurl3",
           preview: false,
         },
         {
-          id: 2,
           spotId: 1,
           url: "fakeurl4",
           preview: true,
         },
         {
-          id: 3,
           spotId: 3,
           url: "fakeurl5",
           preview: true,
