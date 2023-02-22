@@ -143,12 +143,15 @@ router.get("/current", requireAuth, async (req, res) => {
       "price",
       "createdAt",
       "updatedAt",
-      [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
       [
-        Sequelize.fn(
-          "COALESCE",
-          Sequelize.fn("MAX", Sequelize.col("SpotImages.url")),
-          ""
+        Sequelize.literal(
+          '(SELECT AVG(stars) FROM "Reviews" WHERE "Reviews"."spotId" = "Spot"."id")'
+        ),
+        "avgRating",
+      ],
+      [
+        Sequelize.literal(
+          '(SELECT url FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id" AND "SpotImages"."preview" = true LIMIT 1)'
         ),
         "previewImage",
       ],
@@ -198,13 +201,13 @@ router.get("/:spotId", async (req, res, next) => {
       "updatedAt",
       [
         Sequelize.literal(
-          "(SELECT COUNT(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)"
+          '(SELECT COUNT(stars) FROM "Reviews" WHERE "Reviews"."spotId" = "Spot"."id")'
         ),
         "numReviews",
       ],
       [
         Sequelize.literal(
-          "(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)"
+          '(SELECT AVG(stars) FROM "Reviews" WHERE "Reviews"."spotId" = "Spot"."id")'
         ),
         "avgStarRating",
       ],
