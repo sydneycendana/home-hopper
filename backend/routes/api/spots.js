@@ -157,70 +157,104 @@ router.get("/current", requireAuth, async (req, res) => {
 
 //get details for specific spot
 router.get("/:spotId", async (req, res, next) => {
-  try {
-    const spotId = req.params.spotId;
-    const spot = await Spot.findByPk(spotId);
+  // try {
+  //   const spotId = req.params.spotId;
+  //   const spot = await Spot.findByPk(spotId);
 
-    const reviews = await Review.findAll({
-      where: {
-        spotId: spotId,
+  //   const reviews = await Review.findAll({
+  //     where: {
+  //       spotId: spotId,
+  //     },
+  //     attributes: ["stars"],
+  //   });
+
+  //   // numReviews/avgStarRating
+  //   const numReviews = reviews.length;
+  //   let sum = 0;
+  //   for (let review of reviews) {
+  //     sum += review.stars;
+  //   }
+  //   const avgStarRating = sum / numReviews;
+
+  //   const spotImages = await SpotImage.findAll({
+  //     where: {
+  //       preview: true,
+  //       spotId: spotId,
+  //     },
+  //     attributes: ["id", "url", "preview"],
+  //   });
+
+  //   const owner = await User.findOne({
+  //     where: {
+  //       id: spot.ownerId,
+  //     },
+  //     attributes: ["id", "firstName", "lastName"],
+  //   });
+
+  //   res.status(200).json({
+  //     id: spot.id,
+  //     ownerId: spot.ownerId,
+  //     address: spot.address,
+  //     city: spot.city,
+  //     state: spot.state,
+  //     country: spot.country,
+  //     lat: spot.lat,
+  //     lng: spot.lng,
+  //     name: spot.name,
+  //     description: spot.description,
+  //     price: spot.price,
+  //     previewImage: spot.previewImage,
+  //     createdAt: spot.createdAt,
+  //     updatedAt: spot.updatedAt,
+  //     numReviews: numReviews,
+  //     avgStarRating: avgStarRating,
+  //     SpotImages: spotImages,
+  //     Owner: owner,
+  //   });
+  // } catch (err) {
+  //   const spot = await Spot.findByPk(req.params.spotId);
+
+  //   if (!spot) {
+  //     return res.status(404).json({
+  //       message: "Spot not found",
+  //       statusCode: 404,
+  //     });
+  //   }
+  // }
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId, {
+    include: [
+      {
+        model: SpotImage,
+        attributes: ["id", "url", "preview"],
       },
-      attributes: ["stars"],
-    });
-
-    // numReviews/avgStarRating
-    const numReviews = reviews.length;
-    let sum = 0;
-    for (let review of reviews) {
-      sum += review.stars;
-    }
-    const avgStarRating = sum / numReviews;
-
-    const spotImages = await SpotImage.findAll({
-      where: {
-        preview: true,
-        spotId: spotId,
+      {
+        model: User,
+        as: "Owner",
+        attributes: ["id", "firstName", "lastName"],
       },
-      attributes: ["id", "url", "preview"],
-    });
-
-    const owner = await User.findOne({
-      where: {
-        id: spot.ownerId,
+      {
+        model: Review,
+        attributes: [],
       },
-      attributes: ["id", "firstName", "lastName"],
-    });
+    ],
+    attributes: {
+      include: [
+        [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgStarRating"],
+        [Sequelize.fn("COUNT", Sequelize.col("Reviews.stars")), "numReviews"],
+      ],
+    },
+    group: ["Spot.id", "SpotImages.id", "Reviews.spotId"],
+  });
 
-    res.status(200).json({
-      id: spot.id,
-      ownerId: spot.ownerId,
-      address: spot.address,
-      city: spot.city,
-      state: spot.state,
-      country: spot.country,
-      lat: spot.lat,
-      lng: spot.lng,
-      name: spot.name,
-      description: spot.description,
-      price: spot.price,
-      previewImage: spot.previewImage,
-      createdAt: spot.createdAt,
-      updatedAt: spot.updatedAt,
-      numReviews: numReviews,
-      avgStarRating: avgStarRating,
-      SpotImages: spotImages,
-      Owner: owner,
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
     });
-  } catch (err) {
-    const spot = await Spot.findByPk(req.params.spotId);
-
-    if (!spot) {
-      return res.status(404).json({
-        message: "Spot not found",
-        statusCode: 404,
-      });
-    }
   }
+
+  return res.status(200).json(spot);
 });
 
 //edit a spot
