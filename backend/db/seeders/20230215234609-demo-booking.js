@@ -13,23 +13,20 @@ module.exports = {
       options,
       [
         {
-          id: 1,
           spotId: 1,
-          userId: 2,
+          userId: 1,
           startDate: new Date(2023, 2, 13),
           endDate: new Date(2023, 2, 15),
         },
         {
-          id: 2,
           spotId: 2,
-          userId: 3,
+          userId: 2,
           startDate: new Date(2023, 2, 20),
           endDate: new Date(2023, 2, 22),
         },
         {
-          id: 3,
           spotId: 3,
-          userId: 1,
+          userId: 3,
           startDate: new Date(2023, 2, 16),
           endDate: new Date(2023, 2, 19),
         },

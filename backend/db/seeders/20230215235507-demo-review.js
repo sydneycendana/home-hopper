@@ -13,21 +13,18 @@ module.exports = {
       options,
       [
         {
-          id: 1,
           userId: 2,
           spotId: 1,
           review: "It was a great spot!",
           stars: 5,
         },
         {
-          id: 2,
           userId: 3,
           spotId: 2,
           review: "The description was not accurate.",
           stars: 3,
         },
         {
-          id: 3,
           userId: 1,
           spotId: 3,
           review: "Location is great!",
