@@ -6,7 +6,13 @@ const {
   requireAuth,
   restoreUser,
 } = require("../../utils/auth");
-const { Spot, SpotImage, User, Review } = require("../../db/models");
+const {
+  Spot,
+  SpotImage,
+  User,
+  Review,
+  ReviewImage,
+} = require("../../db/models");
 const { Sequelize } = require("sequelize");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -120,7 +126,7 @@ router.get("/current", requireAuth, async (req, res) => {
       {
         model: SpotImage,
         attributes: ["url"],
-        where: { preview: true },
+        // where: { preview: true },
       },
       { model: Review, attributes: [] },
     ],
@@ -149,6 +155,7 @@ router.get("/current", requireAuth, async (req, res) => {
     avgRating: spot.dataValues.avgRating,
     previewImage: spot.SpotImages[0]?.url || null, //Use the first preview image or null
   }));
+
   if (payload) return res.status(200).json({ Spots: payload });
 
   res.status(404).json({
@@ -263,6 +270,7 @@ router.put("/:spotId", requireAuth, validateSpot, async (req, res, next) => {
   }
 });
 
+//delete a spot
 router.delete("/:spotId", requireAuth, async (req, res, next) => {
   const spotId = req.params.spotId;
   const ownerId = req.user.id;
@@ -328,6 +336,48 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
       preview: spotImage.preview,
     });
   }
+});
+
+//get reviews by spot id ***NEED TO FINISH, RETURNING EMPTY ARRAY
+router.get("/:spotId/reviews", async (req, res) => {
+  const spotId = req.params.spotId;
+  const spot = await Spot.findOne({ where: { id: spotId } });
+
+  const Reviews = await Review.findAll({
+    where: {
+      spotId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+      {
+        model: ReviewImage,
+        attributes: ["id", "url"],
+      },
+    ],
+    group: ["Review.id", "User.id", "ReviewImages.id"],
+  });
+
+  console.log(Reviews);
+
+  const payload = Reviews.map((review) => ({
+    id: review.id,
+    userId: review.userId,
+    spotId: review.spotId,
+    review: review.review,
+    stars: review.stars,
+    createdAt: review.createdAt,
+    updatedAt: review.updatedAt,
+    User: review.User,
+    ReviewImages: review.ReviewImages,
+  }));
+  if (payload.length > 0) return res.status(200).json({ Reviews: payload });
+
+  res.status(404).json({
+    message: "No Reviews found",
+  });
 });
 
 module.exports = router;
