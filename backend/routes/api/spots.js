@@ -162,15 +162,6 @@ router.get("/:spotId", async (req, res, next) => {
   const spot = await Spot.findByPk(spotId, {
     include: [
       {
-        model: SpotImage,
-        attributes: ["id", "url", "preview"],
-      },
-      {
-        model: User,
-        as: "Owner",
-        attributes: ["id", "firstName", "lastName"],
-      },
-      {
         model: Review,
         attributes: [],
       },
@@ -181,7 +172,7 @@ router.get("/:spotId", async (req, res, next) => {
         [Sequelize.fn("COUNT", Sequelize.col("Reviews.stars")), "numReviews"],
       ],
     },
-    group: ["Spot.id", "SpotImages.id", "Owner.id"],
+    group: ["Spot.id"],
   });
 
   if (!spot) {
@@ -191,7 +182,22 @@ router.get("/:spotId", async (req, res, next) => {
     });
   }
 
-  return res.status(200).json(spot);
+  const SpotImages = await SpotImage.findAll({
+    where: {
+      preview: true,
+      spotId: spotId,
+    },
+    attributes: ["id", "url", "preview"],
+  });
+
+  const owner = await User.findOne({
+    where: {
+      id: spot.ownerId,
+    },
+    attributes: ["id", "firstName", "lastName"],
+  });
+
+  return res.status(200).json({ spot, SpotImages, Owner: owner });
 });
 
 //edit a spot
