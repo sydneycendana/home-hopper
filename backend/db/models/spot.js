@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       Spot.hasMany(models.Review, { foreignKey: "spotId" });
       Spot.belongsTo(models.User, {
         foreignKey: "ownerId",
-        as: "Owner",
         onDelete: "cascade",
         hooks: true,
       });
