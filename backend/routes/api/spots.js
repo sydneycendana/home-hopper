@@ -169,6 +169,7 @@ router.get("/:spotId", async (req, res, next) => {
         model: User,
         as: "Owner",
         attributes: ["id", "firstName", "lastName"],
+        group: ["Owner.id"],
       },
       {
         model: Review,
@@ -238,7 +239,7 @@ router.put("/:spotId", requireAuth, validateSpot, async (req, res, next) => {
 router.post("/:spotId/images", requireAuth, async (req, res, next) => {
   const { url, preview } = req.body;
 
-  const { spotId } = req.params;
+  const spotId = req.params.spotId;
   const spot = await Spot.findOne({ where: { id: spotId } });
   if (!spot) {
     return res.status(404).json({
