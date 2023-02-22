@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "ownerId",
         onDelete: "cascade",
         hooks: true,
-        as: "Owner",
       });
     }
   }
