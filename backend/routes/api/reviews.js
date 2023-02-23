@@ -52,7 +52,7 @@ router.get("/current", requireAuth, async (req, res) => {
         attributes: ["id", "url"],
       },
     ],
-    group: ["Review.id", "User.id", "ReviewImages.id"],
+    group: ["Review.id", "User.id", "Spot.id", "ReviewImages.id"],
   });
 
   const payload = Reviews.map((review) => ({

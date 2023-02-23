@@ -333,7 +333,7 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
   }
 });
 
-//get reviews by spot id ***NEED TO FINISH, RETURNING EMPTY ARRAY
+//get reviews by spot id
 router.get("/:spotId/reviews", async (req, res) => {
   const spotId = req.params.spotId;
   const spot = await Spot.findOne({ where: { id: spotId } });
