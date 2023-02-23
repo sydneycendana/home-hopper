@@ -85,7 +85,7 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 });
 
-// //edit review
+//edit review
 router.put(
   "/:reviewId",
   requireAuth,
@@ -115,6 +115,33 @@ router.put(
     return res.status(200).json(updatedReview);
   }
 );
+
+//delete review
+router.delete("/:reviewId", requireAuth, async (req, res, next) => {
+  const reviewId = req.params.reviewId;
+  const userId = req.user.id;
+
+  const review = await Review.findOne({
+    where: {
+      id: reviewId,
+      userId: userId,
+    },
+  });
+
+  if (!review) {
+    return res.status(404).json({
+      message: "Review couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  await review.destroy();
+
+  res.status(200).json({
+    message: "Successfully deleted",
+    statusCode: 200,
+  });
+});
 
 //add an image to review
 router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
