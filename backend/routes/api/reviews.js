@@ -85,18 +85,20 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 });
 
-//edit review
+//******************** EDIT REVIEW ********************
 router.put(
   "/:reviewId",
   requireAuth,
   validateReview,
   async (req, res, next) => {
     const { review, stars } = req.body;
+    const reviewId = req.params.reviewId;
+    const userId = req.user.id;
 
+    //Check if review exists
     const existingReview = await Review.findOne({
       where: {
-        id: req.params.reviewId,
-        userId: req.user.id,
+        id: reviewId,
       },
     });
 
@@ -104,6 +106,21 @@ router.put(
       return res.status(404).json({
         message: "Review couldn't be found",
         statusCode: 404,
+      });
+    }
+
+    //Check if user is authorized
+    const authorizedUser = await Review.findOne({
+      where: {
+        id: reviewId,
+        userId,
+      },
+    });
+
+    if (!authorizedUser) {
+      return res.status(403).json({
+        message: "Forbidden",
+        statusCode: 403,
       });
     }
 
@@ -143,21 +160,33 @@ router.delete("/:reviewId", requireAuth, async (req, res, next) => {
   });
 });
 
-//add an image to review
+//******************** ADD REVIEWIMAGE BY REVIEWID ********************
 router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
   const { url } = req.body;
   const reviewId = req.params.reviewId;
 
-  const review = await Review.findOne({
+  //Check if review exists
+  const review = await Review.findOne({ where: { id: reviewId } });
+
+  if (!review) {
+    return res.status(404).json({
+      message: "Review couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  //Check if user is authorized
+  const authorizedUser = await Review.findOne({
     where: {
       id: reviewId,
       userId: req.user.id,
     },
   });
 
-  if (!review) {
-    return res.status(404).json({
-      message: "No Reviews found",
+  if (!authorizedUser) {
+    return res.status(403).json({
+      message: "Forbidden",
+      statusCode: 403,
     });
   }
 
