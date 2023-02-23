@@ -6,6 +6,7 @@ const {
   requireAuth,
   restoreUser,
 } = require("../../utils/auth");
+
 const {
   Spot,
   SpotImage,
@@ -13,15 +14,15 @@ const {
   Review,
   ReviewImage,
 } = require("../../db/models");
+
 const { Sequelize } = require("sequelize");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
-// Validate a spot
+// Validate spot
 const validateSpot = [
-  // check("ownerId").exists({ checkFalsy: true }).withMessage("Invalid owner"),
   check("address")
     .exists({ checkFalsy: true })
     .withMessage("Street address is required"),
@@ -64,47 +65,51 @@ const validateReview = [
   handleValidationErrors,
 ];
 
-// get all spots
+//******************** GETS SPOTS ********************
 router.get("/", async (req, res, next) => {
-  const Spots = await Spot.findAll({
-    include: [
-      {
-        model: SpotImage,
-        attributes: ["url"], //allows response to find the first image
-      },
-      { model: Review, attributes: [] },
-    ],
-    attributes: {
+  try {
+    const spots = await Spot.findAll({
       include: [
-        [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
+        {
+          model: SpotImage,
+          attributes: ["url"], //allows response to find the first image
+        },
+        { model: Review, attributes: [] },
       ],
-    },
-    group: ["Spot.id", "SpotImages.id", "Reviews.spotId"],
-  });
+      attributes: {
+        include: [
+          [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
+        ],
+      },
+      group: ["Spot.id", "SpotImages.id", "Reviews.spotId"],
+    });
 
-  const payload = Spots.map((spot) => ({
-    id: spot.id,
-    ownerId: spot.ownerId,
-    address: spot.address,
-    city: spot.city,
-    state: spot.state,
-    country: spot.country,
-    lat: spot.lat,
-    lng: spot.lng,
-    name: spot.name,
-    description: spot.description,
-    price: spot.price,
-    createdAt: spot.createdAt,
-    updatedAt: spot.updatedAt,
-    avgRating: spot.dataValues.avgRating,
-    previewImage: spot.SpotImages[0]?.url || null,
-  }));
+    const allSpots = spots.map((spot) => ({
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+      avgRating: spot.dataValues.avgRating,
+      previewImage: spot.SpotImages[0]?.url || null,
+    }));
 
-  res.status(200);
-  res.json({ Spots: payload });
+    res.status(200);
+    res.json({ Spots: allSpots });
+  } catch {
+    next(err);
+  }
 });
 
-//create spot
+//******************** CREATE SPOT ********************
 router.post("/", requireAuth, validateSpot, async (req, res, next) => {
   const ownerId = req.user.id;
   const { address, city, state, country, lat, lng, name, description, price } =
