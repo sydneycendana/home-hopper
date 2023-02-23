@@ -19,7 +19,7 @@ const validateLogin = [
   handleValidationErrors,
 ];
 
-//get current user
+//******************** GET CURRENT USER ********************
 router.get("/", restoreUser, (req, res) => {
   const { user } = req;
   if (user) {
