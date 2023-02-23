@@ -74,4 +74,46 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 });
 
+//add an image to review
+router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
+  const { url } = req.body;
+  const reviewId = req.params.reviewId;
+
+  const review = await Review.findOne({
+    where: {
+      id: reviewId,
+      userId: req.user.id,
+    },
+  });
+
+  if (!review) {
+    return res.status(404).json({
+      message: "No Reviews found",
+    });
+  }
+
+  const reviewImages = await ReviewImage.findAll({
+    where: { reviewId },
+  });
+
+  console.log(reviewImages);
+
+  if (reviewImages.length >= 10) {
+    return res.status(403).json({
+      message: "Maximum number of images for this resource was reached",
+      statusCode: 403,
+    });
+  }
+
+  const newReviewImage = await ReviewImage.create({
+    reviewId,
+    url,
+  });
+
+  return res.status(200).json({
+    id: newReviewImage.id,
+    url: newReviewImage.url,
+  });
+});
+
 module.exports = router;
