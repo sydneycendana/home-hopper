@@ -41,18 +41,9 @@ router.get("/current", requireAuth, async (req, res) => {
       },
       {
         model: Spot,
-        attributes: [
-          "id",
-          "ownerId",
-          "address",
-          "city",
-          "state",
-          "country",
-          "lat",
-          "lng",
-          "name",
-          "price",
-        ],
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
         include: [
           {
             model: SpotImage,
@@ -63,15 +54,6 @@ router.get("/current", requireAuth, async (req, res) => {
         ],
       },
       { model: ReviewImage, attributes: ["id", "url"] },
-    ],
-    attributes: [
-      "id",
-      "userId",
-      "spotId",
-      "review",
-      "stars",
-      "createdAt",
-      "updatedAt",
     ],
   });
 
