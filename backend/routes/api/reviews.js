@@ -30,13 +30,10 @@ const validateReview = [
   handleValidationErrors,
 ];
 
-//get all reviews of current user
-// ***NEED PREVIEW IMAGE
+//******************** GETS REVIEWS OF CURRENT USER ********************
 router.get("/current", requireAuth, async (req, res) => {
-  const Reviews = await Review.findAll({
-    where: {
-      userId: req.user.id,
-    },
+  const currentUsersReviews = await Review.findAll({
+    where: { userId: req.user.id },
     include: [
       {
         model: User,
@@ -54,35 +51,80 @@ router.get("/current", requireAuth, async (req, res) => {
           "lat",
           "lng",
           "name",
-          "description",
           "price",
         ],
+        include: [
+          {
+            model: SpotImage,
+            attributes: ["url"],
+            where: { preview: true },
+            required: false,
+          },
+        ],
       },
-      {
-        model: ReviewImage,
-        attributes: ["id", "url"],
-      },
+      { model: ReviewImage, attributes: ["id", "url"] },
     ],
-    group: ["Review.id", "User.id", "Spot.id", "ReviewImages.id"],
+    attributes: [
+      "id",
+      "userId",
+      "spotId",
+      "review",
+      "stars",
+      "createdAt",
+      "updatedAt",
+    ],
   });
 
-  const payload = Reviews.map((review) => ({
-    id: review.id,
-    userId: review.userId,
-    spotId: review.spotId,
-    review: review.review,
-    stars: review.stars,
-    createdAt: review.createdAt,
-    updatedAt: review.updatedAt,
-    User: review.User,
-    Spot: review.Spot,
-    ReviewImages: review.ReviewImages,
-  }));
-  if (payload) return res.status(200).json({ Reviews: payload });
+  if (currentUsersReviews.length > 0) {
+    const reviewsData = currentUsersReviews.map((review) => {
+      const {
+        id,
+        userId,
+        spotId,
+        review: reviewText,
+        stars,
+        createdAt,
+        updatedAt,
+        User,
+        Spot,
+        ReviewImages,
+      } = review.toJSON();
 
-  res.status(404).json({
-    message: "No Reviews found",
-  });
+      const previewImage =
+        Spot.SpotImages.length > 0 ? Spot.SpotImages[0].url : null;
+
+      return {
+        id,
+        userId,
+        spotId,
+        review: reviewText,
+        stars,
+        createdAt,
+        updatedAt,
+        User,
+        Spot: {
+          id: Spot.id,
+          ownerId: Spot.ownerId,
+          address: Spot.address,
+          city: Spot.city,
+          state: Spot.state,
+          country: Spot.country,
+          lat: Spot.lat,
+          lng: Spot.lng,
+          name: Spot.name,
+          price: Spot.price,
+          previewImage,
+        },
+        ReviewImages,
+      };
+    });
+
+    return res.status(200).json({ Reviews: reviewsData });
+  }
+
+  const err = new Error("Reviews couldn't be found");
+  err.statusCode = 404;
+  return next(err);
 });
 
 //******************** EDIT REVIEW ********************
