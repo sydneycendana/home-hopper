@@ -19,6 +19,17 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+const validateReview = [
+  check("review")
+    .exists({ checkFalsy: true })
+    .withMessage("Review text is required"),
+  check("stars")
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
+];
+
 //get all reviews of current user
 // ***NEED PREVIEW IMAGE
 router.get("/current", requireAuth, async (req, res) => {
@@ -71,6 +82,64 @@ router.get("/current", requireAuth, async (req, res) => {
 
   res.status(404).json({
     message: "No Reviews found",
+  });
+});
+
+//edit review
+router.put(
+  "/:reviewId",
+  requireAuth,
+  validateReview,
+  async (req, res, next) => {
+    const { review, stars } = req.body;
+
+    const existingReview = await Review.findOne({
+      where: {
+        id: req.params.reviewId,
+        userId: req.user.id,
+      },
+    });
+
+    if (!existingReview) {
+      return res.status(404).json({
+        message: "Review couldn't be found",
+        statusCode: 404,
+      });
+    }
+
+    const updatedReview = await existingReview.update({
+      review,
+      stars,
+    });
+
+    return res.status(200).json(updatedReview);
+  }
+);
+
+//delete review
+router.delete("/:reviewId", requireAuth, async (req, res, next) => {
+  const reviewId = req.params.reviewId;
+  const userId = req.user.id;
+
+  const review = await Review.findOne({
+    where: {
+      id: reviewId,
+      userId: userId,
+    },
+  });
+
+  if (!review) {
+    return res.status(404).json({
+      message: "Review couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  await review.destroy();
+
+  res.status(200).json({
+    message: "Successfully deleted",
+    statusCode: 200,
   });
 });
 
