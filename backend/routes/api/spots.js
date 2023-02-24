@@ -326,6 +326,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
   });
 });
 
+//******************** GET BOOKINGS BY SPOTID ********************
 router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   const spotId = req.params.spotId;
   const spot = await Spot.findByPk(spotId);
@@ -446,7 +447,7 @@ router.post(
         startDate: "Start date conflicts with an existing booking",
         endDate: "End date conflicts with an existing booking",
       };
-      next(err);
+      return next(err);
     }
 
     const newBooking = await Booking.create({
