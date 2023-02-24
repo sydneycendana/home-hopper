@@ -447,7 +447,7 @@ router.post(
         startDate: "Start date conflicts with an existing booking",
         endDate: "End date conflicts with an existing booking",
       };
-      next(err);
+      return next(err);
     }
 
     const newBooking = await Booking.create({
