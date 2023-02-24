@@ -1,0 +1,61 @@
+const express = require("express");
+
+const {
+  setTokenCookie,
+  requireAuth,
+  restoreUser,
+} = require("../../utils/auth");
+
+const {
+  Spot,
+  SpotImage,
+  User,
+  Review,
+  ReviewImage,
+  Booking,
+} = require("../../db/models");
+
+const { Sequelize, Op } = require("sequelize");
+const { check } = require("express-validator");
+const { handleValidationErrors } = require("../../utils/validation");
+
+const router = express.Router();
+
+//******************** DELETE SPOT IMAGE ********************
+router.delete("/:imageId", requireAuth, async (req, res) => {
+  const imageId = req.params.imageId;
+
+  //Check that image exists
+  const spotImage = await SpotImage.findOne({
+    where: { id: imageId },
+    include: [
+      {
+        model: Spot,
+      },
+    ],
+  });
+
+  if (!spotImage) {
+    return res.status(404).json({
+      message: "Spot Image couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  //Check if user is authorized to delete
+  if (spotImage.Spot.ownerId !== req.user.id) {
+    return res.status(403).json({
+      message: "Forbidden",
+      statusCode: 403,
+    });
+  }
+
+  await spotImage.destroy();
+
+  return res.status(200).json({
+    message: "Successfully deleted",
+    statusCode: 200,
+  });
+});
+
+module.exports = router;
