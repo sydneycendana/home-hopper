@@ -326,6 +326,74 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
   });
 });
 
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  const spotsBookings = await Booking.findAll({
+    where: { spotId: req.params.spotId },
+    include: [
+      {
+        model: User,
+        attributes: {
+          include: ["id", "firstName", "lastName"],
+        },
+      },
+    ],
+  });
+  let bookingsData = [];
+
+  if (spotsBookings) {
+    bookingsData = spotsBookings.map((booking) => {
+      const {
+        id,
+        spotId,
+        userId,
+        startDate,
+        endDate,
+        createdAt,
+        updatedAt,
+        User,
+      } = booking.toJSON();
+
+      return {
+        User: {
+          id: User.id,
+          firstName: User.firstName,
+          lastName: User.lastName,
+        },
+        id,
+        spotId,
+        userId,
+        startDate,
+        endDate,
+        createdAt,
+        updatedAt,
+      };
+    });
+  }
+
+  //Check if owner
+  if (spot.ownerId === req.user.id) {
+    return res.status(200).json({ Bookings: bookingsData });
+  }
+  //Filtered data if not owner
+  const filteredData = bookingsData.map(({ spotId, startDate, endDate }) => ({
+    spotId,
+    startDate,
+    endDate,
+  }));
+
+  return res.status(200).json({ Bookings: filteredData });
+});
+
 //******************** CREATE A BOOKING ********************
 router.post(
   "/:spotId/bookings",
