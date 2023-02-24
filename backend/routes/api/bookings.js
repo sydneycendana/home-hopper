@@ -91,4 +91,116 @@ router.get("/current", requireAuth, async (req, res) => {
   return next(err);
 });
 
+//******************** EDIT BOOKING ********************
+router.put("/:bookingId", requireAuth, async (req, res, next) => {
+  const bookingId = req.params.bookingId;
+  const { startDate, endDate } = req.body;
+
+  //Check if booking exists
+  const booking = await Booking.findByPk(bookingId);
+
+  if (!booking) {
+    return res.status(404).json({
+      message: "Booking couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  //Check if user is authorized
+  if (booking.userId !== req.user.id) {
+    return res.status(403).json({
+      message: "Forbidden",
+      statusCode: 403,
+    });
+  }
+
+  //Check if booking is past end date
+  const bookingEndDate = Date.parse(booking.endDate);
+  const currentDate = new Date();
+
+  if (bookingEndDate < currentDate) {
+    return res.status(403).json({
+      message: "Past bookings can't be modified",
+      statusCode: 403,
+    });
+  }
+
+  //Check if there is a booking conflict
+  const bookingConflict = await Booking.findOne({
+    where: {
+      spotId: booking.spotId,
+      [Op.and]: [
+        {
+          startDate: { [Op.lt]: endDate },
+        },
+        {
+          endDate: { [Op.gt]: startDate },
+        },
+      ],
+    },
+  });
+
+  if (bookingConflict) {
+    const err = new Error(
+      "Sorry, this spot is already booked for the specified dates"
+    );
+    err.status = 403;
+    err.errors = {
+      startDate: "Start date conflicts with an existing booking",
+      endDate: "End date conflicts with an existing booking",
+    };
+    return next(err);
+  }
+
+  const updatedBooking = await booking.update({
+    startDate,
+    endDate,
+  });
+
+  if (updatedBooking) {
+    return res.status(200).json(updatedBooking);
+  }
+});
+
+//******************** DELETE BOOKING ********************
+router.delete("/:bookingId", requireAuth, async (req, res, next) => {
+  const bookingId = req.params.bookingId;
+
+  //Check if booking exists
+  const booking = await Booking.findByPk(bookingId);
+
+  if (!booking) {
+    return res.status(404).json({
+      message: "Booking couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  //Check if user is authorized to delete
+  if (req.user.id !== booking.ownerId && req.user.id !== booking.userId) {
+    return res.status(403).json({
+      message: "Forbidden",
+      statusCode: 403,
+    });
+  }
+
+  //Check if booking has already started
+  const bookingStartDate = Date.parse(booking.startDate);
+  const currentDate = new Date();
+
+  if (bookingStartDate < currentDate) {
+    return res.status(403).json({
+      message: "Bookings that have been started can't be deleted",
+      statusCode: 403,
+    });
+  }
+
+  await booking.destroy();
+
+  return res.status(200).json({
+    message: "Successfully deleted",
+    statusCode: 200,
+  });
+});
+
 module.exports = router;
