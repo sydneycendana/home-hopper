@@ -12,9 +12,10 @@ const {
   User,
   Review,
   ReviewImage,
+  Booking,
 } = require("../../db/models");
 
-const { Sequelize } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
@@ -61,6 +62,23 @@ const validateReview = [
     .exists({ checkFalsy: true })
     .isInt({ min: 1, max: 5 })
     .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
+];
+
+// Validate bookings
+const validateBooking = [
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .withMessage("Start date is requiredd"),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .custom((endDate, { req }) => {
+      const startDate = req.body.startDate;
+      if (startDate && endDate && endDate <= startDate) {
+        throw new Error("endDate cannot be on or before startDate");
+      }
+      return true;
+    }),
   handleValidationErrors,
 ];
 
@@ -307,6 +325,72 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
     statusCode: 200,
   });
 });
+
+//******************** CREATE A BOOKING ********************
+router.post(
+  "/:spotId/bookings",
+  requireAuth,
+  validateBooking,
+  async (req, res, next) => {
+    const { startDate, endDate } = req.body;
+    const spotId = req.params.spotId;
+    const userId = req.user.id;
+
+    //Check if spot exists
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({
+        message: "Spot couldn't be found",
+        statusCode: 404,
+      });
+    }
+
+    //Check if user is authorized to book
+    if (spot.ownerId === userId) {
+      return res.status(403).json({
+        message: "Forbidden",
+        statusCode: 403,
+      });
+    }
+
+    //Check if there is a booking conflict
+    const bookingConflict = await Booking.findOne({
+      where: {
+        spotId,
+        [Op.and]: [
+          {
+            startDate: { [Op.lt]: endDate },
+          },
+          {
+            endDate: { [Op.gt]: startDate },
+          },
+        ],
+      },
+    });
+
+    if (bookingConflict) {
+      const err = new Error(
+        "Sorry, this spot is already booked for the specified dates"
+      );
+      err.status = 403;
+      err.errors = {
+        startDate: "Start date conflicts with an existing booking",
+        endDate: "End date conflicts with an existing booking",
+      };
+      next(err);
+    }
+
+    const newBooking = await Booking.create({
+      spotId,
+      userId,
+      startDate,
+      endDate,
+    });
+
+    return res.status(200).json(newBooking);
+  }
+);
 
 //******************** ADD SPOTIMAGE BY SPOTID ********************
 router.post("/:spotId/images", requireAuth, async (req, res, next) => {
