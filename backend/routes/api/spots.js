@@ -326,6 +326,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
   });
 });
 
+//******************** GET BOOKINGS BY SPOTID ********************
 router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   const spotId = req.params.spotId;
   const spot = await Spot.findByPk(spotId);
