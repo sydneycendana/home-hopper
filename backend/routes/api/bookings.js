@@ -21,6 +21,23 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+// Validate bookings
+const validateBooking = [
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .withMessage("Start date is requiredd"),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .custom((endDate, { req }) => {
+      const startDate = req.body.startDate;
+      if (startDate && endDate && endDate <= startDate) {
+        throw new Error("endDate cannot be on or before startDate");
+      }
+      return true;
+    }),
+  handleValidationErrors,
+];
+
 //******************** GET USERS BOOKINGS ********************
 router.get("/current", requireAuth, async (req, res) => {
   const currentUsersBookings = await Booking.findAll({
@@ -92,75 +109,80 @@ router.get("/current", requireAuth, async (req, res) => {
 });
 
 //******************** EDIT BOOKING ********************
-router.put("/:bookingId", requireAuth, async (req, res, next) => {
-  const bookingId = req.params.bookingId;
-  const { startDate, endDate } = req.body;
+router.put(
+  "/:bookingId",
+  requireAuth,
+  validateBooking,
+  async (req, res, next) => {
+    const bookingId = req.params.bookingId;
+    const { startDate, endDate } = req.body;
 
-  //Check if booking exists
-  const booking = await Booking.findByPk(bookingId);
+    //Check if booking exists
+    const booking = await Booking.findByPk(bookingId);
 
-  if (!booking) {
-    return res.status(404).json({
-      message: "Booking couldn't be found",
-      statusCode: 404,
+    if (!booking) {
+      return res.status(404).json({
+        message: "Booking couldn't be found",
+        statusCode: 404,
+      });
+    }
+
+    //Check if user is authorized
+    if (booking.userId !== req.user.id) {
+      return res.status(403).json({
+        message: "Forbidden",
+        statusCode: 403,
+      });
+    }
+
+    //Check if booking is past end date
+    const bookingEndDate = Date.parse(booking.endDate);
+    const currentDate = new Date();
+
+    if (bookingEndDate < currentDate) {
+      return res.status(403).json({
+        message: "Past bookings can't be modified",
+        statusCode: 403,
+      });
+    }
+
+    //Check if there is a booking conflict
+    const bookingConflict = await Booking.findOne({
+      where: {
+        spotId: booking.spotId,
+        [Op.and]: [
+          {
+            startDate: { [Op.lt]: endDate },
+          },
+          {
+            endDate: { [Op.gt]: startDate },
+          },
+        ],
+      },
     });
-  }
 
-  //Check if user is authorized
-  if (booking.userId !== req.user.id) {
-    return res.status(403).json({
-      message: "Forbidden",
-      statusCode: 403,
+    if (bookingConflict) {
+      const err = new Error(
+        "Sorry, this spot is already booked for the specified dates"
+      );
+      err.status = 403;
+      err.errors = {
+        startDate: "Start date conflicts with an existing booking",
+        endDate: "End date conflicts with an existing booking",
+      };
+      return next(err);
+    }
+
+    const updatedBooking = await booking.update({
+      startDate,
+      endDate,
     });
+
+    if (updatedBooking) {
+      return res.status(200).json(updatedBooking);
+    }
   }
-
-  //Check if booking is past end date
-  const bookingEndDate = Date.parse(booking.endDate);
-  const currentDate = new Date();
-
-  if (bookingEndDate < currentDate) {
-    return res.status(403).json({
-      message: "Past bookings can't be modified",
-      statusCode: 403,
-    });
-  }
-
-  //Check if there is a booking conflict
-  const bookingConflict = await Booking.findOne({
-    where: {
-      spotId: booking.spotId,
-      [Op.and]: [
-        {
-          startDate: { [Op.lt]: endDate },
-        },
-        {
-          endDate: { [Op.gt]: startDate },
-        },
-      ],
-    },
-  });
-
-  if (bookingConflict) {
-    const err = new Error(
-      "Sorry, this spot is already booked for the specified dates"
-    );
-    err.status = 403;
-    err.errors = {
-      startDate: "Start date conflicts with an existing booking",
-      endDate: "End date conflicts with an existing booking",
-    };
-    return next(err);
-  }
-
-  const updatedBooking = await booking.update({
-    startDate,
-    endDate,
-  });
-
-  if (updatedBooking) {
-    return res.status(200).json(updatedBooking);
-  }
-});
+);
 
 //******************** DELETE BOOKING ********************
 router.delete("/:bookingId", requireAuth, async (req, res, next) => {
