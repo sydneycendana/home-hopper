@@ -16,7 +16,7 @@ const {
 } = require("../../db/models");
 
 const { Sequelize, Op } = require("sequelize");
-const { check } = require("express-validator");
+const { check, query } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
@@ -53,6 +53,43 @@ const validateSpot = [
   handleValidationErrors,
 ];
 
+const validateQueryParamaters = [
+  query("page")
+    .notEmpty()
+    .withMessage("Page must be provided")
+    .isInt({ min: 1 })
+    .withMessage("Page must be greater than or equal to 1"),
+  query("size")
+    .notEmpty()
+    .withMessage("Size must be provided")
+    .isInt({ min: 1, max: 20 })
+    .withMessage("Size must be between 1 and 20"),
+  query("minLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum latitude is invalid"),
+  query("maxLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum latitude is invalid"),
+  query("minLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum longitude is invalid"),
+  query("maxLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum longitude is invalid"),
+  query("minPrice")
+    .optional()
+    .isDecimal({ min: 0 })
+    .withMessage("Maximum price must be greater than or equal to 0"),
+  query("maxPrice")
+    .optional()
+    .isDecimal({ min: 0 })
+    .withMessage("Minimum price must be greater than or equal to 0"),
+];
+
 // Validate review
 const validateReview = [
   check("review")
@@ -82,8 +119,37 @@ const validateBooking = [
   handleValidationErrors,
 ];
 
+//ADD QUERY FILTERS
 //******************** GETS SPOTS ********************
-router.get("/", async (req, res, next) => {
+router.get("/", validateQueryParamaters, async (req, res, next) => {
+  const {
+    page = 1,
+    size = 20,
+    minLat,
+    maxLat,
+    minLng,
+    maxLng,
+    minPrice,
+    maxPrice,
+  } = req.query;
+
+  const limit = size;
+  const offset = (page - 1) * size;
+
+  const whereClause = {};
+  if (minLat) whereClause.lat = { [Sequelize.Op.gte]: minLat };
+  if (maxLat)
+    whereClause.lat = { ...whereClause.lat, [Sequelize.Op.lte]: maxLat };
+  if (minLng) whereClause.lng = { [Sequelize.Op.gte]: minLng };
+  if (maxLng)
+    whereClause.lng = { ...whereClause.lng, [Sequelize.Op.lte]: maxLng };
+  if (minPrice) whereClause.price = { [Sequelize.Op.gte]: minPrice };
+  if (maxPrice)
+    whereClause.price = {
+      ...whereClause.price,
+      [Sequelize.Op.lte]: maxPrice,
+    };
+
   const spots = await Spot.findAll({
     include: [
       {
@@ -98,6 +164,8 @@ router.get("/", async (req, res, next) => {
       ],
     },
     group: ["Spot.id", "SpotImages.id", "Reviews.spotId"],
+    limit,
+    offset,
   });
 
   const allSpots = spots.map((spot) => ({
@@ -118,7 +186,15 @@ router.get("/", async (req, res, next) => {
     previewImage: spot.SpotImages[0]?.url || null,
   }));
 
-  if (allSpots.length > 0) return res.status(200).json({ Spots: allSpots });
+  if (allSpots.length > 0) {
+    return res.status(200).json({
+      Spots: allSpots,
+      page: parseInt(page),
+      size: parseInt(size),
+    });
+  } else {
+    return res.status(404).json({ message: "No spots found" });
+  }
 });
 
 //******************** CREATE SPOT ********************
