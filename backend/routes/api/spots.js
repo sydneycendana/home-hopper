@@ -156,35 +156,72 @@ router.get("/", validateQueryParamaters, async (req, res, next) => {
         model: SpotImage,
         attributes: ["url"], //allows response to find the first image
       },
-      { model: Review, attributes: [] },
+      { model: Review, attributes: ["stars"], required: false },
     ],
-    attributes: {
-      include: [
-        [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
-      ],
-    },
-    group: ["Spot.id", "SpotImages.id", "Reviews.spotId"],
     limit,
     offset,
+    where: whereClause,
   });
 
-  const allSpots = spots.map((spot) => ({
-    id: spot.id,
-    ownerId: spot.ownerId,
-    address: spot.address,
-    city: spot.city,
-    state: spot.state,
-    country: spot.country,
-    lat: spot.lat,
-    lng: spot.lng,
-    name: spot.name,
-    description: spot.description,
-    price: spot.price,
-    createdAt: spot.createdAt,
-    updatedAt: spot.updatedAt,
-    avgRating: spot.dataValues.avgRating,
-    previewImage: spot.SpotImages[0]?.url || null,
-  }));
+  const allSpots = spots.map((spot) => {
+    const reviews = spot.Reviews || [];
+    const sumRatings = reviews.reduce((acc, cur) => acc + cur.stars, 0);
+    const avgRating = reviews.length > 0 ? sumRatings / reviews.length : null;
+
+    return {
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+      avgRating,
+      previewImage: spot.SpotImages[0]?.url || null,
+    };
+  });
+
+  // const spots = await Spot.findAll({
+  //   include: [
+  //     {
+  //       model: SpotImage,
+  //       attributes: ["url"], //allows response to find the first image
+  //     },
+  //     { model: Review, attributes: [] },
+  //   ],
+  //   attributes: {
+  //     include: [
+  //       [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
+  //     ],
+  //   },
+  //   group: ["Spot.id", "SpotImages.id", "Reviews.spotId"],
+  //   limit,
+  //   offset,
+  // });
+
+  // const allSpots = spots.map((spot) => ({
+  //   id: spot.id,
+  //   ownerId: spot.ownerId,
+  //   address: spot.address,
+  //   city: spot.city,
+  //   state: spot.state,
+  //   country: spot.country,
+  //   lat: spot.lat,
+  //   lng: spot.lng,
+  //   name: spot.name,
+  //   description: spot.description,
+  //   price: spot.price,
+  //   createdAt: spot.createdAt,
+  //   updatedAt: spot.updatedAt,
+  //   avgRating: spot.dataValues.avgRating,
+  //   previewImage: spot.SpotImages[0]?.url || null,
+  // }));
 
   if (allSpots.length > 0) {
     return res.status(200).json({
@@ -643,7 +680,7 @@ router.post(
     });
 
     if (reviewExists) {
-      res.status(403).json({
+      return res.status(403).json({
         message: "User already has a review for this spot",
         statusCode: 403,
       });
