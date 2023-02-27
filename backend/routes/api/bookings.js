@@ -31,7 +31,7 @@ const validateBooking = [
     .custom((endDate, { req }) => {
       const startDate = req.body.startDate;
       if (startDate && endDate && endDate <= startDate) {
-        throw new Error("endDate cannot come before startDate");
+        throw new Error("endDate cannot be on or before startDate");
       }
       return true;
     }),
