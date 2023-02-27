@@ -57,37 +57,38 @@ const validateQueryParamaters = [
   query("page")
     .notEmpty()
     .withMessage("Page must be provided")
-    .isInt({ min: 1 })
+    .isFloat({ min: 1 })
     .withMessage("Page must be greater than or equal to 1"),
   query("size")
     .notEmpty()
     .withMessage("Size must be provided")
-    .isInt({ min: 1, max: 20 })
+    .isFloat({ min: 1, max: 20 })
     .withMessage("Size must be between 1 and 20"),
   query("minLat")
     .optional()
-    .isDecimal()
+    .isFloat()
     .withMessage("Minimum latitude is invalid"),
   query("maxLat")
     .optional()
-    .isDecimal()
+    .isFloat()
     .withMessage("Maximum latitude is invalid"),
   query("minLng")
     .optional()
-    .isDecimal()
+    .isFloat()
     .withMessage("Minimum longitude is invalid"),
   query("maxLng")
     .optional()
-    .isDecimal()
+    .isFloat()
     .withMessage("Maximum longitude is invalid"),
   query("minPrice")
     .optional()
-    .isDecimal({ min: 0 })
+    .isFloat({ min: 0 })
     .withMessage("Maximum price must be greater than or equal to 0"),
   query("maxPrice")
     .optional()
-    .isDecimal({ min: 0 })
+    .isFloat({ min: 0 })
     .withMessage("Minimum price must be greater than or equal to 0"),
+  handleValidationErrors,
 ];
 
 // Validate review
