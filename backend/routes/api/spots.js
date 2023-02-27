@@ -122,7 +122,6 @@ const validateBooking = [
   handleValidationErrors,
 ];
 
-//ADD QUERY FILTERS
 //******************** GETS SPOTS ********************
 router.get("/", validateQueryParamaters, async (req, res, next) => {
   const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
@@ -293,7 +292,14 @@ router.get("/:spotId", async (req, res) => {
       "createdAt",
       "updatedAt",
       [Sequelize.fn("COUNT", Sequelize.col("Reviews.id")), "numReviews"],
-      [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgStarRating"],
+      [
+        Sequelize.fn(
+          "ROUND",
+          Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
+          2
+        ),
+        "avgStarRating",
+      ],
     ],
     include: [
       {
