@@ -167,7 +167,14 @@ router.get("/", validateQueryParamaters, async (req, res, next) => {
   const allSpots = spots.map((spot) => {
     const reviews = spot.Reviews || [];
     const sumRatings = reviews.reduce((acc, cur) => acc + cur.stars, 0);
-    const avgRating = reviews.length > 0 ? sumRatings / reviews.length : null;
+    let avgRating = reviews.length > 0 ? sumRatings / reviews.length : null;
+
+    spot = spot.toJSON();
+
+    const lat = parseFloat(spot.lat);
+    const lng = parseFloat(spot.lng);
+    const price = parseFloat(spot.price);
+    avgRating = parseFloat(avgRating);
 
     return {
       id: spot.id,
@@ -176,11 +183,11 @@ router.get("/", validateQueryParamaters, async (req, res, next) => {
       city: spot.city,
       state: spot.state,
       country: spot.country,
-      lat: spot.lat,
-      lng: spot.lng,
+      lat,
+      lng,
       name: spot.name,
       description: spot.description,
-      price: spot.price,
+      price,
       createdAt: spot.createdAt,
       updatedAt: spot.updatedAt,
       avgRating,
