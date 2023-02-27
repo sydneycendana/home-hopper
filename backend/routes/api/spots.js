@@ -109,13 +109,13 @@ const validateReview = [
 const validateBooking = [
   check("startDate")
     .exists({ checkFalsy: true })
-    .withMessage("Start date is requiredd"),
+    .withMessage("Start date is required"),
   check("endDate")
     .exists({ checkFalsy: true })
     .custom((endDate, { req }) => {
       const startDate = req.body.startDate;
       if (startDate && endDate && endDate <= startDate) {
-        throw new Error("endDate cannot be on or before startDate");
+        throw new Error("endDate cannot come before startDate");
       }
       return true;
     }),
@@ -339,7 +339,7 @@ router.put("/:spotId", requireAuth, validateSpot, async (req, res) => {
 
   if (!spot) {
     return res.status(404).json({
-      message: "No spot found",
+      message: "Spot couldn't be found",
       statusCode: 404,
     });
   }
@@ -624,8 +624,9 @@ router.get("/:spotId/reviews", async (req, res) => {
   if (allReviews.length > 0)
     return res.status(200).json({ Reviews: allReviews });
 
-  res.status(404).json({
-    message: "No Reviews found",
+  return res.status(404).json({
+    message: "Spot couldn't be found",
+    statusCode: 404,
   });
 });
 

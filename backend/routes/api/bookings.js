@@ -25,13 +25,13 @@ const router = express.Router();
 const validateBooking = [
   check("startDate")
     .exists({ checkFalsy: true })
-    .withMessage("Start date is requiredd"),
+    .withMessage("Start date is required"),
   check("endDate")
     .exists({ checkFalsy: true })
     .custom((endDate, { req }) => {
       const startDate = req.body.startDate;
       if (startDate && endDate && endDate <= startDate) {
-        throw new Error("endDate cannot be on or before startDate");
+        throw new Error("endDate cannot come before startDate");
       }
       return true;
     }),
@@ -39,7 +39,7 @@ const validateBooking = [
 ];
 
 //******************** GET USERS BOOKINGS ********************
-router.get("/current", requireAuth, async (req, res) => {
+router.get("/current", requireAuth, async (req, res, next) => {
   const currentUsersBookings = await Booking.findAll({
     where: { userId: req.user.id },
     include: [
