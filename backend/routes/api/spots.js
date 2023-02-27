@@ -218,7 +218,26 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
     price,
   });
 
-  if (spot) return res.status(201).json(spot);
+  // Swap the order of createdAt and updatedAt
+  const updatedSpot = {
+    id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: spot.lat,
+    lng: spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: spot.price,
+    createdAt: spot.createdAt,
+    updatedAt: spot.updatedAt,
+  };
+
+  if (updatedSpot) return res.status(201).json(updatedSpot);
+
+  // if (spot) return res.status(201).json(spot);
 });
 
 //******************** GET CURRENT USER SPOTS ********************
