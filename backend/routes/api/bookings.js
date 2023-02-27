@@ -189,7 +189,17 @@ router.delete("/:bookingId", requireAuth, async (req, res, next) => {
   const bookingId = req.params.bookingId;
 
   //Check if booking exists
-  const booking = await Booking.findByPk(bookingId);
+  const booking = await Booking.findOne({
+    where: { id: bookingId },
+    include: [
+      {
+        model: Spot,
+        attributes: {
+          include: ["ownerId"],
+        },
+      },
+    ],
+  });
 
   if (!booking) {
     return res.status(404).json({
@@ -199,30 +209,30 @@ router.delete("/:bookingId", requireAuth, async (req, res, next) => {
   }
 
   //Check if user is authorized to delete
-  if (req.user.id !== booking.ownerId && req.user.id !== booking.userId) {
+  if (req.user.id === booking.Spot.ownerId || req.user.id === booking.userId) {
+    const bookingStartDate = Date.parse(booking.startDate);
+    const currentDate = new Date();
+
+    //Check if booking has already started
+    if (bookingStartDate < currentDate) {
+      return res.status(403).json({
+        message: "Bookings that have been started can't be deleted",
+        statusCode: 403,
+      });
+    }
+
+    await booking.destroy();
+
+    return res.status(200).json({
+      message: "Successfully deleted",
+      statusCode: 200,
+    });
+  } else {
     return res.status(403).json({
       message: "Forbidden",
       statusCode: 403,
     });
   }
-
-  //Check if booking has already started
-  const bookingStartDate = Date.parse(booking.startDate);
-  const currentDate = new Date();
-
-  if (bookingStartDate < currentDate) {
-    return res.status(403).json({
-      message: "Bookings that have been started can't be deleted",
-      statusCode: 403,
-    });
-  }
-
-  await booking.destroy();
-
-  return res.status(200).json({
-    message: "Successfully deleted",
-    statusCode: 200,
-  });
 });
 
 module.exports = router;
