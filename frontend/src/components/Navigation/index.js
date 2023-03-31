@@ -9,11 +9,6 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-  };
-
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -31,7 +26,7 @@ function Navigation({ isLoaded }){
   }
 
   return (
-    <ul>
+    <ul className="navigation">
       <li>
         <NavLink exact to="/">Home</NavLink>
       </li>

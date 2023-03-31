@@ -34,10 +34,10 @@ function LoginFormPage() {
         <h1>
             Login
         </h1>
-          <ul>
+          <ul className="errors">
             {errors.map((error, idx) => <li key={idx}>{error}</li>)}
           </ul>
-          <label className="form-input">
+          <label>
             <input
               type="text"
               value={credential}
@@ -46,7 +46,7 @@ function LoginFormPage() {
               required
             />
           </label>
-          <label className="form-input">
+          <label>
             <input
               type="password"
               value={password}
@@ -55,7 +55,7 @@ function LoginFormPage() {
               required
             />
           </label>
-          <button className="button" type="submit">Log In</button>
+          <button type="submit">Log In</button>
     </form>
   );
 }

@@ -34,9 +34,14 @@ function SignupFormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+    <form className="form" onSubmit={handleSubmit}>
+      <h1>
+        Sign Up
+      </h1>
+      <ul className="errors">
+        {Object.values(errors).map((error, idx) => (
+  <li key={idx}>{error}</li>
+))}
       </ul>
       <label>
         Email
@@ -82,6 +87,7 @@ function SignupFormPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
       </label>
       <label>
         Confirm Password
