@@ -1,17 +1,25 @@
 import { csrfFetch } from "./csrf";
 
-const CREATE = "spots/createSpots"
+const CREATE = "spots/createSpot"
+const EDIT = "spots/editSpot"
 
 //ACTIONS
-const createSpots = (newSpot) => {
+const createSpot = (newSpot) => {
     return {
         type: CREATE,
         newSpot
     };
 };
 
+const editSpot = (spotId) => {
+    return {
+        type: EDIT,
+        spotId
+    };
+};
+
 //THUNKS
-export const createSpotsThunk = (newSpot, previewImage) => async (dispatch) => {
+export const createSpotThunk = (newSpot, previewImage) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots`, {
         method: "POST",
         body: JSON.stringify(newSpot),
@@ -35,10 +43,25 @@ export const createSpotsThunk = (newSpot, previewImage) => async (dispatch) => {
             const image = await imageResponse.json();
             createdSpot.previewImage = image.url;
 
-            dispatch(createSpots(createdSpot));
+            dispatch(createSpot(createdSpot));
 
             return createdSpot;
         }
+    }
+}
+
+export const editSpotThunk = (editedSpotData, spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(editedSpotData)
+    })
+
+    if(response.ok) {
+        const editedSpot = response.json();
+        const spot = {...editedSpotData, id: spotId};
+        dispatch(editSpot(spot));
+        return editedSpot;
     }
 }
 
@@ -49,8 +72,9 @@ const spotReducer = (state = initialState, action) => {
     let newState = { ...state};
     switch (action.type) {
         case CREATE:
-            const createSpot = action.newSpot;
-            return createSpot;
+            const addSpot = action.newSpot;
+            return addSpot;
+        //NEED TO ADD EDIT SPOT CASE
         default:
             return state;
     }
