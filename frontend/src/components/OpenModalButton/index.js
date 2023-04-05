@@ -10,7 +10,7 @@ function OpenModalButton({modalComponent, buttonText, onButtonClick, onModalClos
         setModalContent(modalComponent);
     };
 
-    return <button onClick={onClick}>{buttonText}</button>
+    return <button class="profile-dropdown-button" onClick={onClick}>{buttonText}</button>
 }
 
 export default OpenModalButton;
