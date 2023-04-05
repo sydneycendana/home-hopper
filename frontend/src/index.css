@@ -3,12 +3,23 @@ margin: 0;
 padding: 0;
 background-color: #f2f2f2;
 font-family: 'Montserrat', sans-serif;
+box-sizing: border-box;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 h1 {
-font-size: 32px;
+font-size: 28px;
 font-weight: bold;
-margin-bottom: 10px;
+text-align: center;
+margin: 15px;
 }
 
 a {
@@ -16,80 +27,80 @@ text-decoration: none;
 color: black;
 }
 
-ul {
-list-style: none;
-margin: 0;
-padding: 0;
+li {
+  list-style-type: none;
 }
 
-/* .errors {
-color: red;
-} */
-
-.button {
-background-color: #fc3c5c;
-color: white;
-font-size: 18px;
-border: none;
-border-radius: 5px;
-padding: 10px 20px;
-cursor: pointer;
-transition: all 0.3s ease;
-}
-
-.form {
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border: 1px solid #ccc;
-  padding: 20px;
   border-radius: 5px;
-  width: 50%;
-  margin: auto;
-}
-
-.form label {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  text-align: left;
-  width: 100%;
-}
-
-.form label input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  margin-top: 5px;
 }
 
 .errors {
-color: red;
-list-style: none;
-margin-bottom: 20px;
+  color: red;
+  font-size: 14px;
+  padding: 2px 0;
+  margin: 0;
+  text-align: center;
 }
 
+
+label {
+  align-self: center;
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+
 input {
-padding: 10px;
-margin-bottom: 20px;
+width: 90%;
+padding: 15px;
 border: none;
 border-radius: 5px;
-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+::placeholder {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.3);
 }
 
 button {
+font-size: 16px;
 padding: 10px 20px;
 background-color: #fc3c5c;
 color: white;
 border: none;
 border-radius: 5px;
-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 cursor: pointer;
 }
 
-.button {
-width: 100%;
-text-align: center;
+button[type="submit"]  {
+  width: 300px;
+  align-self: center;
+  margin-top: 5px;
+}
+
+#modal-content {
+  border-radius: 5px;
+  padding: 10px;
+  width: 400px;
+}
+
+@media (max-width: 28em) {
+  #modal-content {
+  border-radius: 5px;
+  padding: 30px;
+  width: 100%;
+}
+
+button[type="submit"]  {
+  width: 200px;
+}
+
+label {
+  width: 200px;
+}
 }

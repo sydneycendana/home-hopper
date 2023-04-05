@@ -1,36 +1,27 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import * as sessionActions from '../../store/session';
 import './Navigation.css';
+import logo from '../../images/logo.png'
+import shortLogo from '../../images/logo-short.png'
+
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
-  const dispatch = useDispatch();
-
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
-    );
-  } else {
-    sessionLinks = (
-      <li>
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
-      </li>
-    );
-  }
 
   return (
-    <ul className="navigation">
+    <ul className="container">
       <li>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/">
+          <img className="logo" src={logo} alt="logo"/>
+        </NavLink>
       </li>
-      {isLoaded && sessionLinks}
+      {isLoaded && (
+        <li>
+          <ProfileButton user={sessionUser}/>
+        </li>
+      )}
     </ul>
   );
 }
