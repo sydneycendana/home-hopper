@@ -1,10 +1,12 @@
-
+.logo {
+  height: 32px;
+}
 
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 30px;
+  padding: 20px 60px;
   background-color: #fff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
