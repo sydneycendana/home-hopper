@@ -19,6 +19,8 @@ export default function AllSpots() {
     if(!spots) return null;
     const listedSpots = Object.values(spots);
 
+    console.log(listedSpots.map((spot) => spot.previewImage))
+
     return (
         <div className="landing-spots-container">
             {listedSpots.map((spot) => {
@@ -29,7 +31,7 @@ export default function AllSpots() {
                         <div className="landing-previewImg-container">
                             <img
                             className="landing-previewImg"
-                            src={spot.previewImage ? spot.previewImage.url : "0"}
+                            src={spot.previewImage}
                             alt={`${spot.name}`}/>
                         </div>
                         <div className="landing-spot-info">
