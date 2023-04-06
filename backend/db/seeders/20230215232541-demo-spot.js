@@ -22,7 +22,7 @@ module.exports = {
           lng: -115.900650,
           name: "Invisible House | Modern Masterpiece",
           description:
-            "Welcome to Invisible House. Re-launched in November 2022 as a joint venture with Fieldtrip Hospitality. 'Imagine a piece of modern art…one of the most spectacular homes in the world on all of Airbnb' - Brian Chesky, CEO of Airbnb",
+            "Welcome to Invisible House. Re-launched in November 2022 as a joint venture with Fieldtrip Hospitality.",
           price: 900,
         },
         {
@@ -35,7 +35,7 @@ module.exports = {
           lng: -118.788193,
           name: "Eagles Watch Malibu",
           description:
-            "Eagle's Watch is one of Malibu's most famous houses, impossible to miss while driving the Pacific Coast Highway and designed by legendary architect Harry Gesner. Perched above the Pacific Ocean, Eagle’s Watch has the best unobstructed panoramic view in Malibu. Perfect for entertaining with dramatic outdoor and indoor spaces, the views from every location are simply stunning. Stay in ultimate luxury in this one of a kind serene modern marvel.",
+            "Eagle's Watch is one of Malibu's most famous houses, impossible to miss while driving the Pacific Coast Highway and designed by legendary architect Harry Gesner.",
           price: 850,
         },
         {
@@ -48,7 +48,7 @@ module.exports = {
           lng: -121.315308,
           name: "Dome Sweet Dome",
           description:
-            "Renovated & stylishly redecorated in 2019, this true-to-name Geodesic Dome sits on a private & quiet lot in the First-on-the-Hill neighborhood. Perfect location Right off Century Dr & easy access to the Trail System. Short walk to Deschutes River Trail & quick bike ride to Old Mill & Downtown. Just read our guest comments! Not just a stay but an experience! FB Like Us: domesweetdome1. Not suitable for pets or children under 6 due to safety concerns.",
+            "Renovated & stylishly redecorated in 2019, this true-to-name Geodesic Dome sits on a private & quiet lot in the First-on-the-Hill neighborhood.",
           price: 741,
         },
       ],
