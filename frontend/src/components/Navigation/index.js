@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import logo from '../../images/logo.png'
-import shortLogo from '../../images/logo-short.png'
+import {ReactComponent as Logo} from '../../assets/images/logo.svg'
+
 
 
 function Navigation({ isLoaded }){
@@ -14,7 +14,7 @@ function Navigation({ isLoaded }){
     <ul className="container">
       <li>
         <NavLink exact to="/">
-          <img className="logo" src={logo} alt="logo"/>
+          <Logo className="logo" alt="logo"/>
         </NavLink>
       </li>
       {isLoaded && (
