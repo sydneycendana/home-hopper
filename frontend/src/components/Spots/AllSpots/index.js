@@ -17,10 +17,10 @@ export default function AllSpots() {
         dispatch(getSpotsThunk())
     }, [dispatch]);
 
+
+
     if(!spots) return null;
     const listedSpots = Object.values(spots);
-
-    console.log(listedSpots.map((spot) => spot.previewImage))
 
     return (
         <div className="landing-spots__container">
@@ -28,6 +28,7 @@ export default function AllSpots() {
                 return (
                     <div
                         className="landing-spot"
+                        data-tooltip="Tooltip text"
                         key={spot.id}>
                         <div className="landing-previewImg__container">
                             <img
