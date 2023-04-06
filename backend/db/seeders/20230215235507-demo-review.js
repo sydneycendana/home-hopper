@@ -15,19 +15,19 @@ module.exports = {
         {
           userId: 2,
           spotId: 1,
-          review: "It was a great spot!",
+          review: "This was a once in a lifetime experience. The house is truly a modern piece of art.",
           stars: 5,
         },
         {
           userId: 3,
           spotId: 2,
-          review: "The description was not accurate.",
+          review: "Beautiful location and architecture, but it was messy on arrival.",
           stars: 3,
         },
         {
           userId: 1,
           spotId: 3,
-          review: "Location is great!",
+          review: "This was the perfect place for a weekend getaway with my dog. My only complaint is the poor wifi connection.",
           stars: 4,
         },
       ],
