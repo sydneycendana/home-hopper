@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getSpotsThunk } from "../../../store/spots"
+import {ReactComponent as Star} from '../../../assets/images/star.svg'
+
 
 
 export default function AllSpots() {
@@ -35,8 +37,8 @@ export default function AllSpots() {
                                 <p className="location">
                                     {spot.city}, {spot.state}
                                 </p>
-                                <div clasName="reviews">
-                                    <img src='frontend/src/images/star.svg' alt='star'/>
+                                <div className="reviews">
+                                    <Star alt="star"/>
                                     {Number(spot.avgRating) ?  Number(spot.avgRating).toFixed(1) : "New"}
                                 </div>
                             </div>
