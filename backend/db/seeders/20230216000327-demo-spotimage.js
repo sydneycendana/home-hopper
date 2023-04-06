@@ -93,8 +93,8 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        url: {
-          [Op.in]: ["fakeurl3", "fakeurl4", "fakeurl5"],
+        spotId: {
+          [Op.in]: [1, 2 ,3],
         },
       },
       {}
