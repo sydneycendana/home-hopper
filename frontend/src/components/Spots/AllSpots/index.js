@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
+import './allSpots.css'
 
 
 
@@ -22,30 +23,29 @@ export default function AllSpots() {
     console.log(listedSpots.map((spot) => spot.previewImage))
 
     return (
-        <div className="landing-spots-container">
+        <div className="landing-spots__container">
             {listedSpots.map((spot) => {
                 return (
                     <div
                         className="landing-spot"
                         key={spot.id}>
-                        <div className="landing-previewImg-container">
+                        <div className="landing-previewImg__container">
                             <img
                             className="landing-previewImg"
                             src={spot.previewImage}
                             alt={`${spot.name}`}/>
                         </div>
                         <div className="landing-spot-info">
-                            <div className="location-stars-container">
+                            <div className="location-stars__container">
                                 <p className="location">
                                     {spot.city}, {spot.state}
                                 </p>
-                                <div className="reviews">
-                                    <Star alt="star"/>
-                                    {Number(spot.avgRating) ?  Number(spot.avgRating).toFixed(1) : "New"}
+                                <div className="stars">
+                                    <Star alt="star"/>                                    {Number(spot.avgRating) ?  Number(spot.avgRating).toFixed(1) : "New"}
                                 </div>
                             </div>
                             <div className="price">
-                                ${spot.price}
+                                <span className="amount"> ${spot.price} </span> night
                             </div>
 
                         </div>
