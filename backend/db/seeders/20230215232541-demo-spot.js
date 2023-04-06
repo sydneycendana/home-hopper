@@ -48,7 +48,7 @@ module.exports = {
           lng: -121.315308,
           name: "Dome Sweet Dome",
           description:
-            "Renovated & stylishly redecorated in 2019, this true-to-name Geodesic Dome sits on a private & quiet lot in the First-on-the-Hill neighborhood. Perfect location Right off Century Dr & easy access to the Trail System. Short walk to Deschutes River Trail & quick bike ride to Old Mill & Downtown. Just read our guest comments! Not just a stay but an experience! FB Like Us: domesweetdome1. Not suitable for pets or children under 6 due to safety concerns. Bookings limited to 3 months in advance.",
+            "Renovated & stylishly redecorated in 2019, this true-to-name Geodesic Dome sits on a private & quiet lot in the First-on-the-Hill neighborhood. Perfect location Right off Century Dr & easy access to the Trail System. Short walk to Deschutes River Trail & quick bike ride to Old Mill & Downtown. Just read our guest comments! Not just a stay but an experience! FB Like Us: domesweetdome1. Not suitable for pets or children under 6 due to safety concerns.",
           price: 741,
         },
       ],
@@ -64,9 +64,9 @@ module.exports = {
       {
         name: {
           [Op.in]: [
-            "Monica and Rachel's Apartment",
-            "Chandler and Joey's Apartment",
-            "Central Perk Coffee",
+            "Invisible House | Modern Masterpiece",
+            "Eagles Watch Malibu",
+            "Dome Sweet Dome",
           ],
         },
       },
