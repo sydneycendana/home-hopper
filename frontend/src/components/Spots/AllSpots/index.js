@@ -51,7 +51,7 @@ export default function AllSpots() {
                                 </div>
                             </div>
                             <div className="price">
-                                <span className="amount"> ${spot.price} </span> night
+                                <span className="amount"> ${spot.price}</span>night
                             </div>
 
                         </div>

@@ -48,10 +48,6 @@
     margin-right: 1px;
 }
 
-.amount {
-    font-weight: bold;
-}
-
 @media (max-width: 1030px) {
     .landing-previewImg__container {
         width: 250px;

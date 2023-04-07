@@ -14,7 +14,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: red;
     width: 100%;
     height: 450px;
     gap: 10px;
@@ -43,6 +42,55 @@
     height: calc(50% - 5px);
     background-color: black;
     box-sizing: border-box;
+}
+
+.spot-details-bottom__container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    gap: 10px;
+    margin-inline: auto;
+    padding: 10px 0;
+    /* align-items: center; */
+}
+
+.spot-text__container {
+    flex: 1;
+}
+
+.reserve-info__container {
+    flex-basis: 400px;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+
+.price-and-stars__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.reviews__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    gap: 5px;
+}
+
+.reserve-button {
+    width: 100%;
+    margin-top: 10px;
 }
 
 @media (max-width: 65em) {
