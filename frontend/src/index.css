@@ -22,6 +22,10 @@ body {
   margin: 15px;
 }
 
+h2 {
+  margin: 5px 0;
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -87,6 +91,10 @@ button[type="submit"] {
   border-radius: 5px;
   padding: 10px;
   width: 400px;
+}
+
+.amount {
+  margin-right: 2px;
 }
 
 @media (max-width: 28em) {
