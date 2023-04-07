@@ -1,14 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
+import './SpotDetails.css'
 
 export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
-    const spot = useSelector((state) => state.spot.spotDetails)
-    const spotImages = spot.SpotImages;
+    const spot = useSelector(state => state.spot.spotDetails)
+
+
+    // const spotImages = spot.SpotImages;
 
     useEffect(() => {
         dispatch(getDetailsThunk(spotId))
@@ -16,43 +19,41 @@ export default function SpotDetails() {
 
     if (!spot) return null;
 
-    console.log("hello")
-
     return (
         <div class="spot-details__container">
             <h1>{spot.name}</h1>
             <p>{spot.city}, {spot.state}, {spot.country}</p>
-            <div spot-images__container>
-                <div className="large-image__container">
-                    <img
+            <div className="spot-images__container">
+                <div className="large-images__container">
+                    {/* <img
                     className="large-image"
                     src={spotImages[0].url}
-                    alt={`${spot.name}`}/>
+                    alt={`${spot.name}`}/> */}
                 </div>
                 <div className="small-images__container">
                     <div className="small-image__container">
-                        <img
+                        {/* <img
                         className="small-image"
                         src={spotImages[1].url}
-                        alt={`${spot.name}`}/>
+                        alt={`${spot.name}`}/> */}
                     </div>
                     <div className="small-image__container">
-                        <img
+                        {/* <img
                         className="small-image"
                         src={spotImages[2].url}
-                        alt={`${spot.name}`}/>
+                        alt={`${spot.name}`}/> */}
                     </div>
                     <div className="small-image__container">
-                        <img
+                        {/* <img
                         className="small-image"
                         src={spotImages[3].url}
-                        alt={`${spot.name}`}/>
+                        alt={`${spot.name}`}/> */}
                     </div>
                     <div className="small-image__container">
-                        <img
+                        {/* <img
                         className="small-image"
                         src={spotImages[4].url}
-                        alt={`${spot.name}`}/>
+                        alt={`${spot.name}`}/> */}
                     </div>
                 </div>
             </div>

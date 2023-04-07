@@ -33,7 +33,7 @@ function SignupFormModal() {
 
   return (
     <>
-    <h1>Sign Up</h1>
+    <h1 className="centered">Sign Up</h1>
     <form onSubmit={handleSubmit}>
       <label>
         <input
