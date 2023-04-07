@@ -17,9 +17,10 @@ export default function AllSpots() {
         dispatch(getSpotsThunk())
     }, [dispatch]);
 
-const clickHandler = (spotId) => {
-    history.push(`/spots/${spotId}`)
-}
+    const clickHandler = (e, spotId) => {
+        e.preventDefault();
+        history.push(`/spots/${spotId}`)
+    }
 
     if(!spots) return null;
     const listedSpots = Object.values(spots);
@@ -31,7 +32,7 @@ const clickHandler = (spotId) => {
                     <div
                         className="landing-spot"
                         data-tooltip="Tooltip text"
-                        onClick={() => clickHandler(spot.id)}
+                        onClick={(e) => clickHandler(e, spot.id)}
                         key={spot.id}>
                         <div className="landing-previewImg__container">
                             <img
@@ -45,7 +46,8 @@ const clickHandler = (spotId) => {
                                     {spot.city}, {spot.state}
                                 </p>
                                 <div className="stars">
-                                    <Star alt="star"/>                                    {Number(spot.avgRating) ?  Number(spot.avgRating).toFixed(1) : "New"}
+                                    <Star alt="star"/>
+                                    {Number(spot.avgRating) ?  Number(spot.avgRating).toFixed(1) : "New"}
                                 </div>
                             </div>
                             <div className="price">
