@@ -8,7 +8,7 @@ export default function SpotDetails() {
     const {spotId} = useParams();
 
     const spot = useSelector((state) => state.spot.spotDetails)
-    // const spotImages = spot.SpotImages;
+    const spotImages = spot.SpotImages;
 
     useEffect(() => {
         dispatch(getDetailsThunk(spotId))
@@ -26,16 +26,10 @@ export default function SpotDetails() {
                 <div className="large-image__container">
                     <img
                     className="large-image"
-                    src={spot.previewImage}
+                    src={spotImages[0].url}
                     alt={`${spot.name}`}/>
                 </div>
                 <div className="small-images__container">
-                    {/* <div className="small-image__container">
-                        <img
-                        className="small-image"
-                        src={spotImages[0].url}
-                        alt={`${spot.name}`}/>
-                    </div>
                     <div className="small-image__container">
                         <img
                         className="small-image"
@@ -53,7 +47,13 @@ export default function SpotDetails() {
                         className="small-image"
                         src={spotImages[3].url}
                         alt={`${spot.name}`}/>
-                    </div> */}
+                    </div>
+                    <div className="small-image__container">
+                        <img
+                        className="small-image"
+                        src={spotImages[4].url}
+                        alt={`${spot.name}`}/>
+                    </div>
                 </div>
             </div>
             <div className="spot-details-bottom__container">
