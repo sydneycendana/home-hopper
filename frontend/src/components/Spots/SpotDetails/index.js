@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
+import { getReviewsThunk } from "../../../store/reviews";
 import './SpotDetails.css'
 
 export default function SpotDetails() {
