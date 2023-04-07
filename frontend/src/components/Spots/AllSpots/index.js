@@ -17,7 +17,9 @@ export default function AllSpots() {
         dispatch(getSpotsThunk())
     }, [dispatch]);
 
-
+const clickHandler = (spotId) => {
+    history.push(`/spots/${spotId}`)
+}
 
     if(!spots) return null;
     const listedSpots = Object.values(spots);
@@ -29,6 +31,7 @@ export default function AllSpots() {
                     <div
                         className="landing-spot"
                         data-tooltip="Tooltip text"
+                        onClick={() => clickHandler(spot.id)}
                         key={spot.id}>
                         <div className="landing-previewImg__container">
                             <img
