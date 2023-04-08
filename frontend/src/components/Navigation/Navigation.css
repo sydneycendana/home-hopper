@@ -60,7 +60,7 @@
   font-size: 16px;
 }
 
-.profile-dropdown li:not(:first-child){
+.profile-dropdown li:not(:first-child) {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
