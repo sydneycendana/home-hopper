@@ -67,11 +67,6 @@
     padding: 15px;
 }
 
-p {
-    margin: 0;
-    padding: 2px 0;
-}
-
 
 .price-and-stars__container {
     display: flex;

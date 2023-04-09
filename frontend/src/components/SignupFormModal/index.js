@@ -35,7 +35,6 @@ function SignupFormModal() {
     <>
     <h1 className="centered">Sign Up</h1>
     <form onSubmit={handleSubmit}>
-      <label>
         <input
           type="text"
           placeholder="Email"
@@ -43,8 +42,6 @@ function SignupFormModal() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </label>
-      <label>
         <input
           type="text"
           placeholder="Username"
@@ -52,8 +49,6 @@ function SignupFormModal() {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-      </label>
-      <label>
         <input
           type="text"
           placeholder="First Name"
@@ -61,8 +56,6 @@ function SignupFormModal() {
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
-      </label>
-      <label>
         <input
           type="text"
           placeholder="Last Name"
@@ -70,8 +63,6 @@ function SignupFormModal() {
           onChange={(e) => setLastName(e.target.value)}
           required
         />
-      </label>
-      <label>
         <input
           type="password"
           placeholder="Password"
@@ -79,9 +70,6 @@ function SignupFormModal() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-
-      </label>
-      <label>
         <input
           type="password"
           placeholder="Confirm Password"
@@ -89,7 +77,6 @@ function SignupFormModal() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-      </label>
         {Object.values(errors).map((error, idx) => (
           <ul className="errors"><li key={idx}>{error}</li> </ul>
         ))}

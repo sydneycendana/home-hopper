@@ -1,0 +1,34 @@
+.create-spot__container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.section {
+    padding: 20px 0;
+    border-bottom: 2px solid black;
+}
+
+.flex-columns {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.input-container__city {
+    width: 70%;
+}
+
+.input-container__state {
+    flex: 1;
+}
+
+.input-container-latitude {
+    width: 60%;
+}
+
+.input-container__longitude {
+    flex: 1;
+}
