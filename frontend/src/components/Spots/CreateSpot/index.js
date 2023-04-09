@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { Redirect, useHistory } from "react-router-dom";
 
 import * as spotActions from '../../../store/spots'
@@ -25,15 +25,15 @@ export default function CreateSpot(){
     const [image3, setImage3] = useState('')
     const [image4, setImage4] = useState('')
 
-    const [errors, setErrors] = useState([]);
+    const [validationErrors, setValidationErrors] = useState([]);
 
     if (!sessionUser) return <Redirect to={'/'} />
 
-    const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    try {
-        const spot = dispatch(
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const createdSpot = dispatch(
         spotActions.createSpotThunk(
             {
               name,
@@ -52,13 +52,8 @@ export default function CreateSpot(){
             }
         )
         );
-        history.push(`/spots/${spot.id}`);
-    } catch (error) {
-        const response = await error.response.json();
-        if (response && response.errors) {
-        setErrors(response.errors);
-        }
-    }
+        history.push(`/spots/${createdSpot.id}`);
+
     };
 
 
@@ -72,70 +67,58 @@ export default function CreateSpot(){
                         <div className="create-spot__input">
                             <div className="create-spot__label">
                                 <label htmlFor="country">Country</label>
-                                {errors.country && (
-                                    <div className="errors">{errors.country}</div>
-                                )}
                             </div>
                             <input
                             className="form-input"
                             id="country"
+                            name="country"
                             type="text"
                             placeholder="Country"
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="create-spot__input">
                             <div className="create-spot__label">
                                 <label htmlFor="address">Street Address</label>
-                                {errors.address && (
-                                    <div className="errors">{errors.address}</div>
-                                )}
                             </div>
                             <input
                             className="form-input"
                             id="address"
+                            name="address"
                             type="text"
                             placeholder="Address"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            required
                             />
                         </div>
                         <div className = "flex-columns">
                             <div className="input-container__city">
                                 <div className="create-spot__label">
                                 <label htmlFor="city">City</label>
-                                    {errors.city && (
-                                        <div className="errors">{errors.city}</div>
-                                    )}
                                 </div>
                                 <input
                                     className="form-input"
                                     id="city"
+                                    name="city"
                                     type="text"
                                     placeholder="City"
                                     value={city}
                                     onChange={(e) => setCity(e.target.value)}
-                                    required
                                     />
                             </div>
                             <div className="input-container__state">
                                 <div className="create-spot__label">
                                     <label htmlFor="state">State</label>
-                                        {errors.state && (
-                                            <div className="errors">{errors.state}</div>
-                                        )}
                                 </div>
                                 <input
                                     className="form-input"
                                     id="state"
+                                    name="state"
                                     type="text"
                                     placeholder="STATE"
                                     value={state}
                                     onChange={(e) => setState(e.target.value)}
-                                    required
                                     />
                             </div>
                         </div>
@@ -143,13 +126,11 @@ export default function CreateSpot(){
                             <div className="input-container-latitude">
                                 <div className="create-spot__label">
                                 <label htmlFor="lat">Latitude</label>
-                                    {errors.lat && (
-                                        <div className="errors">{errors.lat}</div>
-                                    )}
                                 </div>
                                 <input
                                     className="form-input"
                                     id="lat"
+                                    name="lat"
                                     type="number"
                                     placeholder="Latitude"
                                     value={lat}
@@ -159,18 +140,15 @@ export default function CreateSpot(){
                             <div className="input-container__longitude">
                                 <div className="create-spot__label">
                                     <label htmlFor="lng">Longitude</label>
-                                        {errors.lng && (
-                                            <div className="errors">{errors.lng}</div>
-                                        )}
                                 </div>
                                 <input
                                     className="form-input"
                                     id="lng"
+                                    name="lng"
                                     type="number"
                                     placeholder="Longitude"
                                     value={lng}
                                     onChange={(e) => setLng(e.target.value)}
-                                    required
                                     />
                             </div>
                         </div>
@@ -182,11 +160,11 @@ export default function CreateSpot(){
                                 <input
                                 className="form-input__textarea"
                                 id="description"
+                                name="description"
                                 type="textarea"
                                 placeholder="Description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                required
                                 />
                             </div>
                     </div>
@@ -196,11 +174,11 @@ export default function CreateSpot(){
                         <input
                         className="form-input"
                         id="name"
+                        name="name"
                         type="text"
                         placeholder="Name of your spot"
                         value={name}
                         onChange={(e) => setName(e.targevalue)}
-                        required
                         />
                     </div>
                     <div class="section">
@@ -211,11 +189,11 @@ export default function CreateSpot(){
                             <input
                             className="form-input"
                             id="price"
+                            name="price"
                             type="text"
                             placeholder="Price per night (USD)"
                             value={price}
                             onChange={(e) => setPrice(e.targevalue)}
-                            required
                             />
                         </div>
                     </div>
@@ -225,11 +203,11 @@ export default function CreateSpot(){
                             <input
                             className="form-input"
                             id="previewImage"
+                            name="previewImg"
                             type="text"
                             placeholder="Preview Image URL"
                             value={previewImage}
                             onChange={(e) => setPreviewImage(e.targevalue)}
-                            required
                             />
                             <input
                             className="form-input"
