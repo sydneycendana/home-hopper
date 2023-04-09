@@ -3,7 +3,7 @@
     margin: 0 auto;
 }
 
-.section-one {
+.section {
     padding: 20px 0;
     border-bottom: 2px solid black;
 }
@@ -30,12 +30,4 @@
 
 .input-container__longitude {
     flex: 1;
-}
-
-.input-flex-long {
-    width: 100%;
-}
-
-.input-flex-short {
-    width: 100%;
 }

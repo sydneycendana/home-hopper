@@ -56,7 +56,7 @@ export default function CreateSpot(){
             <h3>Where's your place located?</h3>
             <p>Guest's will only get your exact address once they booked a reservation</p>
                 <form className="create-spot__form">
-                    <div className="section-one">
+                    <div className="section">
                         <div className="create-spot__input">
                             <div className="create-spot__label">
                                 <label htmlFor="country">Country</label>
@@ -163,17 +163,36 @@ export default function CreateSpot(){
                             </div>
                         </div>
                     </div>
-                    <h3>Describe your place to guests</h3>
-                    <p>Mention the best features of your place, special ammenities like fast wifi or parking, and what you love about the neighborhood</p>
-                        <input
-                        className="form-input--textarea"
-                        id="description"
-                        type="textarea"
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                        />
+                    <div class="section">
+                        <h3>Describe your place to guests</h3>
+                        <p>Mention the best features of your place, special ammenities like fast wifi or parking, and what you love about the neighborhood</p>
+                            <div className="input-container__textarea">
+                                <input
+                                className="form-input__textarea"
+                                id="description"
+                                type="textarea"
+                                placeholder="Description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                required
+                                />
+                            </div>
+                    </div>
+                    <div class="section">
+                        <h3>Create a title for your spot</h3>
+                        <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+                            <div className="input-container__textarea">
+                                <input
+                                className="form-input"
+                                id="name"
+                                type="text"
+                                placeholder="Name of your spot"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                required
+                                />
+                            </div>
+                    </div>
                 </form>
         </div>
     )
