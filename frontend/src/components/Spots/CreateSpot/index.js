@@ -1,6 +1,6 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 import * as spotActions from '../../../store/spots'
 import './CreateSpot.css'
@@ -8,6 +8,7 @@ import './CreateSpot.css'
 export default function CreateSpot(){
     const dispatch = useDispatch();
     const history = useHistory();
+    const sessionUser = useSelector(state => state.session.user)
 
     const [country, setCountry] = useState('')
     const [address, setAddress] = useState('')
@@ -24,11 +25,9 @@ export default function CreateSpot(){
     const [image3, setImage3] = useState('')
     const [image4, setImage4] = useState('')
 
-
-
-
-
     const [errors, setErrors] = useState([]);
+
+    if (!sessionUser) return <Redirect to={'/'} />
 
     const handleSubmit = async (e) => {
     e.preventDefault();

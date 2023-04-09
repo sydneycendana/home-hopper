@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import {ReactComponent as Logo} from '../../assets/images/logo.svg'
+import CreateSpot from '../Spots/CreateSpot';
 
 
 
@@ -17,11 +18,18 @@ function Navigation({ isLoaded }){
           <Logo className="logo" alt="logo"/>
         </NavLink>
       </li>
-      {isLoaded && (
+      <div class="top-right">
         <li>
-          <ProfileButton user={sessionUser}/>
+          <NavLink exact to = "/spots/new">
+            Create a New Spot
+          </NavLink>
         </li>
-      )}
+        {isLoaded && (
+          <li>
+            <ProfileButton user={sessionUser}/>
+          </li>
+        )}
+      </div>
     </ul>
   );
 }

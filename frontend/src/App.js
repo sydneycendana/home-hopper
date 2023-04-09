@@ -23,8 +23,10 @@ return (
       {isLoaded && <Switch>
         <Route exact path='/'>
         <AllSpots />
-        <CreateSpot />
         </Route>
+        <Route path="/spots/new">
+            <CreateSpot />
+          </Route>
         <Route exact path={'/spots/:spotId'}>
           <SpotDetails/>
         </Route>
