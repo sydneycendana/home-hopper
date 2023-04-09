@@ -13,9 +13,20 @@ export default function CreateSpot(){
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
+    const [lat, setLat] = useState('')
+    const [lng, setLng] = useState('')
     const [description, setDescription] = useState('')
+    const [name, setName] = useState('')
+    const [price, setPrice] = useState('')
+    const [previewImage, setPreviewImage] = useState('')
+    const [image1, setImage1] = useState('')
+    const [image2, setImage2] = useState('')
+    const [image3, setImage3] = useState('')
+    const [image4, setImage4] = useState('')
+
+
+
+
 
     const [errors, setErrors] = useState([]);
 
@@ -26,17 +37,19 @@ export default function CreateSpot(){
         const spot = dispatch(
         spotActions.createSpotThunk(
             {
-            //   name,
+              name,
               description,
-            //   price,
-            address,
-            city,
-            state,
-            country,
+              price,
+              address,
+              city,
+              state,
+              country,
+              lat,
+              lng
             },
             {
-            //   url: previewImage,
-            //   preview: true,
+              url: previewImage,
+              preview: true,
             }
         )
         );
@@ -130,34 +143,34 @@ export default function CreateSpot(){
                         <div className = "flex-columns">
                             <div className="input-container-latitude">
                                 <div className="create-spot__label">
-                                <label htmlFor="latitude">Latitude</label>
-                                    {errors.latitude && (
-                                        <div className="errors">{errors.latitude}</div>
+                                <label htmlFor="lat">Latitude</label>
+                                    {errors.lat && (
+                                        <div className="errors">{errors.lat}</div>
                                     )}
                                 </div>
                                 <input
                                     className="form-input"
-                                    id="latitude"
+                                    id="lat"
                                     type="number"
                                     placeholder="Latitude"
-                                    value={latitude}
-                                    onChange={(e) => setLatitude(e.target.value)}
+                                    value={lat}
+                                    onChange={(e) => setLat(e.target.value)}
                                     />
                             </div>
                             <div className="input-container__longitude">
                                 <div className="create-spot__label">
-                                    <label htmlFor="longitude">Longitude</label>
-                                        {errors.longitude && (
-                                            <div className="errors">{errors.longitude}</div>
+                                    <label htmlFor="lng">Longitude</label>
+                                        {errors.lng && (
+                                            <div className="errors">{errors.lng}</div>
                                         )}
                                 </div>
                                 <input
                                     className="form-input"
-                                    id="longitude"
+                                    id="lng"
                                     type="number"
                                     placeholder="Longitude"
-                                    value={longitude}
-                                    onChange={(e) => setLongitude(e.target.value)}
+                                    value={lng}
+                                    onChange={(e) => setLng(e.target.value)}
                                     required
                                     />
                             </div>
@@ -181,18 +194,82 @@ export default function CreateSpot(){
                     <div class="section">
                         <h3>Create a title for your spot</h3>
                         <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
-                            <div className="input-container__textarea">
-                                <input
-                                className="form-input"
-                                id="name"
-                                type="text"
-                                placeholder="Name of your spot"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                required
-                                />
-                            </div>
+                        <input
+                        className="form-input"
+                        id="name"
+                        type="text"
+                        placeholder="Name of your spot"
+                        value={name}
+                        onChange={(e) => setName(e.targevalue)}
+                        required
+                        />
                     </div>
+                    <div class="section">
+                        <h3>Set a base price for your spot</h3>
+                        <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+                        <div className="flex-columns">
+                            <span>$</span>
+                            <input
+                            className="form-input"
+                            id="price"
+                            type="text"
+                            placeholder="Price per night (USD)"
+                            value={price}
+                            onChange={(e) => setPrice(e.targevalue)}
+                            required
+                            />
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h3>Liven up your spot with photos</h3>
+                        <p>Submit a link to at least one photo to publish your spot</p>
+                            <input
+                            className="form-input"
+                            id="previewImage"
+                            type="text"
+                            placeholder="Preview Image URL"
+                            value={previewImage}
+                            onChange={(e) => setPreviewImage(e.targevalue)}
+                            required
+                            />
+                            <input
+                            className="form-input"
+                            id="image1"
+                            type="text"
+                            placeholder="Image URL"
+                            value={image1}
+                            onChange={(e) => setImage1(e.targevalue)}
+                            />
+                            <input
+                            className="form-input"
+                            id="image2"
+                            type="text"
+                            placeholder="Image URL"
+                            value={image2}
+                            onChange={(e) => setImage2(e.targevalue)}
+                            />
+                            <input
+                            className="form-input"
+                            id="image3"
+                            type="text"
+                            placeholder="Image URL"
+                            value={image3}
+                            onChange={(e) => setImage3(e.targevalue)}
+                            />
+                            <input
+                            className="form-input"
+                            id="image4"
+                            type="text"
+                            placeholder="Image URL"
+                            value={image4}
+                            onChange={(e) => setImage4(e.targevalue)}
+                            />
+                    </div>
+                    <button
+                    type="submit"
+                    onSubmit={handleSubmit}
+                    >Create Spot</button>
+
                 </form>
         </div>
     )
