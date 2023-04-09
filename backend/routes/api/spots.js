@@ -149,6 +149,10 @@ router.get("/", validateQueryParamaters, async (req, res, next) => {
       {
         model: SpotImage,
         attributes: ["url"], //allows response to find the first image
+        where: {
+          preview: true
+        },
+        required: false
       },
       { model: Review, attributes: ["stars"], required: false },
     ],
