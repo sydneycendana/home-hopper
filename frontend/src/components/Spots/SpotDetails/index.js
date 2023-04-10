@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
-import { getReviewsThunk } from "../../../store/reviews";
+// import { getReviewsThunk } from "../../../store/reviews";
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 import './SpotDetails.css'
 
@@ -10,35 +10,25 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
-    const spot = useSelector(state => state.spot.spotDetails)
-    const reviews = useSelector(state => state.review.allReviews)
+    const spot = useSelector(state => state.spot.spotDetails);
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
-    const reviewsArray = Object.values(reviews)
 
-
-
-    useEffect(() => {
+        useEffect(() => {
         dispatch(getDetailsThunk(spotId))
     }, [dispatch, spotId]);
 
-//     useEffect(() => {
-//     async function fetchData() {
-//         await dispatch(getDetailsThunk(spotId))
-//     }
-//     fetchData();
-// }, [dispatch, spotId]);
+    // useEffect(() => {
+    //     dispatch(getReviewsThunk(spotId))
+    // }, [dispatch, spotId]);
 
-        useEffect(() => {
-        dispatch(getReviewsThunk(spotId))
-    }, [dispatch, spotId]);
 
     if (!spot) return null;
 
     return (
         <div className="spot-details__container">
-            <div class="section">
+            <section class="section">
                 <h1>{spot.name}</h1>
                 <p>{spot.city}, {spot.state}, {spot.country}</p>
                 <div className="spot-images__container">
@@ -80,8 +70,8 @@ export default function SpotDetails() {
                         <button className="reserve-button">Reserve</button>
                     </div>
                 </div>
-            </div>
-            <div className="reviews-section">
+            </section>
+            <section className="reviews-section">
                 <div className="reviews-summary">
                     {Number(spot.avgStarRating) ? (
                     <div className='stars'>
@@ -96,7 +86,7 @@ export default function SpotDetails() {
                         New
                     </div> )}
                 </div>
-            </div>
+            </section>
         </div>
     )
 };
