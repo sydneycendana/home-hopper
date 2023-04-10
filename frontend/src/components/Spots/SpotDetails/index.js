@@ -11,11 +11,10 @@ export default function SpotDetails() {
     const {spotId} = useParams();
 
     const spot = useSelector(state => state.spot.spotDetails)
-    console.log(spot)
     // const reviews = useSelector(state => state.allReviews.spotDetails)
 
-
-    // const spotImages = spot.SpotImages;
+    const previewImage = spot.SpotImages.find(image => image.preview)
+    const otherImages = spot.SpotImages.filter(image => !image.preview);
 
     useEffect(() => {
         dispatch(getDetailsThunk(spotId))
@@ -34,36 +33,15 @@ export default function SpotDetails() {
                 <p>{spot.city}, {spot.state}, {spot.country}</p>
                 <div className="spot-images__container">
                     <div className="large-images__container">
-                        {/* <img
+                        <img
                         className="large-image"
-                        src={spotImages[0].url}
-                        alt={`${spot.name}`}/> */}
+                        src={previewImage.url}
+                        alt={`${spot.name}`}/>
                     </div>
                     <div className="small-images__container">
-                        <div className="small-image__container">
-                            {/* <img
-                            className="small-image"
-                            src={spotImages[1].url}
-                            alt={`${spot.name}`}/> */}
-                        </div>
-                        <div className="small-image__container">
-                            {/* <img
-                            className="small-image"
-                            src={spotImages[2].url}
-                            alt={`${spot.name}`}/> */}
-                        </div>
-                        <div className="small-image__container">
-                            {/* <img
-                            className="small-image"
-                            src={spotImages[3].url}
-                            alt={`${spot.name}`}/> */}
-                        </div>
-                        <div className="small-image__container">
-                            {/* <img
-                            className="small-image"
-                            src={spotImages[4].url}
-                            alt={`${spot.name}`}/> */}
-                        </div>
+                        {otherImages.map((image, index) => (
+                        <img key={index} src={image.url} alt={spot.name} className="small-image" />
+                        ))}
                     </div>
                 </div>
                 <div className="spot-details-bottom__container">
