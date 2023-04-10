@@ -13,12 +13,22 @@ export default function SpotDetails() {
     const spot = useSelector(state => state.spot.spotDetails)
     // const reviews = useSelector(state => state.allReviews.spotDetails)
 
-    const previewImage = spot.SpotImages.find(image => image.preview)
-    const otherImages = spot.SpotImages.filter(image => !image.preview);
+
+    const previewImage = spot?.SpotImages?.find(image => image.preview);
+    const otherImages = spot?.SpotImages?.filter(image => !image.preview);
+
+
+
+    // useEffect(() => {
+    //     dispatch(getDetailsThunk(spotId))
+    // }, [dispatch, spotId]);
 
     useEffect(() => {
-        dispatch(getDetailsThunk(spotId))
-    }, [dispatch, spotId]);
+    async function fetchData() {
+        await dispatch(getDetailsThunk(spotId))
+    }
+    fetchData();
+}, [dispatch, spotId]);
 
     //     useEffect(() => {
     //     dispatch(getReviewsThunk(spotId))
