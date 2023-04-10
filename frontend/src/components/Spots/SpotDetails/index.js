@@ -68,7 +68,7 @@ export default function SpotDetails() {
                                             <Star alt="star"/>
                                             {Number(spot.avgStarRating).toFixed(1)}
                                             <span>•</span>
-                                            <p>{spot.numReviews} reviews</p>
+                                            <p>{spot.numReviews === 1 ? '1 review' : `${spot.numReviews} reviews`}</p>
                                         </div>
                                     ) : (
                                         <div className='stars'>
