@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
-// import { getReviewsThunk } from "../../../store/reviews";
+import { getReviewsThunk } from "../../../store/reviews";
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 import './SpotDetails.css'
 
@@ -11,7 +11,7 @@ export default function SpotDetails() {
     const {spotId} = useParams();
 
     const spot = useSelector(state => state.spot.spotDetails)
-    // const reviews = useSelector(state => state.allReviews.spotDetails)
+    const reviews = useSelector(state => state.review.allReviews)
 
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
@@ -19,20 +19,20 @@ export default function SpotDetails() {
 
 
 
-    // useEffect(() => {
-    //     dispatch(getDetailsThunk(spotId))
-    // }, [dispatch, spotId]);
-
     useEffect(() => {
-    async function fetchData() {
-        await dispatch(getDetailsThunk(spotId))
-    }
-    fetchData();
-}, [dispatch, spotId]);
+        dispatch(getDetailsThunk(spotId))
+    }, [dispatch, spotId]);
 
-    //     useEffect(() => {
-    //     dispatch(getReviewsThunk(spotId))
-    // }, [dispatch, spotId]);
+//     useEffect(() => {
+//     async function fetchData() {
+//         await dispatch(getDetailsThunk(spotId))
+//     }
+//     fetchData();
+// }, [dispatch, spotId]);
+
+        useEffect(() => {
+        dispatch(getReviewsThunk(spotId))
+    }, [dispatch, spotId]);
 
     if (!spot) return null;
 
