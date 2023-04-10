@@ -17,28 +17,48 @@ function SignupFormModal() {
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (password === confirmPassword) {
+  //     setErrors([]);
+  //     return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
+  //       .then(closeModal)
+  //       .catch(async (res) => {
+  //         const data = await res.json();
+  //         if (data && data.errors) setErrors(data.errors);
+  //       });
+  //   }
+  //   // return setErrors(['Confirm Password field must be the same as the Password field']);
+  // };
+
+    const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
+      return dispatch(
+        sessionActions.signup({
+          email,
+          username,
+          firstName,
+          lastName,
+          password,
+        })
+      )
         .then(closeModal)
         .catch(async (res) => {
           const data = await res.json();
-          if (data && data.errors) setErrors([data.errors]);
-
+          if (data && data.errors) setErrors(data.errors);
         });
     }
-    return setErrors(['Confirm Password field must be the same as the Password field']);
   };
 
   return (
     <>
     <h1 className="centered">Sign Up</h1>
     <form onSubmit={handleSubmit}>
-      {errors.length > 0 && (
+      {errors && (
         <ul className="errors-list">
-          {errors.map((error, idx) => (
+          {Object.values(errors).map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
