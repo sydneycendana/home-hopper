@@ -13,9 +13,9 @@ export default function SpotDetails() {
     const spot = useSelector(state => state.spot.spotDetails)
     const reviews = useSelector(state => state.review.allReviews)
 
-
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
+    const reviewsArray = Object.values(reviews)
 
 
 
@@ -79,6 +79,22 @@ export default function SpotDetails() {
                         </div>
                         <button className="reserve-button">Reserve</button>
                     </div>
+                </div>
+            </div>
+            <div className="reviews-section">
+                <div className="reviews-summary">
+                    {Number(spot.avgStarRating) ? (
+                    <div className='stars'>
+                        <Star alt="star"/>
+                        {Number(spot.avgStarRating).toFixed(1)}
+                        <span>•</span>
+                        <p>{spot.numReviews === 1 ? '1 review' : `${spot.numReviews} reviews`}</p>
+                    </div>
+                    ) : (
+                    <div className='stars'>
+                        <Star alt="star"/>
+                        New
+                    </div> )}
                 </div>
             </div>
         </div>
