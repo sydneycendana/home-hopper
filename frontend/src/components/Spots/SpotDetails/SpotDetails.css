@@ -30,17 +30,15 @@
 .small-images__container {
     width: 500px;
     height: 100%;
-    background-color: blue;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     box-sizing: border-box;
 }
 
-.small-image__container {
+.small-image {
     width: calc(50% - 5px);
     height: calc(50% - 5px);
-    background-color: black;
     box-sizing: border-box;
 }
 
