@@ -12,6 +12,7 @@ export default function SpotDetails() {
 
     const spot = useSelector(state => state.spot.spotDetails)
     const reviews = useSelector(state => state.review.allReviews)
+    const sessionUser = useSelector((state) => state.session.user);
 
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
@@ -36,6 +37,10 @@ export default function SpotDetails() {
 
     if (!spot) return null;
 
+    //NEED TO FIX
+    let owner = spot.ownerId !== sessionUser.id ? false : true;
+
+    if(owner )
     return (
         <div className="spot-details__container">
             <div class="section">
@@ -56,7 +61,7 @@ export default function SpotDetails() {
                 </div>
                 <div className="spot-details-bottom__container">
                     <div className="spot-text__container">
-                        <h2>Hosted by {spot.Owner.firstName}</h2>
+                        <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
                         <p>{spot.description}</p>
                     </div>
                     <div className="reserve-info__container">
@@ -68,7 +73,7 @@ export default function SpotDetails() {
                                             <Star alt="star"/>
                                             {Number(spot.avgStarRating).toFixed(1)}
                                             <span>•</span>
-                                            <p>{spot.numReviews} reviews</p>
+                                            {spot.numReviews > 1 ? <p>{spot.numReviews} reviews</p> : <p>{spot.numReviews} review</p> }
                                         </div>
                                     ) : (
                                         <div className='stars'>
@@ -79,6 +84,24 @@ export default function SpotDetails() {
                         </div>
                         <button className="reserve-button">Reserve</button>
                     </div>
+                </div>
+            </div>
+            <div className="review-section">
+                <div className="reviews-bottom__container">
+                        <div>
+                            {Number(spot.avgStarRating) ? (
+                                <div className='stars'>
+                                    <Star alt="star"/>
+                                    {Number(spot.avgStarRating).toFixed(1)}
+                                    <span>•</span>
+                                    {spot.numReviews > 1 ? <p>{spot.numReviews} reviews</p> : <p>{spot.numReviews} review</p> }
+                                </div>
+                            ) : (
+                                <div className='stars'>
+                                <Star alt="star"/>
+                                New
+                                </div> )}
+                        </div>
                 </div>
             </div>
         </div>

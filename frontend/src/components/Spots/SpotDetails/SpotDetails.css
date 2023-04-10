@@ -91,6 +91,10 @@
     margin-top: 10px;
 }
 
+.reviews-bottom__container .stars {
+    justify-content: left;
+}
+
 @media (max-width: 65em) {
     .spot-images__container {
         flex-wrap: wrap;
