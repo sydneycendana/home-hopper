@@ -2,10 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
-// import { getReviewsThunk } from "../../../store/reviews";
+import OpenModalButton from '../../OpenModalButton';
+import { createReviewsThunk } from "../../../store/reviews";
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 import './SpotDetails.css'
-import SpotReviews from "../../Reviews";
+import SpotReviews from "../../Reviews/SpotReviews/index";
+import CreateReview from "../../Reviews/CreateReview";
 
 export default function SpotDetails() {
     const dispatch = useDispatch();
@@ -33,6 +35,20 @@ export default function SpotDetails() {
             currentUserStatus = 'user';
         }
     }
+
+    const createNewReview = async (e, review, stars) => {
+    e.preventDefault();
+    let errors = [];
+
+    await dispatch(createReviewsThunk({ review, stars }, spotId))
+    .catch(async (res) => {
+        const data = await res.json();
+
+        if (data && data.errors) {
+          errors = data.errors;
+        }
+      }
+    )};
 
 
     if (!spot) return null;
@@ -96,6 +112,18 @@ export default function SpotDetails() {
                         <Star alt="star"/>
                         New
                     </div> )}
+                </div>
+                <div className="review-modal">
+                    <OpenModalButton
+                    className="addReview"
+                    buttonText="Post your Review"
+                    modalComponent={
+                        <CreateReview
+                        spotId={spotId}
+                        createNewReview={createNewReview}
+                        />
+                    }
+                    />
                 </div>
                 <SpotReviews/>
             </section>

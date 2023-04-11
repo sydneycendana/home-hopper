@@ -1,6 +1,8 @@
 import { csrfFetch } from './csrf';
 
 const GET_REVIEWS = 'reviews/getReviews'
+const CREATE_REVIEW = 'reviews/createReview'
+
 
 const getReviews = (reviews) => {
     return {
@@ -8,6 +10,13 @@ const getReviews = (reviews) => {
         reviews
     }
 }
+
+const createReview = (review) => {
+  return {
+    type: CREATE_REVIEW,
+    review,
+  };
+};
 
 //******************** THUNKS ********************
 
@@ -20,6 +29,20 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
         dispatch(getReviews(data));
         return data;
     }
+};
+
+//***** CREATE REVIEW *****
+export const createReviewsThunk = (review, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: "POST",
+    body: JSON.stringify(review),
+  });
+
+  if (response.ok) {
+    const reviewData = await response.json();
+    dispatch(createReview(reviewData, spotId));
+    return reviewData;
+  }
 };
 
 //******************** REDUCER ********************
@@ -36,6 +59,9 @@ const reviewReducer = (state = initialState, action) => {
             getAllReviews.forEach((review) => (allReviews[review.id] = review));
             newState["allReviews"] = {...allReviews};
             return newState;
+        case CREATE_REVIEW:
+            const createdReview = action.review;
+            return createdReview;
         default:
             return state;
     }

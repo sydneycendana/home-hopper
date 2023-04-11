@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
-import SpotReviews from "../../Reviews";
 import './allSpots.css'
 
 
