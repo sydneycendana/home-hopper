@@ -5,12 +5,14 @@ import { getDetailsThunk } from "../../../store/spots";
 // import { getReviewsThunk } from "../../../store/reviews";
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 import './SpotDetails.css'
+import SpotReviews from "../../Reviews";
 
 export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
     const spot = useSelector(state => state.spot.spotDetails);
+    const sessionUser = useSelector(state => state.session.id)
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
@@ -22,6 +24,15 @@ export default function SpotDetails() {
     // useEffect(() => {
     //     dispatch(getReviewsThunk(spotId))
     // }, [dispatch, spotId]);
+
+   let currentUserStatus;
+    if (sessionUser) {
+        if (sessionUser === spot.ownerId) {
+            currentUserStatus = 'owner';
+        } else {
+            currentUserStatus = 'user';
+        }
+    }
 
 
     if (!spot) return null;
@@ -86,6 +97,7 @@ export default function SpotDetails() {
                         New
                     </div> )}
                 </div>
+                <SpotReviews/>
             </section>
         </div>
     )
