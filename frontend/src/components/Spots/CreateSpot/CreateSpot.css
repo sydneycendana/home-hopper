@@ -3,6 +3,12 @@
     margin: 0 auto;
 }
 
+.error {
+    color: red;
+    font-size: 12px;
+    padding: 5px
+}
+
 .section {
     padding: 20px 0;
     border-bottom: 2px solid black;

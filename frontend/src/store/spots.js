@@ -54,10 +54,7 @@ export const createSpotThunk = (newSpot, previewImage) => async (dispatch) => {
     const spotResponse = await csrfFetch(`/api/spots`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: previewImage.url,
-          preview: true,
-        })
+        body: JSON.stringify(newSpot)
     });
 
     if (spotResponse.ok) {

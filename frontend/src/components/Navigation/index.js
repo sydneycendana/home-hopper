@@ -18,7 +18,7 @@ function Navigation({ isLoaded }){
           <Logo className="logo" alt="logo"/>
         </NavLink>
       </li>
-      <div class="top-right">
+      <div className="top-right">
         <li>
           <NavLink exact to = "/spots/new">
             Create a New Spot
