@@ -14,18 +14,7 @@
 .top-right {
   display: flex;
   align-items: center;
-}
-
-.container ul {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.container li {
-  margin-right: 20px;
+  gap: 15px;
 }
 
 .container a {
@@ -38,7 +27,8 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  text-align: center;
+  border: 1px solid #5A5A5A;
   top: 85px;
   right: 45px;
   z-index: 1;
@@ -49,29 +39,33 @@
   width: 200px;
 }
 
-.profile-dropdown-button {
-  width: 80px;
+.profile-dropdown li:not(:first-child) {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+.profile-dropdown li:not(:first-child) {
+  padding-top: 5px;
+}
+
+
+/* .profile-dropdown li:last-child {
+  text-align: center;
+  padding-top: 5px;
+} */
 
 .profile-dropdown.hidden {
   display: none;
 }
 
-.profile-dropdown ul {
-  position: relative;
-}
-
 .profile-dropdown li {
   font-size: 16px;
+  width: 100%;
 }
 
-.profile-dropdown li:not(:first-child) {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.profile-dropdown button {
-  color: black;
-  border-radius: 5px;
+.profile-dropdown__logout {
+  background-color: #5A5A5A;
+  color: white;
+  border-radius: 100vh;
   padding: 5px 10px;
   font-size: 12px;
   cursor: pointer;
@@ -79,20 +73,36 @@
 
 .profile-icon {
   display: flex;
-  gap: 10px;
+  padding: 8px 13px;
+  gap: 12px;
   background-color: transparent;
   cursor: pointer;
   font-size: 24px;
   color: #333;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.1);
   border-radius: 100vw;
   transition: box-shadow 0.3s ease;
 }
 
 .profile-icon i {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .profile-icon:hover {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+ul .left-align {
+  text-align: left;
+}
+
+.modal-button__login-signup {
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal-button__login-signup:hover {
+  transform: scale(1.1);
 }
