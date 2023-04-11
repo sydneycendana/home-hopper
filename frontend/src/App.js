@@ -12,12 +12,12 @@ function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
-useEffect(() => {
-dispatch(sessionActions.restoreUser())
-setIsLoaded(true)
-},[dispatch])
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser())
+    setIsLoaded(true)
+  },[dispatch])
 
-return (
+  return (
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch>

@@ -67,7 +67,7 @@
   color: white;
   border-radius: 100vh;
   padding: 5px 10px;
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -92,8 +92,8 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-ul .left-align {
-  text-align: left;
+.left-align button {
+  width: 100%;
 }
 
 .modal-button__login-signup {
@@ -101,6 +101,7 @@ ul .left-align {
   background-color: transparent;
   font-size: 16px;
   cursor: pointer;
+  text-align: left;
 }
 
 .modal-button__login-signup:hover {
