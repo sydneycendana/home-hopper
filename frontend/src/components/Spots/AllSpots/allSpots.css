@@ -25,17 +25,20 @@
     border-radius: 5px;
 }
 
-.location {
-    margin: 0;
-    padding-top: 5px;
-    padding-bottom: 8px;
-}
-
 .location-stars__container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.location {
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 8px;
+    flex: 1 0 70%;
+    overflow: auto;
 }
 
 .stars {

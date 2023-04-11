@@ -197,7 +197,7 @@ export default function CreateSpot(){
                             </div>
                         </div>
                     </div>
-                    <div class="section">
+                    <div className="section">
                         <h3>Describe your place to guests</h3>
                         <p>Mention the best features of your place, special ammenities like fast wifi or parking, and what you love about the neighborhood</p>
                             <div className="input-container__textarea">
@@ -215,7 +215,7 @@ export default function CreateSpot(){
                                     <span className="error">{errors.description}</span>
                                 )}
                     </div>
-                    <div class="section">
+                    <div className="section">
                         <h3>Create a title for your spot</h3>
                         <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
                         <input
@@ -231,7 +231,7 @@ export default function CreateSpot(){
                             <span className="error">{errors.name}</span>
                         )}
                     </div>
-                    <div class="section">
+                    <div className="section">
                         <h3>Set a base price for your spot</h3>
                         <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                         <div className="flex-columns">
@@ -250,7 +250,7 @@ export default function CreateSpot(){
                             <span className="error">{errors.price}</span>
                         )}
                     </div>
-                    <div class="section">
+                    <div className="section">
                         <h3>Liven up your spot with photos</h3>
                         <p>Submit a link to at least one photo to publish your spot</p>
                             <input

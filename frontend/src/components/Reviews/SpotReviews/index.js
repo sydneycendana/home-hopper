@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getReviewsThunk } from "../../store/reviews";
+import { getReviewsThunk } from "../../../store/reviews";
 
 export default function SpotReviews() {
     const dispatch = useDispatch();
@@ -9,7 +9,7 @@ export default function SpotReviews() {
 
     const sessionUser = useSelector(state => state.session.id);
     const reviews = useSelector(state => state.review.allReviews);
-    const spots = useSelector(state => state.spot.allSpots)
+    const spot = useSelector(state => state.spot.spotDetails)
 
 
 
@@ -33,9 +33,6 @@ export default function SpotReviews() {
 
     return (
         <div>
-            (noReviewUser && (
-            <button>Post Your Review</button>
-            ))
             <div className="all-reviews__container">
                 {Object.values(reviews).map((review) => {
                     return (
