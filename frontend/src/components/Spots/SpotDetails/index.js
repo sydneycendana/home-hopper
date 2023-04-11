@@ -50,6 +50,8 @@ export default function SpotDetails() {
       }
     )};
 
+    console.log()
+
 
     if (!spot) return null;
 
