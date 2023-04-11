@@ -34,20 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       lat: {
-        type: DataTypes.DECIMAL(11, 8).UNSIGNED,
-        validate: {
-          isDecimal: true,
-          min: -90,
-          max: 90,
-        },
+        type: DataTypes.DECIMAL,
       },
       lng: {
-        type: DataTypes.DECIMAL(11, 8).UNSIGNED,
-        validate: {
-          isDecimal: true,
-          min: -180,
-          max: 180,
-        },
+        type: DataTypes.DECIMAL,
       },
       name: {
         type: DataTypes.STRING,

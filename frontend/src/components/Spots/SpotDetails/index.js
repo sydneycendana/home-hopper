@@ -2,43 +2,44 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
-import { getReviewsThunk } from "../../../store/reviews";
+// import { getReviewsThunk } from "../../../store/reviews";
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 import './SpotDetails.css'
+import SpotReviews from "../../Reviews";
 
 export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
-    const spot = useSelector(state => state.spot.spotDetails)
-    const reviews = useSelector(state => state.review.allReviews)
-
+    const spot = useSelector(state => state.spot.spotDetails);
+    const sessionUser = useSelector(state => state.session.id)
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
-
-
-    useEffect(() => {
+        useEffect(() => {
         dispatch(getDetailsThunk(spotId))
     }, [dispatch, spotId]);
 
-//     useEffect(() => {
-//     async function fetchData() {
-//         await dispatch(getDetailsThunk(spotId))
-//     }
-//     fetchData();
-// }, [dispatch, spotId]);
+    // useEffect(() => {
+    //     dispatch(getReviewsThunk(spotId))
+    // }, [dispatch, spotId]);
 
-        useEffect(() => {
-        dispatch(getReviewsThunk(spotId))
-    }, [dispatch, spotId]);
+   let currentUserStatus;
+    if (sessionUser) {
+        if (sessionUser === spot.ownerId) {
+            currentUserStatus = 'owner';
+        } else {
+            currentUserStatus = 'user';
+        }
+    }
+
 
     if (!spot) return null;
 
     return (
         <div className="spot-details__container">
-            <div class="section">
+            <section class="section">
                 <h1>{spot.name}</h1>
                 <p>{spot.city}, {spot.state}, {spot.country}</p>
                 <div className="spot-images__container">
@@ -68,7 +69,7 @@ export default function SpotDetails() {
                                             <Star alt="star"/>
                                             {Number(spot.avgStarRating).toFixed(1)}
                                             <span>•</span>
-                                            <p>{spot.numReviews} reviews</p>
+                                            <p>{spot.numReviews === 1 ? '1 review' : `${spot.numReviews} reviews`}</p>
                                         </div>
                                     ) : (
                                         <div className='stars'>
@@ -80,7 +81,24 @@ export default function SpotDetails() {
                         <button className="reserve-button">Reserve</button>
                     </div>
                 </div>
-            </div>
+            </section>
+            <section className="reviews-section">
+                <div className="reviews-summary">
+                    {Number(spot.avgStarRating) ? (
+                    <div className='stars'>
+                        <Star alt="star"/>
+                        {Number(spot.avgStarRating).toFixed(1)}
+                        <span>•</span>
+                        <p>{spot.numReviews === 1 ? '1 review' : `${spot.numReviews} reviews`}</p>
+                    </div>
+                    ) : (
+                    <div className='stars'>
+                        <Star alt="star"/>
+                        New
+                    </div> )}
+                </div>
+                <SpotReviews/>
+            </section>
         </div>
     )
 };

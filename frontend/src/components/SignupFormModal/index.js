@@ -17,24 +17,52 @@ function SignupFormModal() {
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (password === confirmPassword) {
+  //     setErrors([]);
+  //     return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
+  //       .then(closeModal)
+  //       .catch(async (res) => {
+  //         const data = await res.json();
+  //         if (data && data.errors) setErrors(data.errors);
+  //       });
+  //   }
+  //   // return setErrors(['Confirm Password field must be the same as the Password field']);
+  // };
+
+    const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
+      return dispatch(
+        sessionActions.signup({
+          email,
+          username,
+          firstName,
+          lastName,
+          password,
+        })
+      )
         .then(closeModal)
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
         });
     }
-    return setErrors(['Confirm Password field must be the same as the Password field']);
   };
 
   return (
     <>
     <h1 className="centered">Sign Up</h1>
     <form onSubmit={handleSubmit}>
+      {errors && (
+        <ul className="errors-list">
+          {Object.values(errors).map((error, idx) => (
+            <li key={idx}>{error}</li>
+          ))}
+        </ul>
+      )}
         <input
           type="text"
           placeholder="Email"
@@ -77,10 +105,7 @@ function SignupFormModal() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        {Object.values(errors).map((error, idx) => (
-          <ul className="errors"><li key={idx}>{error}</li> </ul>
-        ))}
-      <button type="submit">Sign Up</button>
+      <button type="submit" className="submit-form__button">Sign Up</button>
     </form>
     </>
   );

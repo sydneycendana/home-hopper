@@ -20,14 +20,33 @@ function LoginFormModal() {
         const data = await res.json();
         if (data && data.message) setErrors([data.message]);
       });
+  };
 
-  }
+  const demoUser = (e) => {
+    e.preventDefault();
+    dispatch(
+      sessionActions.login({
+        credential: "mnorms123",
+        password: "mypassword",
+      })
+    )
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
+  };
 
   return (
 
     <>
       <h1 className="centered">Log In</h1>
       <form onSubmit={handleSubmit}>
+        <ul className="errors-list">
+          {errors.map((error, index) => (
+            <li key={index}>{error}</li>
+          ))}
+        </ul>
               <input
                 type="text"
                 value={credential}
@@ -42,8 +61,8 @@ function LoginFormModal() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-            {errors.map((error, idx) => <ul className="errors"> <li key={idx}>{error}</li> </ul>)}
-            <button type="submit">Log In</button>
+            <button type="submit" className="submit-form__button">Log In</button>
+            <button onClick={demoUser} type="submit" className="demoLogin">Demo User</button>
       </form>
     </>
   );

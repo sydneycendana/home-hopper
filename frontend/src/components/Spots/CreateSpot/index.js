@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect} from "react";
 import { Redirect, useHistory } from "react-router-dom";
 
-import * as spotActions from '../../../store/spots'
+import {createSpotThunk} from '../../../store/spots'
 import './CreateSpot.css'
 
 export default function CreateSpot(){
@@ -25,35 +25,75 @@ export default function CreateSpot(){
     const [image3, setImage3] = useState('')
     const [image4, setImage4] = useState('')
 
-    const [validationErrors, setValidationErrors] = useState([]);
+    const [errors, setErrors] = useState([]);
+    const [hasSubmitted, setHasSubmitted] = useState(false)
 
-    if (!sessionUser) return <Redirect to={'/'} />
 
+
+    useEffect(() => {
+        if(hasSubmitted) {
+            let validationErrors = {};
+
+            if (!country) validationErrors.country = "Country is required";
+            if (!address) validationErrors.address = "Address is required";
+            if (!city) validationErrors.city = "City is required";
+            if (!state) validationErrors.state = "State is required";
+            if (description.length < 30)
+                validationErrors.description = "Description needs a minimum of 30 characters";
+            if (!name) validationErrors.name = "Name is required";
+            if (!price) validationErrors.price = "Price is required";
+            if (!previewImage) validationErrors.previewImage = "Preview image is required";
+            if ( previewImage && !/\.(png|jpg|jpeg)$/i.test(previewImage.slice(previewImage.lastIndexOf("."))))
+                validationErrors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
+            if (image1 && !/\.(png|jpg|jpeg)$/i.test(image1.slice(image1.lastIndexOf("."))))
+                validationErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg";
+            if (image2 && !/\.(png|jpg|jpeg)$/i.test(image2.slice(image2.lastIndexOf("."))))
+                validationErrors.image2 = "Image URL must end in .png, .jpg, or .jpeg";
+            if (image3 && !/\.(png|jpg|jpeg)$/i.test(image3.slice(image3.lastIndexOf("."))))
+                validationErrors.image3 = "Image URL must end in .png, .jpg, or .jpeg";
+            if (image4 && !/\.(png|jpg|jpeg)$/i.test(image4.slice(image4.lastIndexOf("."))))
+                validationErrors.image4 = "Image URL must end in .png, .jpg, or .jpeg";
+
+            setErrors(validationErrors);
+        }
+    }, [hasSubmitted, country, address, city, state, description, name, price, previewImage, image1, image2, image3, image4])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setHasSubmitted(true);
 
-        const createdSpot = dispatch(
-        spotActions.createSpotThunk(
-            {
-              name,
-              description,
-              price,
-              address,
-              city,
-              state,
-              country,
-              lat,
-              lng
-            },
-            {
-              url: previewImage,
-              preview: true,
-            }
+        const parsedPrice = parseFloat(price)
+
+        if(Object.keys(errors).length > 0) return;
+        console.log(errors)
+
+        const createdSpot = await dispatch(
+        createSpotThunk(
+          {
+            name,
+            description,
+            price: parsedPrice,
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+          },
+          {
+            url: previewImage,
+            preview: true,
+          }
         )
-        );
-        history.push(`/spots/${createdSpot.id}`);
+      )
 
+      .then((createdSpot) => {
+        history.push(`/spots/${createdSpot.id}`)
+      })
+      .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
+        });
     };
 
 
@@ -65,9 +105,10 @@ export default function CreateSpot(){
                 <form className="create-spot__form">
                     <div className="section">
                         <div className="create-spot__input">
-                            <div className="create-spot__label">
                                 <label htmlFor="country">Country</label>
-                            </div>
+                                {errors && (
+                                    <span className="error">{errors.country}</span>
+                                )}
                             <input
                             className="form-input"
                             id="country"
@@ -79,9 +120,10 @@ export default function CreateSpot(){
                             />
                         </div>
                         <div className="create-spot__input">
-                            <div className="create-spot__label">
                                 <label htmlFor="address">Street Address</label>
-                            </div>
+                                {errors && (
+                                    <span className="error">{errors.address}</span>
+                                )}
                             <input
                             className="form-input"
                             id="address"
@@ -94,9 +136,10 @@ export default function CreateSpot(){
                         </div>
                         <div className = "flex-columns">
                             <div className="input-container__city">
-                                <div className="create-spot__label">
                                 <label htmlFor="city">City</label>
-                                </div>
+                                {errors && (
+                                    <span className="error">{errors.address}</span>
+                                )}
                                 <input
                                     className="form-input"
                                     id="city"
@@ -108,9 +151,10 @@ export default function CreateSpot(){
                                     />
                             </div>
                             <div className="input-container__state">
-                                <div className="create-spot__label">
                                     <label htmlFor="state">State</label>
-                                </div>
+                                    {errors && (
+                                        <span className="error">{errors.address}</span>
+                                    )}
                                 <input
                                     className="form-input"
                                     id="state"
@@ -167,6 +211,9 @@ export default function CreateSpot(){
                                 onChange={(e) => setDescription(e.target.value)}
                                 />
                             </div>
+                                {errors && (
+                                    <span className="error">{errors.description}</span>
+                                )}
                     </div>
                     <div class="section">
                         <h3>Create a title for your spot</h3>
@@ -178,8 +225,11 @@ export default function CreateSpot(){
                         type="text"
                         placeholder="Name of your spot"
                         value={name}
-                        onChange={(e) => setName(e.targevalue)}
+                        onChange={(e) => setName(e.target.value)}
                         />
+                        {errors && (
+                            <span className="error">{errors.name}</span>
+                        )}
                     </div>
                     <div class="section">
                         <h3>Set a base price for your spot</h3>
@@ -193,9 +243,12 @@ export default function CreateSpot(){
                             type="text"
                             placeholder="Price per night (USD)"
                             value={price}
-                            onChange={(e) => setPrice(e.targevalue)}
+                            onChange={(e) => setPrice(e.target.value)}
                             />
                         </div>
+                        {errors && (
+                            <span className="error">{errors.price}</span>
+                        )}
                     </div>
                     <div class="section">
                         <h3>Liven up your spot with photos</h3>
@@ -207,44 +260,59 @@ export default function CreateSpot(){
                             type="text"
                             placeholder="Preview Image URL"
                             value={previewImage}
-                            onChange={(e) => setPreviewImage(e.targevalue)}
+                            onChange={(e) => setPreviewImage(e.target.value)}
                             />
+                            {errors && (
+                                <span className="error">{errors.previewImage}</span>
+                            )}
                             <input
                             className="form-input"
                             id="image1"
                             type="text"
                             placeholder="Image URL"
                             value={image1}
-                            onChange={(e) => setImage1(e.targevalue)}
+                            onChange={(e) => setImage1(e.target.value)}
                             />
+                            {errors && (
+                                <span className="error">{errors.image1}</span>
+                            )}
                             <input
                             className="form-input"
                             id="image2"
                             type="text"
                             placeholder="Image URL"
                             value={image2}
-                            onChange={(e) => setImage2(e.targevalue)}
+                            onChange={(e) => setImage2(e.target.value)}
                             />
+                            {errors && (
+                                <span className="error">{errors.image2}</span>
+                            )}
                             <input
                             className="form-input"
                             id="image3"
                             type="text"
                             placeholder="Image URL"
                             value={image3}
-                            onChange={(e) => setImage3(e.targevalue)}
+                            onChange={(e) => setImage3(e.target.value)}
                             />
+                            {errors && (
+                                <span className="error">{errors.image3}</span>
+                            )}
                             <input
                             className="form-input"
                             id="image4"
                             type="text"
                             placeholder="Image URL"
                             value={image4}
-                            onChange={(e) => setImage4(e.targevalue)}
+                            onChange={(e) => setImage4(e.target.value)}
                             />
+                            {errors && (
+                                <span className="error">{errors.image4}</span>
+                            )}
                     </div>
                     <button
                     type="submit"
-                    onSubmit={handleSubmit}
+                    onClick={handleSubmit}
                     >Create Spot</button>
 
                 </form>
