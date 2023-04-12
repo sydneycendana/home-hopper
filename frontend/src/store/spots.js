@@ -14,10 +14,13 @@ const getSpots = (spots) => {
     }
 }
 
-const editSpot = (spot) => {
+const editSpot = (spotId, spotData) => {
   return {
     type: EDIT_SPOT,
-    spot,
+    spot: {
+      id: spotId,
+      ...spotData
+    }
   };
 };
 
@@ -64,8 +67,8 @@ export const editSpotThunk = (spotId, updatedSpotData) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const spotData = response.json();
-    dispatch(editSpot(spotData));
+    const spotData = await response.json();
+    dispatch(editSpot(spotId, spotData));
     return spotData;
   }
 };
