@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
+import { getReviewsThunk } from "../../../store/reviews";
 import OpenModalButton from '../../OpenModalButton';
 import { createReviewsThunk } from "../../../store/reviews";
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
@@ -13,28 +14,47 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
     const spot = useSelector(state => state.spot.spotDetails);
-    const sessionUser = useSelector(state => state.session.id)
+    const sessionUser = useSelector(state => state.session.user)
+    const reviews = useSelector(state => state.review.allReviews)
+    const reviewsArray = reviews ? Object.values(reviews) : [];
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
-        useEffect(() => {
-        dispatch(getDetailsThunk(spotId))
+    useEffect(() => {
+        const fetchSpotDetails = async () => {
+            await Promise.all([
+                dispatch(getDetailsThunk(spotId)),
+                dispatch(getReviewsThunk(spotId))
+            ]);
+            setIsLoaded(true);
+        };
+
+        fetchSpotDetails();
     }, [dispatch, spotId]);
+
+    // useEffect(() => {
+    //     dispatch(getDetailsThunk(spotId))
+    // }, [dispatch, spotId]);
 
     // useEffect(() => {
     //     dispatch(getReviewsThunk(spotId))
     // }, [dispatch, spotId]);
 
-   let currentUserStatus;
-    if (sessionUser) {
-        if (sessionUser === spot.ownerId) {
-            currentUserStatus = 'owner';
-        } else {
-            currentUserStatus = 'user';
-        }
-    }
+    // useEffect(() => {
+    //     if (spot && sessionUser && reviews) {
+    //         setIsLoaded(true);
+    //     }
+    // }, [spot, sessionUser, reviews]);
+
+    const owner = (sessionUser.id === spot.ownerId)
+
+    const hasUserReviewed = reviewsArray.some((review) => {
+        return (review.userId === sessionUser.id);
+    });
 
     const createNewReview = async (e, review, stars) => {
     e.preventDefault();
@@ -50,12 +70,11 @@ export default function SpotDetails() {
       }
     )};
 
-    console.log()
-
-
     if (!spot) return null;
 
     return (
+        <>
+      {isLoaded && (
         <div className="spot-details__container">
             <section class="section">
                 <h1>{spot.name}</h1>
@@ -115,20 +134,24 @@ export default function SpotDetails() {
                         New
                     </div> )}
                 </div>
-                <div className="review-modal">
-                    <OpenModalButton
-                    className="addReview"
-                    buttonText="Post your Review"
-                    modalComponent={
-                        <CreateReview
-                        spotId={spotId}
-                        createNewReview={createNewReview}
+                {!hasUserReviewed && !owner && (
+                    <div className="review-modal">
+                        <OpenModalButton
+                            className="addReview"
+                            buttonText="Post your Review"
+                            modalComponent={
+                                <CreateReview
+                                    spotId={spotId}
+                                    createNewReview={createNewReview}
+                                />
+                            }
                         />
-                    }
-                    />
-                </div>
+                    </div>
+                )}
                 <SpotReviews/>
             </section>
         </div>
+        )}
+    </>
     )
 };

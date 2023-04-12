@@ -55,8 +55,8 @@ function ProfileButton({ user }) {
           <>
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
-            <li>Manage Spots</li>
-            <li onClick={handleManageSpots}>
+            <li onClick={handleManageSpots}>Manage Spots</li>
+            <li>
               <button className="profile-dropdown__logout" onClick={logout}>Log Out</button>
             </li>
           </>
