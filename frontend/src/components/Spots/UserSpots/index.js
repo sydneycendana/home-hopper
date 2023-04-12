@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getUserSpotsThunk } from "../../../store/spots"
+import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 // import './allSpots.css'
 
@@ -11,15 +12,21 @@ export default function CurrentUserSpots() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const spots = useSelector(state => state.spot.userSpots || {})
     const sessionUser = useSelector(state => state.session.user)
+    const spots = useSelector((state) => state.spot.allSpots)
     const spotsArray = Object.values(spots)
 
-    const [isLoading, setIsLoading] = useState(true);
+    const userSpots = spotsArray.filter((spot) => sessionUser.id === spot.ownerId)
+    // const [isLoading, setIsLoading] = useState(true);
 
-      useEffect(() => {
-        dispatch(getUserSpotsThunk(sessionUser.id)).then(() => setIsLoading(false));
-    }, [dispatch, sessionUser.id]);
+    //   useEffect(() => {
+    //     dispatch(getUserSpotsThunk(sessionUser.id)).then(() => setIsLoading(false));
+    // }, [dispatch, sessionUser.id]);
+
+
+    useEffect(() => {
+        dispatch(getSpotsThunk())
+    }, [dispatch]);
 
 
     const clickHandler = (e, spotId) => {
@@ -27,13 +34,13 @@ export default function CurrentUserSpots() {
         history.push(`/spots/${spotId}`)
     }
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    // if (isLoading) {
+    //     return <div>Loading...</div>;
+    // }
 
-    return (
+    return userSpots && (
         <div className="landing-spots__container">
-            {spotsArray.map((spot) => {
+            {userSpots.map((spot) => {
                 return (
                     <div
                         className="landing-spot"
