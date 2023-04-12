@@ -115,7 +115,6 @@ export const getDetailsThunk = (spotId) => async (dispatch) => {
 // };
 
 export const createSpotThunk = (newSpot, previewImage, images) => async (dispatch) => {
-  console.log(newSpot);
 
   const spotResponse = await csrfFetch(`/api/spots`, {
     method: "POST",

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useModal } from "../../../context/Modal";
 import createReviewsThunk from '../../../store/reviews'
 
-export default function CreateReview() {
+export default function CreateReview({spotId}) {
     const dispatch = useDispatch();
 
     const [review, setReview] = useState("");
@@ -15,19 +15,37 @@ export default function CreateReview() {
     //     dispatch(getSpotReviewsThunk(spotId));
     // }, [dispatch, spotId]);
 
-    const handleSubmit = async (e) => {
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setErrors([]);
+
+    //     return dispatch(createReviewsThunk(review, stars))
+    //     .then(closeModal)
+    //     .catch(async (res) => {
+    //         const data = await res.json();
+    //         if (data && data.message) setErrors([data.message]);
+    //     });
+
+
+    // }
+
+    const handleCreateReview = async (review, stars) => {
+        try {
+            const reviewData = { review, stars };
+            await dispatch(createReviewsThunk(reviewData, spotId));
+            closeModal();
+        } catch (error) {
+            const data = await error.json();
+            if (data && data.message) setErrors([data.message]);
+        }
+    }
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
-
-        return dispatch(createReviewsThunk({ review, stars }))
-        .then(closeModal)
-        .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.message) setErrors([data.message]);
-        });
-
-
+        handleCreateReview(review, stars);
     }
+
 
     return (
         <div className="create-review__container">

@@ -14,47 +14,35 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(true);
 
     const spot = useSelector(state => state.spot.spotDetails);
-    const sessionUser = useSelector(state => state.session.user)
-    const reviews = useSelector(state => state.review.allReviews)
+    const sessionUser = useSelector(state => state.session.user);
+    const reviews = useSelector(state => state.review.allReviews);
+
     const reviewsArray = reviews ? Object.values(reviews) : [];
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
+    //NEED TO BE ABLE TO RENDER COMPONENT WHEN NO REVIEWS EXIST
     useEffect(() => {
+
         const fetchSpotDetails = async () => {
             await Promise.all([
                 dispatch(getDetailsThunk(spotId)),
-                dispatch(getReviewsThunk(spotId))
+                dispatch(getReviewsThunk(spotId)),
             ]);
             setIsLoaded(true);
         };
-
         fetchSpotDetails();
     }, [dispatch, spotId]);
 
-    // useEffect(() => {
-    //     dispatch(getDetailsThunk(spotId))
-    // }, [dispatch, spotId]);
+    // const owner = isLoaded && sessionUser.id === spot.ownerId;
 
-    // useEffect(() => {
-    //     dispatch(getReviewsThunk(spotId))
-    // }, [dispatch, spotId]);
-
-    // useEffect(() => {
-    //     if (spot && sessionUser && reviews) {
-    //         setIsLoaded(true);
-    //     }
-    // }, [spot, sessionUser, reviews]);
-
-    const owner = (sessionUser.id === spot.ownerId)
-
-    const hasUserReviewed = reviewsArray.some((review) => {
-        return (review.userId === sessionUser.id);
-    });
+    // const hasUserReviewed = !isLoaded && reviewsArray.some((review) => {
+    //     return (review.userId === sessionUser.id);
+    // });
 
     const createNewReview = async (e, review, stars) => {
     e.preventDefault();
@@ -71,10 +59,10 @@ export default function SpotDetails() {
     )};
 
     if (!spot) return null;
+    if (!isLoaded) return null;
+
 
     return (
-        <>
-      {isLoaded && (
         <div className="spot-details__container">
             <section class="section">
                 <h1>{spot.name}</h1>
@@ -83,7 +71,7 @@ export default function SpotDetails() {
                     <div className="large-images__container">
                         <img
                         className="large-image"
-                        src={previewImage.url}
+                        src={previewImage && previewImage.url ? previewImage.url : "https://a0.muscache.com/im/pictures/prohost-api/Hosting-549139249395273435/original/ed7f1dbc-e834-478e-974d-0bea94926f0b.jpeg"}
                         alt={`${spot.name}`}/>
                     </div>
                     <div className="small-images__container">
@@ -134,7 +122,6 @@ export default function SpotDetails() {
                         New
                     </div> )}
                 </div>
-                {!hasUserReviewed && !owner && (
                     <div className="review-modal">
                         <OpenModalButton
                             className="addReview"
@@ -147,11 +134,8 @@ export default function SpotDetails() {
                             }
                         />
                     </div>
-                )}
-                <SpotReviews/>
+                <SpotReviews reviews={reviewsArray}/>
             </section>
         </div>
-        )}
-    </>
     )
 };
