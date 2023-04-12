@@ -6,18 +6,19 @@ import Navigation from "./components/Navigation";
 import AllSpots from './components/Spots/AllSpots';
 import SpotDetails from './components/Spots/SpotDetails';
 import CreateSpot from './components/Spots/CreateSpot';
+import CurrentUserSpots from './components/Spots/UserSpots';
 
 function App() {
 
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
-useEffect(() => {
-dispatch(sessionActions.restoreUser())
-setIsLoaded(true)
-},[dispatch])
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser())
+    setIsLoaded(true)
+  },[dispatch])
 
-return (
+  return (
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch>
@@ -26,7 +27,10 @@ return (
         </Route>
         <Route path="/spots/new">
             <CreateSpot />
-          </Route>
+        </Route>
+        <Route exact path='/spots/current'>
+          <CurrentUserSpots />
+        </Route>
         <Route exact path={'/spots/:spotId'}>
           <SpotDetails/>
         </Route>

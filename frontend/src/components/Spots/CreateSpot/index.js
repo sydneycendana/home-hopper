@@ -65,7 +65,12 @@ export default function CreateSpot(){
         const parsedPrice = parseFloat(price)
 
         if(Object.keys(errors).length > 0) return;
-        console.log(errors)
+
+
+        const images = [image1, image2, image3, image4].filter(Boolean).map((url) => ({
+            url,
+            preview: false,
+        }));
 
         const createdSpot = await dispatch(
         createSpotThunk(
@@ -83,7 +88,8 @@ export default function CreateSpot(){
           {
             url: previewImage,
             preview: true,
-          }
+          },
+            images
         )
       )
 

@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots";
+import { getReviewsThunk } from "../../../store/reviews";
 import OpenModalButton from '../../OpenModalButton';
 import { createReviewsThunk } from "../../../store/reviews";
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
@@ -13,28 +14,35 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
+    const [isLoaded, setIsLoaded] = useState(true);
+
     const spot = useSelector(state => state.spot.spotDetails);
-    const sessionUser = useSelector(state => state.session.id)
+    const sessionUser = useSelector(state => state.session.user);
+    const reviews = useSelector(state => state.review.allReviews);
+
+    const reviewsArray = reviews ? Object.values(reviews) : [];
 
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
-        useEffect(() => {
-        dispatch(getDetailsThunk(spotId))
+    //NEED TO BE ABLE TO RENDER COMPONENT WHEN NO REVIEWS EXIST
+    useEffect(() => {
+
+        const fetchSpotDetails = async () => {
+            await Promise.all([
+                dispatch(getDetailsThunk(spotId)),
+                dispatch(getReviewsThunk(spotId)),
+            ]);
+            setIsLoaded(true);
+        };
+        fetchSpotDetails();
     }, [dispatch, spotId]);
 
-    // useEffect(() => {
-    //     dispatch(getReviewsThunk(spotId))
-    // }, [dispatch, spotId]);
+    // const owner = isLoaded && sessionUser.id === spot.ownerId;
 
-   let currentUserStatus;
-    if (sessionUser) {
-        if (sessionUser === spot.ownerId) {
-            currentUserStatus = 'owner';
-        } else {
-            currentUserStatus = 'user';
-        }
-    }
+    // const hasUserReviewed = !isLoaded && reviewsArray.some((review) => {
+    //     return (review.userId === sessionUser.id);
+    // });
 
     const createNewReview = async (e, review, stars) => {
     e.preventDefault();
@@ -50,8 +58,9 @@ export default function SpotDetails() {
       }
     )};
 
-
     if (!spot) return null;
+    if (!isLoaded) return null;
+
 
     return (
         <div className="spot-details__container">
@@ -62,7 +71,7 @@ export default function SpotDetails() {
                     <div className="large-images__container">
                         <img
                         className="large-image"
-                        src={previewImage.url}
+                        src={previewImage && previewImage.url ? previewImage.url : "https://a0.muscache.com/im/pictures/prohost-api/Hosting-549139249395273435/original/ed7f1dbc-e834-478e-974d-0bea94926f0b.jpeg"}
                         alt={`${spot.name}`}/>
                     </div>
                     <div className="small-images__container">
@@ -113,19 +122,19 @@ export default function SpotDetails() {
                         New
                     </div> )}
                 </div>
-                <div className="review-modal">
-                    <OpenModalButton
-                    className="addReview"
-                    buttonText="Post your Review"
-                    modalComponent={
-                        <CreateReview
-                        spotId={spotId}
-                        createNewReview={createNewReview}
+                    <div className="review-modal">
+                        <OpenModalButton
+                            className="addReview"
+                            buttonText="Post your Review"
+                            modalComponent={
+                                <CreateReview
+                                    spotId={spotId}
+                                    createNewReview={createNewReview}
+                                />
+                            }
                         />
-                    }
-                    />
-                </div>
-                <SpotReviews/>
+                    </div>
+                <SpotReviews reviews={reviewsArray}/>
             </section>
         </div>
     )
