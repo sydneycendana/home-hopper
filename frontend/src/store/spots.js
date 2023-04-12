@@ -1,16 +1,25 @@
 import { csrfFetch } from './csrf';
+import { useSelector } from 'react-redux';
 
 const GET_SPOTS = 'spots/getSpots'
+const EDIT_SPOT = "spots/editSpot";
 const GET_SPOT_DETAILS = 'spots/getSpotDetails'
 const CREATE_SPOT = 'spots/createSpot'
 const GET_USER_SPOTS = 'spots/getUserSpots'
 
-const getSpots = (spots) => {
+const getSpots = (data) => {
     return {
         type: GET_SPOTS,
-        spots
+        data
     }
 }
+
+const editSpot = (spot) => {
+  return {
+    type: EDIT_SPOT,
+    spot,
+  };
+};
 
 const getSpotDetails = (spot) => {
     return {
@@ -44,6 +53,21 @@ export const getSpotsThunk = () => async (dispatch) => {
         dispatch(getSpots(data));
         return data;
     }
+};
+
+//***** EDIT SPOT *****
+export const editSpotThunk = (spotId, updatedSpotData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedSpotData),
+  });
+
+  if (response.ok) {
+    const spotData = response.json();
+    dispatch(editSpot(spotData));
+    return spotData;
+  }
 };
 
 //***** GET SPOTS DETAILS *****
@@ -93,6 +117,8 @@ export const getUserSpotsThunk = () => async (dispatch) => {
 
   const response = await csrfFetch(`/api/spots/current`);
 
+  console.log("Response:", response);
+
   if (response.ok) {
     const data = await response.json();
     dispatch(getUserSpots(data));
@@ -115,17 +141,22 @@ const spotReducer = (state = initialState, action) => {
             getAllSpots.forEach((spot) => (allSpots[spot.id] = spot));
             newState["allSpots"] = {...allSpots};
             return newState;
+        case EDIT_SPOT:
+            const updatedSpot = action.spot;
+            newState["allSpots"][updatedSpot.id] = updatedSpot;
+            return newState;
         case GET_SPOT_DETAILS:
             newState["spotDetails"] = action.spot;
             return newState;
         case CREATE_SPOT:
             const createSpot = action.newSpot;
             return createSpot;
-        case GET_USER_SPOTS:
-            const userSpots = {};
-            action.spots.Spots.forEach((spot) => (userSpots[spot.id] = spot));
-            newState["userSpots"] = userSpots;
-            return newState;
+        // case GET_USER_SPOTS:
+        //     const userSpots = {};
+        //     action.spots.Spots.forEach((spot) => (userSpots[spot.id] = spot));
+        //     newState["userSpots"] = userSpots;
+        //     return newState;
+
         default:
             return state;
     }
