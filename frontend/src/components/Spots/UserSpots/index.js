@@ -13,7 +13,9 @@ export default function CurrentUserSpots() {
     const history = useHistory();
 
     const sessionUser = useSelector(state => state.session.user)
-    const spots = useSelector((state) => state.spot.allSpots)
+
+    // adding an empty object if state is null or undefined ???
+    const spots = useSelector((state) => state.spot.allSpots);
     const spotsArray = Object.values(spots)
 
     const userSpots = spotsArray.filter((spot) => sessionUser.id === spot.ownerId)
@@ -39,6 +41,11 @@ export default function CurrentUserSpots() {
     // }
 
     return userSpots && (
+        <>
+        <div className="manage-spots__header">
+        <h1>Manage Your Spots</h1>
+        <button>Create a New Spot</button>
+        </div>
         <div className="landing-spots__container">
             {userSpots.map((spot) => {
                 return (
@@ -72,5 +79,6 @@ export default function CurrentUserSpots() {
                 )
             })}
         </div>
+        </>
     )
 }
