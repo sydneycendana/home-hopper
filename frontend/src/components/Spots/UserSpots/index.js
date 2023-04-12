@@ -12,11 +12,13 @@ export default function CurrentUserSpots() {
     const history = useHistory();
 
     const spots = useSelector((state) => state.spot.userSpots)
+    const sessionUser = useSelector(state => state.session.user)
+    console.log(sessionUser)
     console.log(spots)
     const spotsArray = Object.values(spots)
 
     useEffect(() => {
-        dispatch(getUserSpotsThunk())
+        dispatch(getUserSpotsThunk(sessionUser.id))
     }, [dispatch]);
 
     const clickHandler = (e, spotId) => {
