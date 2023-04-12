@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { getUserSpotsThunk } from "../../../store/spots"
 import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
+import { NavLink } from "react-router-dom";
 // import './allSpots.css'
 
 
@@ -44,7 +45,9 @@ export default function CurrentUserSpots() {
         <>
         <div className="manage-spots__header">
         <h1>Manage Your Spots</h1>
-        <button>Create a New Spot</button>
+        <button><NavLink exact to="/spots/new">
+                Create a New Spot
+              </NavLink></button>
         </div>
         <div className="landing-spots__container">
             {userSpots.map((spot) => {
@@ -74,6 +77,10 @@ export default function CurrentUserSpots() {
                                 <span className="amount"> ${spot.price}</span>night
                             </div>
 
+                        </div>
+                        <div className="manage-spots__buttons">
+                            <button>Update</button>
+                            <button>Delete</button>
                         </div>
                     </div>
                 )
