@@ -11,29 +11,25 @@ export default function CurrentUserSpots() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const spots = useSelector(state => state.spot.userSpots)
+    const spots = useSelector(state => state.spot.userSpots || {})
     const sessionUser = useSelector(state => state.session.user)
     const spotsArray = Object.values(spots)
 
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    // useEffect(() => {
-    //     dispatch(getUserSpotsThunk(sessionUser.id))
-    // }, [dispatch]);
+    const [isLoading, setIsLoading] = useState(true);
 
       useEffect(() => {
-        dispatch(getUserSpotsThunk(sessionUser.id)).then(() => setIsLoaded(true));
-    }, [dispatch]);
+        dispatch(getUserSpotsThunk(sessionUser.id)).then(() => setIsLoading(false));
+    }, [dispatch, sessionUser.id]);
+
 
     const clickHandler = (e, spotId) => {
         e.preventDefault();
         history.push(`/spots/${spotId}`)
     }
 
-    // if(!spots) return null;
-    // const listedSpots = Object.values(spots);
-
-    if (!isLoaded) return <div>Loading...</div>;
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="landing-spots__container">
