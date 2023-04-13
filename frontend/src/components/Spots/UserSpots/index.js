@@ -4,7 +4,9 @@ import { useHistory } from "react-router-dom";
 import { getDetailsThunk } from "../../../store/spots"
 import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
-import { NavLink } from "react-router-dom";
+import DeleteSpot from "../DeleteSpot";
+import { Link, NavLink } from "react-router-dom";
+import OpenModalButton from "../../OpenModalButton";
 // import './allSpots.css'
 
 
@@ -45,7 +47,6 @@ export default function CurrentUserSpots() {
     e.preventDefault();
     await dispatch(getDetailsThunk(spotId)).then(() => history.push(`/spots/${spotId}/edit`))
 }
-
     // if (isLoading) {
     //     return <div>Loading...</div>;
     // }
@@ -55,9 +56,9 @@ export default function CurrentUserSpots() {
         <div className="manage-spots__header">
         <h1>Manage Your Spots</h1>
         <button>
-            <NavLink exact to="/spots/new">
+            <Link exact to="/spots/new">
                 Create a New Spot
-            </NavLink>
+            </Link>
         </button>
         </div>
         <div className="landing-spots__container">
@@ -98,7 +99,12 @@ export default function CurrentUserSpots() {
                                     Update
                                 {/* </NavLink> */}
                             </button>
-                            <button>Delete</button>
+                                <Link exact="true" to={`/spots/${spot.id}`} className="update">
+                                    <OpenModalButton
+                                        itemText="Delete"
+                                        modalComponent={<DeleteSpot spot={spot} />}
+                                    />
+                                </Link>
                         </div>
                     </div>
                 )

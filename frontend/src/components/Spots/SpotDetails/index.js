@@ -65,7 +65,7 @@ export default function SpotDetails() {
 
     return (
         <div className="spot-details__container">
-            <section class="section">
+            <section className="section">
                 <h1>{spot.name}</h1>
                 <p>{spot.city}, {spot.state}, {spot.country}</p>
                 <div className="spot-images__container">

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 const GET_SPOTS = 'spots/getSpots'
 const EDIT_SPOT = "spots/editSpot";
+const DELETE_SPOT = 'spots/deleteSpot'
 const GET_SPOT_DETAILS = 'spots/getSpotDetails'
 const CREATE_SPOT = 'spots/createSpot'
 const GET_USER_SPOTS = 'spots/getUserSpots'
@@ -23,6 +24,13 @@ const editSpot = (spotId, spotData) => {
     }
   };
 };
+
+const deleteSpot = (spotId) => {
+    return {
+        type: DELETE_SPOT,
+        spotId
+    }
+}
 
 const getSpotDetails = (spot) => {
     return {
@@ -73,6 +81,17 @@ export const editSpotThunk = (spotId, updatedSpotData) => async (dispatch) => {
   }
 };
 
+//***** DELETE SPOT *****
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(deleteSpot(spotId));
+  }
+};
+
 //***** GET SPOTS DETAILS *****
 export const getDetailsThunk = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`)
@@ -83,39 +102,6 @@ export const getDetailsThunk = (spotId) => async (dispatch) => {
         return data;
     }
 };
-
-//***** CREATE SPOT *****
-// export const createSpotThunk = (newSpot, previewImage, images) => async (dispatch) => {
-//     console.log(newSpot)
-//     const spotResponse = await csrfFetch(`/api/spots`, {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(newSpot)
-//     });
-
-//     if (spotResponse.ok) {
-//         const spotData = await spotResponse.json();
-//         console.log(spotData.id);
-
-//         const imageResponse = await csrfFetch(
-//         `/api/spots/${spotData.id}/images`, {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({
-//                 url: previewImage.url,
-//                 preview: true,
-//             }),
-//         });
-
-//         if(imageResponse.ok){
-//             const imageData = await imageResponse.json();
-//             spotData.previewImage = imageData.url;
-
-//             dispatch(createSpot(spotData));
-//             return spotData;
-//         }
-//     }
-// };
 
 export const createSpotThunk = (newSpot, previewImage, images) => async (dispatch) => {
 
@@ -197,14 +183,21 @@ const spotReducer = (state = initialState, action) => {
             getAllSpots.forEach((spot) => (allSpots[spot.id] = spot));
             newState["allSpots"] = {...allSpots};
             return newState;
-        // case EDIT_SPOT:
-        //     const updatedSpot = action.spot;
-        //     newState["allSpots"][updatedSpot.id] = updatedSpot;
-        //     return newState;
         case EDIT_SPOT:
             const updatedSpot = action.spot;
             const updatedAllSpots = {...state.allSpots, [updatedSpot.id]: updatedSpot};
             return {...state, allSpots: updatedAllSpots};
+        case DELETE_SPOT:
+            // const deletedSpot = action.spotId;
+            // delete newState.allSpots[deletedSpot];
+            // return newState;
+            const deletedSpot = action.spotId;
+            const updatedSpots = Object.assign({}, newState.allSpots);
+            delete updatedSpots[deletedSpot];
+            return {
+              ...newState,
+              allSpots: updatedSpots
+            }
         case GET_SPOT_DETAILS:
             newState["spotDetails"] = action.spot;
             return newState;
