@@ -7,6 +7,7 @@ import AllSpots from './components/Spots/AllSpots';
 import SpotDetails from './components/Spots/SpotDetails';
 import CreateSpot from './components/Spots/CreateSpot';
 import CurrentUserSpots from './components/Spots/UserSpots';
+import EditSpot from './components/Spots/EditSpot';
 
 function App() {
 
@@ -14,8 +15,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser())
-    setIsLoaded(true)
+    (async () => await dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true)))()
   },[dispatch])
 
   return (
@@ -33,6 +33,9 @@ function App() {
         </Route>
         <Route exact path={'/spots/:spotId'}>
           <SpotDetails/>
+        </Route>
+        <Route exact path={'/spots/:spotId/edit'}>
+          <EditSpot/>
         </Route>
       </Switch>
       }

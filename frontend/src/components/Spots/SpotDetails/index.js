@@ -27,7 +27,6 @@ export default function SpotDetails() {
 
     //NEED TO BE ABLE TO RENDER COMPONENT WHEN NO REVIEWS EXIST
     useEffect(() => {
-
         const fetchSpotDetails = async () => {
             await Promise.all([
                 dispatch(getDetailsThunk(spotId)),
@@ -59,12 +58,14 @@ export default function SpotDetails() {
     )};
 
     if (!spot) return null;
-    if (!isLoaded) return null;
+      if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
 
 
     return (
         <div className="spot-details__container">
-            <section class="section">
+            <section className="section">
                 <h1>{spot.name}</h1>
                 <p>{spot.city}, {spot.state}, {spot.country}</p>
                 <div className="spot-images__container">
