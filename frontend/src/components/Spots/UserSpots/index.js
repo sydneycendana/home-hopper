@@ -99,12 +99,10 @@ export default function CurrentUserSpots() {
                                     Update
                                 {/* </NavLink> */}
                             </button>
-                                <Link exact="true" to={`/spots/${spot.id}`} className="update">
                                     <OpenModalButton
                                         itemText="Delete"
                                         modalComponent={<DeleteSpot spot={spot} />}
                                     />
-                                </Link>
                         </div>
                     </div>
                 )

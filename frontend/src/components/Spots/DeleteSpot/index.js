@@ -2,9 +2,11 @@ import { useDispatch } from "react-redux"
 import { useState, useEffect } from "react";
 import { useModal } from "../../../context/Modal";
 import {deleteSpotThunk} from '../../../store/spots'
+import { useHistory } from "react-router-dom";
 
 export default function DeleteSpot({spot}) {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const spotId = spot.id
 
@@ -18,6 +20,7 @@ export default function DeleteSpot({spot}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         handleDeleteSpot(spotId);
+        history.push('/spots/current')
     }
 
 
