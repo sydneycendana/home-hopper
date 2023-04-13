@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from "../../context/Modal";
@@ -8,8 +8,10 @@ function LoginFormModal() {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
+
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,7 +20,11 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.message) setErrors([data.message]);
+        if (data && data.message) {
+          setErrors(["The provided credentials were invalid."])
+          setCredential('')
+          setPassword('')
+      };
       });
   };
 
@@ -36,6 +42,10 @@ function LoginFormModal() {
         if (data && data.errors) setErrors(data.errors);
       });
   };
+
+    const isSubmitDisabled = () => {
+    return credential.length < 4 || password.length < 6;
+  }
 
   return (
 
@@ -61,7 +71,7 @@ function LoginFormModal() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-            <button type="submit" className="submit-form__button">Log In</button>
+            <button type="submit" className="submit-form__button" disabled={isSubmitDisabled()}>Log In</button>
             <button onClick={demoUser} type="submit" className="demoLogin">Demo User</button>
       </form>
     </>
