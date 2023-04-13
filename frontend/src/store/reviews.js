@@ -11,10 +11,11 @@ const getReviews = (reviews) => {
     }
 }
 
-const createReview = (review) => {
+const createReview = (review, spotId) => {
   return {
     type: CREATE_REVIEW,
     review,
+    spotId
   };
 };
 
@@ -28,13 +29,12 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
         const data = await response.json();
         dispatch(getReviews(data));
         return data;
-    } else {
-    return {};
-  }
+    }
 };
 
 //***** CREATE REVIEW *****
 export const createReviewsThunk = (review, spotId) => async (dispatch) => {
+
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: "POST",
     body: JSON.stringify(review),
@@ -63,7 +63,8 @@ const reviewReducer = (state = initialState, action) => {
             return newState;
         case CREATE_REVIEW:
             const createdReview = action.review;
-            return createdReview;
+            newState.allReviews[createdReview.id] = createdReview;
+            return {...newState};
         default:
             return state;
     }

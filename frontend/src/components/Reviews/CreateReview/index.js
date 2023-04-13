@@ -1,7 +1,9 @@
 import { useDispatch } from "react-redux"
 import { useState, useEffect } from "react";
 import { useModal } from "../../../context/Modal";
-import createReviewsThunk from '../../../store/reviews'
+import {createReviewsThunk, getReviewsThunk} from '../../../store/reviews'
+import {getDetailsThunk} from '../../../store/spots'
+
 
 export default function CreateReview({spotId}) {
     const dispatch = useDispatch();
@@ -30,19 +32,15 @@ export default function CreateReview({spotId}) {
     // }
 
     const handleCreateReview = async (review, stars) => {
-        try {
-            const reviewData = { review, stars };
-            await dispatch(createReviewsThunk(reviewData, spotId));
-            closeModal();
-        } catch (error) {
-            const data = await error.json();
-            if (data && data.message) setErrors([data.message]);
-        }
+        const reviewData = { review, stars };
+        await dispatch(createReviewsThunk(reviewData, spotId));
+        await dispatch(getReviewsThunk(spotId))
+        await dispatch(getDetailsThunk(spotId))
+        closeModal();
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setErrors([]);
         handleCreateReview(review, stars);
     }
 

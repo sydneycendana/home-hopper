@@ -671,6 +671,7 @@ router.post(
   async (req, res, next) => {
     const { review, stars } = req.body;
     const spotId = req.params.spotId;
+    console.log("hi")
 
     const spot = await Spot.findOne({ where: { id: spotId } });
 
