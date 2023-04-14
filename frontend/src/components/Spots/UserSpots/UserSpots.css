@@ -1,0 +1,15 @@
+.max-width__container {
+    max-width: 1024px;
+}
+
+.modal-button__delete-spot {
+    border: none;
+}
+
+.manage-spots__buttons {
+    margin-top: 10px;
+}
+
+.manage-spots__buttons>button {
+    margin-right: 10px;
+}

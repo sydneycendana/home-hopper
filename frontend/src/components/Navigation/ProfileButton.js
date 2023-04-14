@@ -6,7 +6,8 @@ import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { useHistory } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { getSpotsThunk } from "../../store/spots";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
+    history.push("/")
     dispatch(sessionActions.logout());
   };
 

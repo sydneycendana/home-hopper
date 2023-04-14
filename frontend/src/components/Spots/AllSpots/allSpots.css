@@ -4,10 +4,12 @@
     flex-wrap: wrap;
     gap: 1rem;
     padding: 0 20px;
+    max-width: 1600px;
+    margin-inline: auto;
 }
 
 .landing-spot {
-    position: relative;
+    /* position: relative; */
     cursor: pointer;
 }
 

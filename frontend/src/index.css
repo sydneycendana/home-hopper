@@ -19,9 +19,9 @@ body {
   height: 100%;
 }
 
-.width-60 {
+/* .width-60 {
   width: 60%;
-}
+} */
 
 .centered {
   font-size: 28px;
@@ -114,10 +114,9 @@ form {
   cursor: pointer;
 }
 
-button[type="submit"] {
-  width: 300px;
-  align-self: center;
-  margin: 10px 0;
+.submit-form__button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
 }
 
 /* .demoLogin {
