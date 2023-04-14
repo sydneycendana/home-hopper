@@ -26,6 +26,7 @@ export default function AllSpots() {
     const listedSpots = Object.values(spots);
 
     return (
+        <div className="page-container">
         <div className="landing-spots__container">
             {listedSpots.map((spot) => {
                 return (
@@ -58,6 +59,7 @@ export default function AllSpots() {
                     </div>
                 )
             })}
+        </div>
         </div>
     )
 }
