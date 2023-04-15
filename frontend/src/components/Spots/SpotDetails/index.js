@@ -14,14 +14,16 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
-    const [isLoaded, setIsLoaded] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const spot = useSelector(state => state.spot.spotDetails);
+
+    console.log(spot)
+
     const sessionUser = useSelector(state => state.session.user);
     const reviews = useSelector(state => state.review.allReviews);
 
     const reviewsArray = reviews ? Object.values(reviews) : [];
- console.log(reviewsArray)
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
@@ -37,11 +39,14 @@ export default function SpotDetails() {
         fetchSpotDetails();
     }, [dispatch, spotId]);
 
-    // const owner = isLoaded && sessionUser.id === spot.ownerId;
+    const owner = isLoaded && sessionUser?.id === spot.ownerId;
 
-    // const hasUserReviewed = !isLoaded && reviewsArray.some((review) => {
-    //     return (review.userId === sessionUser.id);
-    // });
+    const hasUserReviewed = isLoaded && sessionUser?.id && reviewsArray.some((review) => {
+        return (review.userId === sessionUser.id);
+    });
+
+
+    const canPostReview = !hasUserReviewed && !owner
 
     const createNewReview = async (e, review, stars) => {
     e.preventDefault();
@@ -125,7 +130,7 @@ export default function SpotDetails() {
                     </div> )}
                 </div>
                     <div className="review-modal">
-                        <OpenModalButton
+                        {canPostReview && <OpenModalButton
                             className="addReview"
                             buttonText="Post your Review"
                             modalComponent={
@@ -135,6 +140,7 @@ export default function SpotDetails() {
                                 />
                             }
                         />
+                        }
                     </div>
                 <SpotReviews reviews={reviewsArray}/>
             </section>

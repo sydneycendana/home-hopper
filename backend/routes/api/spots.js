@@ -303,6 +303,8 @@ router.get("/current", requireAuth, async (req, res) => {
 
 //******************** GET DETAILS FOR SPOT BY SPOTID ********************
 router.get("/:spotId", async (req, res) => {
+
+  console.log("hello")
   const spot = await Spot.findByPk(req.params.spotId, {
     attributes: [
       "id",
@@ -643,6 +645,7 @@ router.get("/:spotId/reviews", async (req, res) => {
     group: ["Review.id", "User.id", "ReviewImages.id"],
   });
 
+
   const allReviews = reviews.map((review) => ({
     id: review.id,
     userId: review.userId,
@@ -654,6 +657,22 @@ router.get("/:spotId/reviews", async (req, res) => {
     User: review.User,
     ReviewImages: review.ReviewImages,
   }));
+
+  //JUST ADDED
+  if (allReviews.length === 0) {
+    return res.status(404).json({
+      message: "No reviews were found for this spot.",
+      statusCode: 404,
+    });
+  }
+
+  // if(!reviews){
+  //       return res.status(404).json({
+  //     message: "No reviews were found for this spot.",
+  //     statusCode: 404,
+  //   });
+  // }
+
   if (allReviews.length > 0)
     return res.status(200).json({ Reviews: allReviews });
 
