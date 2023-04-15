@@ -11,6 +11,8 @@ export default function SpotReviews() {
     const reviews = useSelector(state => state.review.allReviews);
     const spot = useSelector(state => state.spot.spotDetails)
 
+    console.log(reviews)
+
 
 
 
@@ -31,16 +33,28 @@ export default function SpotReviews() {
 
     if(!reviews) return null;
 
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
     return (
         <div>
             <div className="all-reviews__container">
-                {Object.values(reviews).map((review) => {
+                {reviews.length > 0 ? (
+                Object.values(reviews).reverse().map((review) => {
+                    const date = new Date(review.createdAt);
+                    const monthName = monthNames[date.getMonth()];
+                    const year = date.getFullYear();
                     return (
                         <div className="review" key={review.id}>
-                            <h6>{review.userId}</h6>
+                            <h5>{review.User.firstName}</h5>
+                            <h6>{`${monthName} ${year}`}</h6>
+                            <p>{review.review}</p>
                         </div>
                     )
-                })}
+                })
+            ) : (
+                <p>Be the first to post a review!</p>
+            )}
             </div>
         </div>
     );

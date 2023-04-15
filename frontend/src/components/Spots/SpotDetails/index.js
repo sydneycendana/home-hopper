@@ -21,7 +21,7 @@ export default function SpotDetails() {
     const reviews = useSelector(state => state.review.allReviews);
 
     const reviewsArray = reviews ? Object.values(reviews) : [];
-
+ console.log(reviewsArray)
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
@@ -58,9 +58,10 @@ export default function SpotDetails() {
     )};
 
     if (!spot) return null;
-      if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
+
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+    }
 
 
     return (

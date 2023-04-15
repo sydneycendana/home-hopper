@@ -30,6 +30,7 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
         dispatch(getReviews(data));
         return data;
     }
+    return;
 };
 
 //***** CREATE REVIEW *****
