@@ -5,7 +5,7 @@ import { getDetailsThunk } from "../../../store/spots"
 import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 import DeleteSpot from "../DeleteSpot";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import OpenModalButton from "../../OpenModalButton";
 import './UserSpots.css'
 
@@ -81,9 +81,7 @@ export default function CurrentUserSpots() {
 
                             <div className="manage-spots__buttons">
                                 <button onClick={(e) => clickEditSpot(e, spot.id)}>
-                                    {/* <NavLink exact to={`/spots/${spot.id}/edit`}> */}
                                         Update
-                                    {/* </NavLink> */}
                                 </button>
                                 <button>
                                         <OpenModalButton

@@ -29,7 +29,7 @@ export default function DeleteSpot({spot}) {
             <h1 className="centered">Confirm Delete</h1>
             <p>Are you sure you want to remove this spot from your listings?</p>
             <button onClick={handleSubmit}>Yes (Delete Spot)</button>
-            <button>No (KeepSpot)</button>
+            <button onClick={closeModal}>No (KeepSpot)</button>
 
         </div>
   );
