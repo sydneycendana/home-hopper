@@ -47,6 +47,9 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
     }
 };
 
+
+
+
 //***** CREATE REVIEW *****
 export const createReviewsThunk = (review, spotId) => async (dispatch) => {
 

@@ -15,13 +15,14 @@ export default function SpotDetails() {
     const {spotId} = useParams();
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const [reviewsLoaded, setReviewsLoaded] = useState(false);
 
     const spot = useSelector(state => state.spot.spotDetails);
 
-    console.log(spot)
-
     const sessionUser = useSelector(state => state.session.user);
-    const reviews = useSelector(state => state.review.allReviews);
+    const reviews = useSelector(state => state.review.allReviews) || {};
+
+    console.log(reviews)
 
     const reviewsArray = reviews ? Object.values(reviews) : [];
     const previewImage = spot?.SpotImages?.find(image => image.preview);
@@ -35,6 +36,7 @@ export default function SpotDetails() {
                 dispatch(getReviewsThunk(spotId)),
             ]);
             setIsLoaded(true);
+            setReviewsLoaded(true);
         };
         fetchSpotDetails();
     }, [dispatch, spotId]);
@@ -142,7 +144,7 @@ export default function SpotDetails() {
                         />
                         }
                     </div>
-                <SpotReviews reviews={reviewsArray}/>
+                {reviewsLoaded && <SpotReviews reviews={reviewsArray} />}
             </section>
         </div>
     )
