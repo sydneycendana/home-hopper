@@ -107,3 +107,7 @@
 .modal-button__login-signup:hover {
   transform: scale(1.1);
 }
+
+.modal-button__login-signup:active {
+  transform: scale(1);
+}

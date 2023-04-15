@@ -4,17 +4,19 @@ import { useParams } from "react-router-dom";
 import OpenModalButton from "../../OpenModalButton";
 import DeleteReview from "../DeleteReview";
 import { getReviewsThunk } from "../../../store/reviews";
+import './SpotReviews.css'
 
-export default function SpotReviews({reviews}) {
+export default function SpotReviews() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spot.spotDetails)
+    const reviews = useSelector(state => state.review.allReviews);
 
-        useEffect(() => {
-        dispatch(getReviewsThunk(spotId));
-    }, [dispatch, spotId]);
+    //     useEffect(() => {
+    //     dispatch(getReviewsThunk(spotId));
+    // }, [dispatch, spotId]);
 
 
 

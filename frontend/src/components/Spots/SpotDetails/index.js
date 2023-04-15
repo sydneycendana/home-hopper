@@ -20,7 +20,7 @@ export default function SpotDetails() {
     const spot = useSelector(state => state.spot.spotDetails);
 
     const sessionUser = useSelector(state => state.session.user);
-    const reviews = useSelector(state => state.review.allReviews) || {};
+    const reviews = useSelector(state => state.review.allReviews);
 
 
     const reviewsArray = reviews ? Object.values(reviews) : [];
@@ -111,7 +111,7 @@ export default function SpotDetails() {
                                         </div> )}
                             </div>
                         </div>
-                        <button className="reserve-button" onClick={() => alert('Feature coming soon!')}>Reserve</button>
+                        <button className="submit-form__button" onClick={() => alert('Feature coming soon!')}>Reserve</button>
                     </div>
                 </div>
             </section>
@@ -143,7 +143,7 @@ export default function SpotDetails() {
                         />
                         }
                     </div>
-                {reviewsLoaded && <SpotReviews reviews={reviewsArray} />}
+                {reviewsLoaded && <SpotReviews/>}
             </section>
         </div>
     )
