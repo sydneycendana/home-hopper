@@ -22,7 +22,6 @@ export default function SpotDetails() {
     const sessionUser = useSelector(state => state.session.user);
     const reviews = useSelector(state => state.review.allReviews) || {};
 
-    console.log(reviews)
 
     const reviewsArray = reviews ? Object.values(reviews) : [];
     const previewImage = spot?.SpotImages?.find(image => image.preview);
@@ -112,7 +111,7 @@ export default function SpotDetails() {
                                         </div> )}
                             </div>
                         </div>
-                        <button className="reserve-button">Reserve</button>
+                        <button className="reserve-button" onClick={() => alert('Feature coming soon!')}>Reserve</button>
                     </div>
                 </div>
             </section>

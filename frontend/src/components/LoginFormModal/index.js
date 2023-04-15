@@ -72,7 +72,7 @@ function LoginFormModal() {
                 required
               />
             <button type="submit" className="submit-form__button" disabled={isSubmitDisabled()}>Log In</button>
-            <button onClick={demoUser} type="submit" className="demoLogin">Log in as Demo User</button>
+            <button onClick={demoUser} type="submit" className="demoLogin">Demo User</button>
       </form>
     </>
   );

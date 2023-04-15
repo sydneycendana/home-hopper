@@ -66,7 +66,7 @@ export default function CreateReview({spotId}) {
                     placeholder="Stars"
                     required
                 />
-                <ul className="errors">
+                <ul className="errors-list">
                     {errors.map((error, id) => (
                     <li key={id}>{error}</li>
                     ))}
