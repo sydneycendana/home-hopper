@@ -14,11 +14,7 @@ export default function SpotReviews() {
     const spot = useSelector(state => state.spot.spotDetails)
     const reviews = useSelector(state => state.review.allReviews);
 
-    //     useEffect(() => {
-    //     dispatch(getReviewsThunk(spotId));
-    // }, [dispatch, spotId]);
-
-
+    const owner = sessionUser && spot.Owner.id === sessionUser.id
 
     if(!reviews) return null;
 
@@ -28,7 +24,7 @@ export default function SpotReviews() {
     return (
         <div>
             <div className="all-reviews__container">
-                {Object.values(reviews) ? (
+                {Object.values(reviews).length > 0 ? (
                 Object.values(reviews).reverse().map((review) => {
                     const date = new Date(review.createdAt);
                     const monthName = monthNames[date.getMonth()];
@@ -49,8 +45,10 @@ export default function SpotReviews() {
                     )
                 })
             ) : (
-                <p>Be the first to post a review!</p>
-            )}
+                    sessionUser && !owner ? (
+                    <p>Be the first to post a review!</p>
+                    ) : null
+                )}
             </div>
         </div>
     );
