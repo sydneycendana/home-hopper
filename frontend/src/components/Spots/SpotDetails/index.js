@@ -47,7 +47,7 @@ export default function SpotDetails() {
     });
 
 
-    const canPostReview = !hasUserReviewed && !owner
+    const canPostReview = sessionUser && !hasUserReviewed && !owner
 
     const createNewReview = async (e, review, stars) => {
     e.preventDefault();

@@ -1,0 +1,13 @@
+.create-review__stars {
+    font-size: 2rem;
+}
+
+.create-review__stars>span {
+    cursor: pointer;
+    color: #ccc;
+}
+
+.create-review__stars>span:hover,
+.create-review__stars>span.star-filled {
+    color: #ffcc00;
+}

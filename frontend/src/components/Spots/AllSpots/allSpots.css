@@ -82,7 +82,6 @@
     transition: all 0.3s ease-in-out;
 }
 
-/* when user hovers over the .spot element, change visibility and opacity of tooltip */
 .landing-spot:hover .tooltip {
     visibility: visible;
     opacity: 1;

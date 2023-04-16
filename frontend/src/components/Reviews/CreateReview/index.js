@@ -3,33 +3,22 @@ import { useState, useEffect } from "react";
 import { useModal } from "../../../context/Modal";
 import {createReviewsThunk, getReviewsThunk} from '../../../store/reviews'
 import {getDetailsThunk} from '../../../store/spots'
+import './CreateReview.css'
 
 
 export default function CreateReview({spotId}) {
     const dispatch = useDispatch();
 
     const [review, setReview] = useState("");
-    const [stars, setStars] = useState("");
     const [errors, setErrors] = useState([]);
+    const [stars, setStars] = useState("")
+    const [starsSelected, setStarsSelected] = useState(false);
     const { closeModal } = useModal();
 
-    // useEffect(() => {
-    //     dispatch(getSpotReviewsThunk(spotId));
-    // }, [dispatch, spotId]);
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setErrors([]);
-
-    //     return dispatch(createReviewsThunk(review, stars))
-    //     .then(closeModal)
-    //     .catch(async (res) => {
-    //         const data = await res.json();
-    //         if (data && data.message) setErrors([data.message]);
-    //     });
-
-
-    // }
+    const setStarsByIndex = (index) => {
+        setStars(index);
+        setStarsSelected(true)
+    }
 
     const handleCreateReview = async (review, stars) => {
         const reviewData = { review, stars };
@@ -37,6 +26,22 @@ export default function CreateReview({spotId}) {
         await dispatch(getReviewsThunk(spotId))
         await dispatch(getDetailsThunk(spotId))
         closeModal();
+    }
+
+      const handleMouseEnter = (index) => {
+    if (!starsSelected) {
+      setStars(index);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!starsSelected) {
+      setStars("");
+    }
+  };
+
+    const isSubmitDisabled = () => {
+        return review.length < 10 || !stars;
     }
 
     const handleSubmit = (e) => {
@@ -56,16 +61,19 @@ export default function CreateReview({spotId}) {
                     placeholder="How was your stay ?"
                     required
                 />
-                <input
-                    className="create-review__stars"
-                    type="number"
-                    min={0}
-                    max={5}
-                    value={stars}
-                    onChange={(e) => setStars(e.target.value)}
-                    placeholder="Stars"
-                    required
-                />
+                <div className="create-review__stars">
+                    {[1, 2, 3, 4, 5].map((index) => (
+                        <span
+                        key={index}
+                        className={index <= stars ? "star-filled" : ""}
+                        onClick={() => setStarsByIndex(index)}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={handleMouseLeave}
+                        >
+                        ★
+                        </span>
+                    ))}
+                </div>
                 <ul className="errors-list">
                     {errors.map((error, id) => (
                     <li key={id}>{error}</li>
@@ -73,11 +81,12 @@ export default function CreateReview({spotId}) {
                 </ul>
 
                 <button
-                    className="reviewBttn"
+                    className="submit-form__button"
                     type="submit"
+                    disabled={isSubmitDisabled()}
                     onClick={handleSubmit}
                 >
-                    Create a Review
+                    Submit Your Review
                 </button>
             </form>
         </div>

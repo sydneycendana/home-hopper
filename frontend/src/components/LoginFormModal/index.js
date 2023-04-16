@@ -43,7 +43,7 @@ function LoginFormModal() {
       });
   };
 
-    const isSubmitDisabled = () => {
+  const isSubmitDisabled = () => {
     return credential.length < 4 || password.length < 6;
   }
 
