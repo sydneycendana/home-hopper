@@ -1,15 +1,18 @@
+.page-container {
+    max-width: 1600px;
+    margin-inline: auto;
+    padding: 50px 0;
+}
+
 .landing-spots__container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
-    padding: 0 20px;
-    max-width: 1600px;
-    margin-inline: auto;
 }
 
 .landing-spot {
-    /* position: relative; */
+    position: relative;
     cursor: pointer;
 }
 
@@ -62,4 +65,25 @@
     .landing-spots__container {
         padding: 0 5px;
     }
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    z-index: 999;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.3rem 0.5rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: .5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+/* when user hovers over the .spot element, change visibility and opacity of tooltip */
+.landing-spot:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
 }
