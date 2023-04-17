@@ -60,6 +60,7 @@ export default function CreateSpot(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setHasSubmitted(true);
 
         const parsedPrice = parseFloat(price)
 
@@ -98,7 +99,6 @@ export default function CreateSpot(){
       .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
-          setHasSubmitted(true);
         });
     };
 
