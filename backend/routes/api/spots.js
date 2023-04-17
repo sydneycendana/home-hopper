@@ -413,6 +413,8 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
   const spotId = req.params.spotId;
   const ownerId = req.user.id;
 
+  console.log(1)
+
   //Check if spot exists
   const spot = await Spot.findOne({
     where: {
@@ -426,6 +428,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
       statusCode: 404,
     });
   }
+  console.log(2)
 
   //Check if user is authorized to post
   const authorizedUser = await Spot.findOne({

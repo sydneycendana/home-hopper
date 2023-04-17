@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       SpotImage.belongsTo(models.Spot, {
         foreignKey: "spotId",
+        onDelete: 'CASCADE'
       });
     }
   }
@@ -12,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       spotId: {
         type: DataTypes.INTEGER,
-        onDelete: "CASCADE",
+        // onDelete: "CASCADE",
       },
       url: DataTypes.STRING,
       preview: DataTypes.BOOLEAN,

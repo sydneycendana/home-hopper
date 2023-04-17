@@ -1,12 +1,17 @@
 .page-container {
     max-width: 1600px;
     margin-inline: auto;
-    padding: 50px 0;
+    padding: 50px 20px;
+    height: 100vh;
+    /* display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh; */
 }
 
 .landing-spots__container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 1rem;

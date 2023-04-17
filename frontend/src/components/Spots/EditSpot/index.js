@@ -213,7 +213,7 @@ export default function EditSpot(){
                         <h3>Describe your place to guests</h3>
                         <p>Mention the best features of your place, special ammenities like fast wifi or parking, and what you love about the neighborhood</p>
                             <div className="input-container__textarea">
-                                <input
+                                <textarea
                                 className="form-input__textarea"
                                 id="description"
                                 name="description"
