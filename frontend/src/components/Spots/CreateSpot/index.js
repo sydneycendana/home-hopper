@@ -42,7 +42,7 @@ export default function CreateSpot(){
                 validationErrors.description = "Description needs a minimum of 30 characters";
             if (!name) validationErrors.name = "Name is required";
             if (!price) validationErrors.price = "Price is required";
-            if (!previewImage.trim()) validationErrors.previewImage = "Preview image is required";
+            if (previewImage.trim().length < 1) validationErrors.previewImage = "Preview image is required";
             if (previewImage && !/\.(png|jpg|jpeg)$/i.test(previewImage.slice(previewImage.lastIndexOf("."))))
                 validationErrors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
             if (image1 && !/\.(png|jpg|jpeg)$/i.test(image1.slice(image1.lastIndexOf("."))))

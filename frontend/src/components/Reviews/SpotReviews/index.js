@@ -6,7 +6,7 @@ import DeleteReview from "../DeleteReview";
 import { getReviewsThunk } from "../../../store/reviews";
 import './SpotReviews.css'
 
-export default function SpotReviews() {
+export default function SpotReviews({fetchData}) {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
@@ -38,7 +38,7 @@ export default function SpotReviews() {
                                 <OpenModalButton
                                     buttonText="Delete"
                                     className="__delete-review"
-                                    modalComponent={<DeleteReview review={review} />}
+                                    modalComponent={<DeleteReview review={review} fetchData={fetchData} />}
                                 />
                             )}
                         </div>
