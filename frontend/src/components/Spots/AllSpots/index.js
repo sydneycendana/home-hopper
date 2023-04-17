@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
@@ -10,6 +10,7 @@ import './allSpots.css'
 export default function AllSpots() {
     const dispatch = useDispatch();
     const history = useHistory();
+
 
     const spots = useSelector((state) => state.spot.allSpots)
 
@@ -32,9 +33,9 @@ export default function AllSpots() {
                 return (
                     <div
                         className="landing-spot"
-                        data-tooltip="Tooltip text"
                         onClick={(e) => clickHandler(e, spot.id)}
-                        key={spot.id}>
+                        key={spot.id}
+                        title={spot.name}>
                         <div className="landing-previewImg__container">
                             <img
                             className="landing-previewImg"
@@ -54,8 +55,8 @@ export default function AllSpots() {
                             <div className="price">
                                 <span className="amount"> ${spot.price}</span>night
                             </div>
-
                         </div>
+                        <span className='tooltip'>{spot.name}</span>
                     </div>
                 )
             })}

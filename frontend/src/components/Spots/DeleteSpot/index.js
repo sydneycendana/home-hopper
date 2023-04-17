@@ -25,11 +25,13 @@ export default function DeleteSpot({spot}) {
 
 
     return (
-        <div className="delete-spot__container">
+        <div className="delete-container">
             <h1 className="centered">Confirm Delete</h1>
             <p>Are you sure you want to remove this spot from your listings?</p>
-            <button onClick={handleSubmit}>Yes (Delete Spot)</button>
-            <button>No (KeepSpot)</button>
+            <div className="delete-buttons__container">
+                <button className="submit-form__button" onClick={handleSubmit}>Yes (Delete Spot)</button>
+                <button className="submit-form__button" style={{backgroundColor: 'gray'}} onClick={closeModal}>No (Keep Spot)</button>
+            </div>
 
         </div>
   );

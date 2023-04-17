@@ -5,7 +5,7 @@ import { getDetailsThunk } from "../../../store/spots"
 import { getSpotsThunk } from "../../../store/spots"
 import {ReactComponent as Star} from '../../../assets/images/star.svg'
 import DeleteSpot from "../DeleteSpot";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import OpenModalButton from "../../OpenModalButton";
 import './UserSpots.css'
 
@@ -41,8 +41,8 @@ export default function CurrentUserSpots() {
         <>
             <div className="manage-spots__header">
             <h1>Manage Your Spots</h1>
-            <button>
-                <Link exact to="/spots/new">
+            <button className="gray-button">
+                <Link exact to="/spots/new" style={{color:'white', padding: '2px 4px'}}>
                     Create a New Spot
                 </Link>
             </button>
@@ -80,12 +80,10 @@ export default function CurrentUserSpots() {
                             </div>
 
                             <div className="manage-spots__buttons">
-                                <button onClick={(e) => clickEditSpot(e, spot.id)}>
-                                    {/* <NavLink exact to={`/spots/${spot.id}/edit`}> */}
+                                <button className="gray-button" onClick={(e) => clickEditSpot(e, spot.id)}>
                                         Update
-                                    {/* </NavLink> */}
                                 </button>
-                                <button>
+                                <button className="gray-button">
                                         <OpenModalButton
                                             buttonText="Delete"
                                             className="__delete-spot"

@@ -14,14 +14,16 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const {spotId} = useParams();
 
-    const [isLoaded, setIsLoaded] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [reviewsLoaded, setReviewsLoaded] = useState(false);
 
     const spot = useSelector(state => state.spot.spotDetails);
+
     const sessionUser = useSelector(state => state.session.user);
     const reviews = useSelector(state => state.review.allReviews);
 
-    const reviewsArray = reviews ? Object.values(reviews) : [];
 
+    const reviewsArray = reviews ? Object.values(reviews) : [];
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
@@ -33,15 +35,19 @@ export default function SpotDetails() {
                 dispatch(getReviewsThunk(spotId)),
             ]);
             setIsLoaded(true);
+            setReviewsLoaded(true);
         };
         fetchSpotDetails();
     }, [dispatch, spotId]);
 
-    // const owner = isLoaded && sessionUser.id === spot.ownerId;
+    const owner = isLoaded && sessionUser?.id === spot.ownerId;
 
-    // const hasUserReviewed = !isLoaded && reviewsArray.some((review) => {
-    //     return (review.userId === sessionUser.id);
-    // });
+    const hasUserReviewed = isLoaded && sessionUser?.id && reviewsArray.some((review) => {
+        return (review.userId === sessionUser.id);
+    });
+
+
+    const canPostReview = sessionUser && !hasUserReviewed && !owner
 
     const createNewReview = async (e, review, stars) => {
     e.preventDefault();
@@ -58,9 +64,10 @@ export default function SpotDetails() {
     )};
 
     if (!spot) return null;
-      if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
+
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+    }
 
 
     return (
@@ -104,7 +111,7 @@ export default function SpotDetails() {
                                         </div> )}
                             </div>
                         </div>
-                        <button className="reserve-button">Reserve</button>
+                        <button className="submit-form__button" onClick={() => alert('Feature coming soon!')}>Reserve</button>
                     </div>
                 </div>
             </section>
@@ -123,9 +130,8 @@ export default function SpotDetails() {
                         New
                     </div> )}
                 </div>
-                    <div className="review-modal">
-                        <OpenModalButton
-                            className="addReview"
+                        {canPostReview && <OpenModalButton
+                            className="__add-review"
                             buttonText="Post your Review"
                             modalComponent={
                                 <CreateReview
@@ -134,8 +140,8 @@ export default function SpotDetails() {
                                 />
                             }
                         />
-                    </div>
-                <SpotReviews reviews={reviewsArray}/>
+                        }
+                {reviewsLoaded && <SpotReviews/>}
             </section>
         </div>
     )

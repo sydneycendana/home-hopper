@@ -1,15 +1,34 @@
-.max-width__container {
-    max-width: 1024px;
+.manage-spots__header {
+    max-width: 1330px;
+    margin: 20px auto;
 }
 
 .modal-button__delete-spot {
     border: none;
+    background: none;
+    color: white;
+    padding: 2px 4px;
+    cursor: pointer;
 }
 
 .manage-spots__buttons {
     margin-top: 10px;
 }
 
-.manage-spots__buttons>button {
+.manage-spots__buttons:first-child {
     margin-right: 10px;
+}
+
+div.manage-spots__buttons>*:first-child {
+    margin-right: 10px;
+    padding: 3px 5px;
+}
+
+.gray-button {
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background: #656464;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
 }

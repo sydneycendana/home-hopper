@@ -1,0 +1,9 @@
+.demoLogin {
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+#modal-content form>* {
+    margin-top: 5px;
+}

@@ -1,0 +1,23 @@
+.create-review__stars {
+    font-size: 1rem;
+    margin: 5px auto;
+}
+
+.create-review__stars span:not(:last-child) {
+    cursor: pointer;
+    color: #ccc;
+}
+
+.create-review__stars span:not(:last-child):hover,
+.create-review__stars>span.star-filled {
+    color: black;
+}
+
+.create-review__stars span:last-child {
+    margin-left: 10px;
+}
+
+.review-text {
+    height: 200px;
+    margin: 5px 0;
+}

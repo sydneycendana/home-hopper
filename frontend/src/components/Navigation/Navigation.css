@@ -9,6 +9,7 @@
   padding: 20px 60px;
   background-color: #fff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 0;
 }
 
 .top-right {
@@ -106,4 +107,8 @@
 
 .modal-button__login-signup:hover {
   transform: scale(1.1);
+}
+
+.modal-button__login-signup:active {
+  transform: scale(1);
 }

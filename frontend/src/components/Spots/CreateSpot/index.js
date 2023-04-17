@@ -42,8 +42,8 @@ export default function CreateSpot(){
                 validationErrors.description = "Description needs a minimum of 30 characters";
             if (!name) validationErrors.name = "Name is required";
             if (!price) validationErrors.price = "Price is required";
-            if (!previewImage) validationErrors.previewImage = "Preview image is required";
-            if ( previewImage && !/\.(png|jpg|jpeg)$/i.test(previewImage.slice(previewImage.lastIndexOf("."))))
+            if (!previewImage.trim()) validationErrors.previewImage = "Preview image is required";
+            if (previewImage && !/\.(png|jpg|jpeg)$/i.test(previewImage.slice(previewImage.lastIndexOf("."))))
                 validationErrors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
             if (image1 && !/\.(png|jpg|jpeg)$/i.test(image1.slice(image1.lastIndexOf("."))))
                 validationErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg";
@@ -207,7 +207,7 @@ export default function CreateSpot(){
                         <h3>Describe your place to guests</h3>
                         <p>Mention the best features of your place, special ammenities like fast wifi or parking, and what you love about the neighborhood</p>
                             <div className="input-container__textarea">
-                                <input
+                                <textarea
                                 className="form-input__textarea"
                                 id="description"
                                 name="description"
@@ -318,7 +318,9 @@ export default function CreateSpot(){
                     </div>
                     <button
                     type="submit"
+                    className="submit-form__button"
                     onClick={handleSubmit}
+                    style={{width: 'fit-content', margin: '30px auto' }}
                     >Create Spot</button>
 
                 </form>
