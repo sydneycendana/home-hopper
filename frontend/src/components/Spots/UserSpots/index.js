@@ -39,61 +39,65 @@ export default function CurrentUserSpots() {
 
     return userSpots && (
         <>
-            <div className="manage-spots__header">
-            <h1>Manage Your Spots</h1>
-            <button className="gray-button">
-                <Link exact to="/spots/new" style={{color:'white', padding: '2px 4px'}}>
-                    Create a New Spot
-                </Link>
-            </button>
-            </div>
-            <div className="landing-spots__container">
-                {userSpots.map((spot) => {
-                    return (
-                        <div
-                            className="landing-spot"
-                            data-tooltip="Tooltip text"
-                            key={spot.id}>
-                            <div
-                            className="landing-previewImg__container"
-                            onClick={(e) => clickSpotDetails(e, spot.id)}
-                            >
-                                <img
-                                className="landing-previewImg"
-                                src={spot.previewImage}
-                                alt={`${spot.name}`}/>
-                            </div>
-                            <div className="landing-spot-info">
-                                <div className="location-stars__container">
-                                    <p className="location">
-                                        {spot.city}, {spot.state}
-                                    </p>
-                                    <div className="stars">
-                                        <Star alt="star"/>
-                                        {Number(spot.avgRating) ?  Number(spot.avgRating).toFixed(1) : "New"}
+        <div className="page-container">
+            <div className="landing-spots-wrapper">
+                <div className="manage-spots__header">
+                    <h1>Manage Your Spots</h1>
+                    <button className="gray-button">
+                        <Link exact to="/spots/new" style={{color:'white', padding: '2px 4px'}}>
+                            Create a New Spot
+                        </Link>
+                    </button>
+                </div>
+                    <div className="landing-spots__container">
+                        {userSpots.map((spot) => {
+                            return (
+                                <div
+                                    className="landing-spot"
+                                    data-tooltip="Tooltip text"
+                                    key={spot.id}>
+                                    <div
+                                    className="landing-previewImg__container"
+                                    onClick={(e) => clickSpotDetails(e, spot.id)}
+                                    >
+                                        <img
+                                        className="landing-previewImg"
+                                        src={spot.previewImage}
+                                        alt={`${spot.name}`}/>
+                                    </div>
+                                    <div className="landing-spot-info">
+                                        <div className="location-stars__container">
+                                            <p className="location">
+                                                {spot.city}, {spot.state}
+                                            </p>
+                                            <div className="stars">
+                                                <Star alt="star"/>
+                                                {Number(spot.avgRating) ?  Number(spot.avgRating).toFixed(1) : "New"}
+                                            </div>
+                                        </div>
+                                        <div className="price">
+                                            <span className="amount"> ${spot.price}</span>night
+                                        </div>
+
+                                    </div>
+
+                                    <div className="manage-spots__buttons">
+                                        <button className="gray-button" onClick={(e) => clickEditSpot(e, spot.id)}>
+                                                Update
+                                        </button>
+                                        <button className="gray-button">
+                                                <OpenModalButton
+                                                    buttonText="Delete"
+                                                    className="__delete-spot"
+                                                    modalComponent={<DeleteSpot spot={spot} />}
+                                                />
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="price">
-                                    <span className="amount"> ${spot.price}</span>night
-                                </div>
-
-                            </div>
-
-                            <div className="manage-spots__buttons">
-                                <button className="gray-button" onClick={(e) => clickEditSpot(e, spot.id)}>
-                                        Update
-                                </button>
-                                <button className="gray-button">
-                                        <OpenModalButton
-                                            buttonText="Delete"
-                                            className="__delete-spot"
-                                            modalComponent={<DeleteSpot spot={spot} />}
-                                        />
-                                </button>
-                            </div>
-                        </div>
-                    )
-                })}
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
         </>
     )
