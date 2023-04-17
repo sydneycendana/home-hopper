@@ -14,6 +14,10 @@
     border-bottom: 2px solid black;
 }
 
+.section:not(:first-child) {
+    padding: 20px 0;
+}
+
 .flex-columns {
     display: flex;
     width: 100%;
@@ -37,4 +41,20 @@
 
 .input-container__longitude {
     flex: 1;
+}
+
+input[type="text"],
+input[type="number"],
+textarea[type="textarea"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.section p {
+    padding-bottom: 10px;
 }
