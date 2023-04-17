@@ -53,12 +53,17 @@ export default function CreateReview({spotId}) {
     return (
         <div className="create-review__container">
             <h1 className="centered">How was your stay?</h1>
+            <ul className="errors-list">
+                {errors.map((error, id) => (
+                <li key={id}>{error}</li>
+                ))}
+            </ul>
             <form className="create-review__form">
                 <textarea
-                    className="review-desc"
+                    className="review-text"
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
-                    placeholder="How was your stay ?"
+                    placeholder="Leave your review here..."
                     required
                 />
                 <div className="create-review__stars">
@@ -73,12 +78,9 @@ export default function CreateReview({spotId}) {
                         ★
                         </span>
                     ))}
+                    <span>stars</span>
                 </div>
-                <ul className="errors-list">
-                    {errors.map((error, id) => (
-                    <li key={id}>{error}</li>
-                    ))}
-                </ul>
+
 
                 <button
                     className="submit-form__button"

@@ -37,7 +37,7 @@ export default function SpotReviews() {
                             {sessionUser && sessionUser.id === review.userId && (
                                 <OpenModalButton
                                     buttonText="Delete"
-                                    className="__delete-spot"
+                                    className="__delete-review"
                                     modalComponent={<DeleteReview review={review} />}
                                 />
                             )}

@@ -80,8 +80,6 @@
     align-items: center;
 }
 
-.reserve-button {}
-
 .reviews__container {
     display: flex;
     flex-direction: row;
@@ -101,6 +99,17 @@
     align-items: left;
 }
 
+
+
+.modal-button__add-review {
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background: #656464;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    margin: 10px 0;
+}
 
 @media (max-width: 65em) {
     .spot-images__container {

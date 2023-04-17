@@ -41,8 +41,8 @@ export default function CurrentUserSpots() {
         <>
             <div className="manage-spots__header">
             <h1>Manage Your Spots</h1>
-            <button>
-                <Link exact to="/spots/new">
+            <button className="gray-button">
+                <Link exact to="/spots/new" style={{color:'white', padding: '2px 4px'}}>
                     Create a New Spot
                 </Link>
             </button>
@@ -80,10 +80,10 @@ export default function CurrentUserSpots() {
                             </div>
 
                             <div className="manage-spots__buttons">
-                                <button onClick={(e) => clickEditSpot(e, spot.id)}>
+                                <button className="gray-button" onClick={(e) => clickEditSpot(e, spot.id)}>
                                         Update
                                 </button>
-                                <button>
+                                <button className="gray-button">
                                         <OpenModalButton
                                             buttonText="Delete"
                                             className="__delete-spot"

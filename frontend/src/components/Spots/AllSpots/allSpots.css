@@ -7,8 +7,11 @@
 .landing-spots__container {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 1rem;
+    max-width: 1330px;
+    margin: 0 auto;
 }
 
 .landing-spot {

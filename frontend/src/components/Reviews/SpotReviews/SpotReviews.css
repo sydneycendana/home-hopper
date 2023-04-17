@@ -1,3 +1,11 @@
 .review {
     margin: 20px 0;
 }
+
+.modal-button__delete-review {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background: #656464;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}

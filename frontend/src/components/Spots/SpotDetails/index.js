@@ -130,9 +130,8 @@ export default function SpotDetails() {
                         New
                     </div> )}
                 </div>
-                    <div className="review-modal">
                         {canPostReview && <OpenModalButton
-                            className="addReview"
+                            className="__add-review"
                             buttonText="Post your Review"
                             modalComponent={
                                 <CreateReview
@@ -142,7 +141,6 @@ export default function SpotDetails() {
                             }
                         />
                         }
-                    </div>
                 {reviewsLoaded && <SpotReviews/>}
             </section>
         </div>
