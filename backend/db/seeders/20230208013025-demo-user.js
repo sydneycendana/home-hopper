@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
-  options.schema = process.env.SCHEMA; // define your schema in options object
+  options.schema = process.env.SCHEMA;
 }
 
 /** @type {import('sequelize-cli').Migration} */
@@ -16,7 +16,13 @@ module.exports = {
       options,
       [
         {
-          // id: 1,
+          firstName: "Demo",
+          lastName: "User",
+          email: "demo@user.com",
+          username: "demo123",
+          hashedPassword: bcrypt.hashSync("password"),
+        },
+        {
           firstName: "Maddie",
           lastName: "Norman",
           email: "maddie@friends.com",
@@ -24,7 +30,6 @@ module.exports = {
           hashedPassword: bcrypt.hashSync("mypassword"),
         },
         {
-          // id: 2,
           firstName: "Nate",
           lastName: "Porter",
           email: "nate@friends.com",
@@ -32,7 +37,6 @@ module.exports = {
           hashedPassword: bcrypt.hashSync("password1"),
         },
         {
-          // id: 3,
           firstName: "Emily",
           lastName: "Jones",
           email: "emmyj@friends.com",
@@ -40,7 +44,6 @@ module.exports = {
           hashedPassword: bcrypt.hashSync("password"),
         },
         {
-          // id: 4,
           firstName: "Ryan",
           lastName: "Bagsdasarian",
           email: "ryanbags@friends.com",
@@ -59,7 +62,7 @@ module.exports = {
       options,
       {
         username: {
-          [Op.in]: ["mnorms123", "nateports", "emmmmmyj", "ryanbags123"],
+          [Op.in]: ["demo123","mnorms123", "nateports", "emmmmmyj", "ryanbags123"],
         },
       },
       {}

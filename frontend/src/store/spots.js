@@ -155,7 +155,6 @@ export const createSpotThunk = (newSpot, previewImage, images) => async (dispatc
 
 //***** GET USERS SPOTS *****
 export const getUserSpotsThunk = (userId) => async (dispatch) => {
-  console.log("hello")
   const response = await csrfFetch(`/api/spots/current`);
 
 

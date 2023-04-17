@@ -304,7 +304,6 @@ router.get("/current", requireAuth, async (req, res) => {
 //******************** GET DETAILS FOR SPOT BY SPOTID ********************
 router.get("/:spotId", async (req, res) => {
 
-  console.log("hello")
   const spot = await Spot.findByPk(req.params.spotId, {
     attributes: [
       "id",
@@ -413,8 +412,6 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
   const spotId = req.params.spotId;
   const ownerId = req.user.id;
 
-  console.log(1)
-
   //Check if spot exists
   const spot = await Spot.findOne({
     where: {
@@ -428,7 +425,6 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
       statusCode: 404,
     });
   }
-  console.log(2)
 
   //Check if user is authorized to post
   const authorizedUser = await Spot.findOne({
@@ -693,7 +689,6 @@ router.post(
   async (req, res, next) => {
     const { review, stars } = req.body;
     const spotId = req.params.spotId;
-    console.log("hi")
 
     const spot = await Spot.findOne({ where: { id: spotId } });
 
