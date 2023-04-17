@@ -304,7 +304,6 @@ router.get("/current", requireAuth, async (req, res) => {
 //******************** GET DETAILS FOR SPOT BY SPOTID ********************
 router.get("/:spotId", async (req, res) => {
 
-  console.log("hello")
   const spot = await Spot.findByPk(req.params.spotId, {
     attributes: [
       "id",
@@ -690,7 +689,6 @@ router.post(
   async (req, res, next) => {
     const { review, stars } = req.body;
     const spotId = req.params.spotId;
-    console.log("hi")
 
     const spot = await Spot.findOne({ where: { id: spotId } });
 

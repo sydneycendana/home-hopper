@@ -28,6 +28,7 @@ export default function AllSpots() {
 
     return (
         <div className="page-container">
+        <div className="landing-spots-wrapper">
         <div className="landing-spots__container">
             {listedSpots.map((spot) => {
                 return (
@@ -60,6 +61,7 @@ export default function AllSpots() {
                     </div>
                 )
             })}
+        </div>
         </div>
         </div>
     )

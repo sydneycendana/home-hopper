@@ -130,6 +130,13 @@ textarea {
   border-radius: 5px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.submit-form__button:hover {
+  background-color: rgba(252, 60, 92, 0.9);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .submit-form__button:disabled {
@@ -137,9 +144,9 @@ textarea {
   cursor: not-allowed;
 }
 
-/* .demoLogin {
-  background-color: transparent;
-} */
+.submit-form__button:active {
+  transform: scale(0.9);
+}
 
 #modal-content {
   border-radius: 5px;

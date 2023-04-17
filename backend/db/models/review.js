@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       Review.belongsTo(models.Spot, {
         foreignKey: "spotId",
+        onDelete: 'CASCADE'
       });
     }
   }
