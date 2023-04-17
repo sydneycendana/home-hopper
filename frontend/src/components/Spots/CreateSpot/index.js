@@ -42,7 +42,7 @@ export default function CreateSpot(){
                 validationErrors.description = "Description needs a minimum of 30 characters";
             if (!name) validationErrors.name = "Name is required";
             if (!price) validationErrors.price = "Price is required";
-            if (previewImage.trim().length < 1) validationErrors.previewImage = "Preview image is required";
+            if (!previewImage) validationErrors.previewImage = "Preview image is required";
             if (previewImage && !/\.(png|jpg|jpeg)$/i.test(previewImage.slice(previewImage.lastIndexOf("."))))
                 validationErrors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
             if (image1 && !/\.(png|jpg|jpeg)$/i.test(image1.slice(image1.lastIndexOf("."))))
@@ -60,7 +60,7 @@ export default function CreateSpot(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setHasSubmitted(true);
+        console.log(errors)
 
         const parsedPrice = parseFloat(price)
 
@@ -99,6 +99,7 @@ export default function CreateSpot(){
       .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
+          setHasSubmitted(true);
         });
     };
 
@@ -109,7 +110,7 @@ export default function CreateSpot(){
                 <form className="create-spot__form">
                     <div className="section">
                         <h3>Where's your place located?</h3>
-                        <p>Guest's will only get your exact address once they booked a reservation</p>
+                        <p className="section-info">Guest's will only get your exact address once they booked a reservation</p>
                         <div className="create-spot__input">
                                 <label htmlFor="country">Country</label>
                                 {errors && (
@@ -223,7 +224,7 @@ export default function CreateSpot(){
                     </div>
                     <div className="section">
                         <h3>Create a title for your spot</h3>
-                        <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+                        <p className="section-info">Catch guests' attention with a spot title that highlights what makes your place special.</p>
                         <input
                         className="form-input"
                         id="name"
@@ -239,7 +240,7 @@ export default function CreateSpot(){
                     </div>
                     <div className="section">
                         <h3>Set a base price for your spot</h3>
-                        <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+                        <p className="section-info">Competitive pricing can help your listing stand out and rank higher in search results.</p>
                         <div className="flex-columns">
                             <span>$</span>
                             <input
@@ -258,11 +259,11 @@ export default function CreateSpot(){
                     </div>
                     <div className="section">
                         <h3>Liven up your spot with photos</h3>
-                        <p>Submit a link to at least one photo to publish your spot</p>
+                        <p className="section-info">Submit a link to at least one photo to publish your spot</p>
                             <input
                             className="form-input"
                             id="previewImage"
-                            name="previewImg"
+                            name="previewImage"
                             type="text"
                             placeholder="Preview Image URL"
                             value={previewImage}

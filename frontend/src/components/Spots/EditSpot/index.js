@@ -32,45 +32,36 @@ export default function EditSpot(){
     const [errors, setErrors] = useState([]);
     const [hasSubmitted, setHasSubmitted] = useState(false)
 
-
-
-
-    useEffect(() => {
-        if(hasSubmitted) {
-            let validationErrors = {};
-
-            if (!country) validationErrors.country = "Country is required";
-            if (!address) validationErrors.address = "Address is required";
-            if (!city) validationErrors.city = "City is required";
-            if (!state) validationErrors.state = "State is required";
-            if (description.length < 30)
-                validationErrors.description = "Description needs a minimum of 30 characters";
-            if (!name) validationErrors.name = "Name is required";
-            if (!price) validationErrors.price = "Price is required";
-            if (!previewImage.trim().length < 1) validationErrors.previewImage = "Preview image is required";
-            if (previewImage && !/\.(png|jpg|jpeg)$/i.test(previewImage.slice(previewImage.lastIndexOf("."))))
-                validationErrors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
-            if (image1 && !/\.(png|jpg|jpeg)$/i.test(image1.slice(image1.lastIndexOf("."))))
-                validationErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg";
-            if (image2 && !/\.(png|jpg|jpeg)$/i.test(image2.slice(image2.lastIndexOf("."))))
-                validationErrors.image2 = "Image URL must end in .png, .jpg, or .jpeg";
-            if (image3 && !/\.(png|jpg|jpeg)$/i.test(image3.slice(image3.lastIndexOf("."))))
-                validationErrors.image3 = "Image URL must end in .png, .jpg, or .jpeg";
-            if (image4 && !/\.(png|jpg|jpeg)$/i.test(image4.slice(image4.lastIndexOf("."))))
-                validationErrors.image4 = "Image URL must end in .png, .jpg, or .jpeg";
-
-            setErrors(validationErrors);
-        }
-    }, [hasSubmitted, country, address, city, state, description, name, price, previewImage, image1, image2, image3, image4])
+    console.log(previewImage)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         setHasSubmitted(true);
 
         const parsedPrice = parseFloat(price)
 
-        if(Object.keys(errors).length > 0) return;
+        let validationErrors = {};
 
+        if (!country) validationErrors.country = "Country is required";
+        if (!address) validationErrors.address = "Address is required";
+        if (!city) validationErrors.city = "City is required";
+        if (!state) validationErrors.state = "State is required";
+        if (description.length < 30) validationErrors.description = "Description needs a minimum of 30 characters";
+        if (!name) validationErrors.name = "Name is required";
+        if (!price) validationErrors.price = "Price is required";
+        if (!previewImage) validationErrors.previewImage = "Preview image is required";
+        if (previewImage && !/\.(png|jpg|jpeg)$/i.test(previewImage.slice(previewImage.lastIndexOf(".")))) validationErrors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
+        if (image1 && !/\.(png|jpg|jpeg)$/i.test(image1.slice(image1.lastIndexOf(".")))) validationErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg";
+        if (image2 && !/\.(png|jpg|jpeg)$/i.test(image2.slice(image2.lastIndexOf(".")))) validationErrors.image2 = "Image URL must end in .png, .jpg, or .jpeg";
+        if (image3 && !/\.(png|jpg|jpeg)$/i.test(image3.slice(image3.lastIndexOf(".")))) validationErrors.image3 = "Image URL must end in .png, .jpg, or .jpeg";
+        if (image4 && !/\.(png|jpg|jpeg)$/i.test(image4.slice(image4.lastIndexOf(".")))) validationErrors.image4 = "Image URL must end in .png, .jpg, or .jpeg";
+
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) {
+            return;
+        }
 
         const images = [image1, image2, image3, image4].filter(Boolean).map((url) => ({
             url,
@@ -78,8 +69,7 @@ export default function EditSpot(){
         }));
 
         const updatedSpotData = await dispatch(
-        editSpotThunk(spot.id,
-          {
+        editSpotThunk(spot.id, {
             name,
             description,
             price: parsedPrice,
@@ -89,14 +79,11 @@ export default function EditSpot(){
             country,
             lat,
             lng,
-          },
-          {
+          }, {
             url: previewImage,
             preview: true,
           },
-            images
-        )
-
+            images)
       )
 
       .then((updatedSpotData) => {
@@ -150,7 +137,7 @@ export default function EditSpot(){
                             <div className="input-container__city">
                                 <label htmlFor="city">City</label>
                                 {errors && (
-                                    <span className="error">{errors.address}</span>
+                                    <span className="error">{errors.city}</span>
                                 )}
                                 <input
                                     className="form-input"
@@ -165,7 +152,7 @@ export default function EditSpot(){
                             <div className="input-container__state">
                                     <label htmlFor="state">State</label>
                                     {errors && (
-                                        <span className="error">{errors.address}</span>
+                                        <span className="error">{errors.state}</span>
                                     )}
                                 <input
                                     className="form-input"
@@ -268,7 +255,7 @@ export default function EditSpot(){
                             <input
                             className="form-input"
                             id="previewImage"
-                            name="previewImg"
+                            name="previewImage"
                             type="text"
                             placeholder="Preview Image URL"
                             value={previewImage}

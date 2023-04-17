@@ -36,6 +36,7 @@ export default function SpotDetails() {
             ]);
             setIsLoaded(true);
             setReviewsLoaded(true);
+            setFetchReviews(false);
         };
         fetchSpotDetails();
     }, [dispatch, spotId, fetchReviews]);
