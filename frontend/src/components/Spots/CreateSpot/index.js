@@ -60,7 +60,6 @@ export default function CreateSpot(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(errors)
 
         const parsedPrice = parseFloat(price)
 

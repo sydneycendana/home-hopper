@@ -32,8 +32,6 @@ export default function EditSpot(){
     const [errors, setErrors] = useState([]);
     const [hasSubmitted, setHasSubmitted] = useState(false)
 
-    console.log(previewImage)
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
