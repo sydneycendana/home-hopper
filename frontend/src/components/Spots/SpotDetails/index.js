@@ -16,6 +16,7 @@ export default function SpotDetails() {
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [reviewsLoaded, setReviewsLoaded] = useState(false);
+    const [fetchReviews, setFetchReviews] = useState(false)
 
     const spot = useSelector(state => state.spot.spotDetails);
 
@@ -27,7 +28,6 @@ export default function SpotDetails() {
     const previewImage = spot?.SpotImages?.find(image => image.preview);
     const otherImages = spot?.SpotImages?.filter(image => !image.preview);
 
-    //NEED TO BE ABLE TO RENDER COMPONENT WHEN NO REVIEWS EXIST
     useEffect(() => {
         const fetchSpotDetails = async () => {
             await Promise.all([
@@ -38,7 +38,7 @@ export default function SpotDetails() {
             setReviewsLoaded(true);
         };
         fetchSpotDetails();
-    }, [dispatch, spotId]);
+    }, [dispatch, spotId, fetchReviews]);
 
     const owner = isLoaded && sessionUser?.id === spot.ownerId;
 
@@ -62,6 +62,10 @@ export default function SpotDetails() {
         }
       }
     )};
+
+    const fetchData = async () => {
+        setFetchReviews(true);
+    };
 
     if (!spot) return null;
 
@@ -141,7 +145,7 @@ export default function SpotDetails() {
                             }
                         />
                         }
-                {reviewsLoaded && <SpotReviews/>}
+                {reviewsLoaded && <SpotReviews fetchData={fetchData}/>}
             </section>
         </div>
     )

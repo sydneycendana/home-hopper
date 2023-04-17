@@ -1,9 +1,12 @@
 import { useDispatch } from "react-redux"
 import { useModal } from "../../../context/Modal";
+import { useParams } from "react-router-dom";
 import {deleteReviewThunk} from '../../../store/reviews'
+import { getReviewsThunk } from "../../../store/reviews";
 
-export default function DeleteReview({review}) {
+export default function DeleteReview({review, fetchData}) {
     const dispatch = useDispatch();
+    const {spotId} = useParams();
 
     const reviewId = review.id
 
@@ -11,12 +14,14 @@ export default function DeleteReview({review}) {
 
     const handleDeleteReview = async () => {
         await dispatch(deleteReviewThunk(reviewId));
+        await dispatch(getReviewsThunk(spotId));
         closeModal();
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         handleDeleteReview(reviewId);
+        fetchData();
         // history.push('/spots/current')
     }
 
