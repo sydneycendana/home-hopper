@@ -61,7 +61,7 @@ module.exports = {
           lng: 114.8918,
           name: "Weather-N-Heights",
           description:
-            "Located just 60 miles north of Olympia on the on the scenic Hood Canal, Weather-N-Heights resort was lovingly built and enjoyed by my parents for many years. Recently updated to it's original splendor, it sits right on the shore with spectacular views looking south down the canal.",
+            "Located just 60 miles north of Olympia on the on the scenic Hood Canal, Weather-N-Heights resort was lovingly built and enjoyed by my parents for many years.",
           price: 340,
         },
         {
@@ -74,7 +74,7 @@ module.exports = {
           lng: -123.475890,
           name: "Alpine Falls Ranch",
           description:
-            "Come enjoy the beauty, privacy and seclusion of Mountain View Villa at Alpine Falls Ranch, adjacent to the LoLo National Forest and steps away from the Clark Fork river. Ranch Manager and housekeeping on site, catering available upon request.",
+            "Come enjoy the beauty, privacy and seclusion of Mountain View Villa at Alpine Falls Ranch, adjacent to the LoLo National Forest and steps away from the Clark Fork river.",
           price: 3990,
         },
         {
@@ -87,7 +87,7 @@ module.exports = {
           lng: 117.2713,
           name: "Beach Bungalow",
           description:
-            "Walk to the beach with your coffee in the morning, watch a beautiful sunset with a glass of wine in the evening, and fall asleep to the sound of the surf at night.   Welcome to the Surf & Sand Beach Bungalow.",
+            "Walk to the beach with your coffee in the morning, watch a beautiful sunset with a glass of wine in the evening, and fall asleep to the sound of the surf at night.",
           price: 240,
         },
         {
