@@ -14,18 +14,27 @@ import './UserSpots.css'
 export default function CurrentUserSpots() {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [isLoaded, setIsLoaded] = useState(false)
 
     const sessionUser = useSelector(state => state.session.user)
 
     // adding an empty object if state is null or undefined ???
-    const spots = useSelector((state) => state.spot.allSpots);
-    const spotsArray = Object.values(spots)
+    // const spots = useSelector((state) => state.spot.allSpots);
+    // const spotsArray = Object.values(spots)
 
-    const userSpots = spotsArray.filter((spot) => sessionUser.id === spot.ownerId)
+    // const userSpots = spotsArray.filter((spot) => sessionUser.id === spot.ownerId)
+
+    const spots = useSelector((state) => state.spot.allSpots);
+let userSpots = [];
+
+if (spots && sessionUser) {
+  const spotsArray = Object.values(spots);
+  userSpots = spotsArray.filter((spot) => sessionUser.id === spot.ownerId);
+}
 
     useEffect(() => {
-        dispatch(getSpotsThunk())
-    }, [dispatch]);
+        dispatch(getSpotsThunk()).then(setIsLoaded(true));
+    }, [dispatch, isLoaded]);
 
     const clickSpotDetails = (e, spotId) => {
         e.preventDefault();
@@ -37,7 +46,7 @@ export default function CurrentUserSpots() {
         await dispatch(getDetailsThunk(spotId)).then(() => history.push(`/spots/${spotId}/edit`))
     }
 
-    return userSpots && (
+    return isLoaded && (
         <>
         <div className="page-container">
             <div className="landing-spots-wrapper">
@@ -85,13 +94,11 @@ export default function CurrentUserSpots() {
                                         <button className="gray-button" onClick={(e) => clickEditSpot(e, spot.id)}>
                                                 Update
                                         </button>
-                                        <button className="gray-button">
-                                                <OpenModalButton
-                                                    buttonText="Delete"
-                                                    className="__delete-spot"
-                                                    modalComponent={<DeleteSpot spot={spot} />}
-                                                />
-                                        </button>
+                                        <OpenModalButton
+                                            buttonText="Delete"
+                                            className="__delete-spot gray-button"
+                                            modalComponent={<DeleteSpot spot={spot} />}
+                                        />
                                     </div>
                                 </div>
                             )

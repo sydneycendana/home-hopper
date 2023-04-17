@@ -11,11 +11,13 @@ export default function AllSpots() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
 
     const spots = useSelector((state) => state.spot.allSpots)
 
     useEffect(() => {
-        dispatch(getSpotsThunk())
+        dispatch(getSpotsThunk()).then(() => setIsLoaded(true));
     }, [dispatch]);
 
     const clickHandler = (e, spotId) => {
@@ -25,6 +27,8 @@ export default function AllSpots() {
 
     if(!spots) return null;
     const listedSpots = Object.values(spots);
+
+    if(!isLoaded) return <p>Loading...</p>;
 
     return (
         <div className="page-container">

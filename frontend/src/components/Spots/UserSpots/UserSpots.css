@@ -3,15 +3,6 @@
     margin: 20px auto;
 }
 
-.modal-button__delete-spot {
-    font-size: 1rem;
-    border: none;
-    background: none;
-    color: white;
-    padding: 2px 4px;
-    cursor: pointer;
-}
-
 .manage-spots__buttons {
     margin-top: 10px;
 }
@@ -34,12 +25,12 @@ div.manage-spots__buttons>*:first-child {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    padding: 3px 5px;
 }
 
 .gray-button:hover {
     background: #4e4e4e;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transform: translateY(-2px);
 }
 
 .gray-button:active {

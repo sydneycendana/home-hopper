@@ -106,10 +106,10 @@ export default function CreateSpot(){
     return (
         <div className="create-spot__container">
             <h1>Create a new Spot</h1>
-            <h3>Where's your place located?</h3>
-            <p>Guest's will only get your exact address once they booked a reservation</p>
                 <form className="create-spot__form">
                     <div className="section">
+                        <h3>Where's your place located?</h3>
+                        <p>Guest's will only get your exact address once they booked a reservation</p>
                         <div className="create-spot__input">
                                 <label htmlFor="country">Country</label>
                                 {errors && (
