@@ -1,21 +1,20 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
-import './Navigation.css';
-import {ReactComponent as Logo} from '../../assets/images/logo.svg'
-import CreateSpot from '../Spots/CreateSpot';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProfileButton from "./ProfileButton";
+import "./Navigation.css";
+import Logo from "../../assets/images/logo.png";
+import CreateSpot from "../Spots/CreateSpot";
 
-
-
-function Navigation({ isLoaded }){
-  const sessionUser = useSelector(state => state.session.user);
+function Navigation({ isLoaded }) {
+  const sessionUser = useSelector((state) => state.session.user);
 
   return (
     <ul className="container">
       <li>
         <NavLink exact to="/">
-          <Logo className="logo" alt="logo"/>
+          {/* <Logo className="logo" alt="logo" /> */}
+          <img src={Logo} className="logo" alt="logo" />
         </NavLink>
       </li>
       <div className="top-right">
@@ -28,7 +27,7 @@ function Navigation({ isLoaded }){
         )}
         {isLoaded && (
           <li>
-            <ProfileButton user={sessionUser}/>
+            <ProfileButton user={sessionUser} />
           </li>
         )}
       </div>
