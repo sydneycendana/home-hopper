@@ -150,9 +150,9 @@ router.get("/", validateQueryParamaters, async (req, res, next) => {
         model: SpotImage,
         attributes: ["url"], //allows response to find the first image
         where: {
-          preview: true
+          preview: true,
         },
-        required: false
+        required: false,
       },
       { model: Review, attributes: ["stars"], required: false },
     ],
@@ -208,42 +208,47 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
   const ownerId = req.user.id;
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
+
+  const sanitizedLat = lat || null;
+  const sanitizedLng = lng || null;
+
   try {
-  const spot = await Spot.create({
-    ownerId,
-    address,
-    city,
-    state,
-    country,
-    lat,
-    lng,
-    name,
-    description,
-    price,
-  });
+    const spot = await Spot.create({
+      ownerId,
+      address,
+      city,
+      state,
+      country,
+      lat: sanitizedLat,
+      lng: sanitizedLng,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+    });
 
-  // Swap the order of createdAt and updatedAt
-  const updatedSpot = {
-    id: spot.id,
-    ownerId: spot.ownerId,
-    address: spot.address,
-    city: spot.city,
-    state: spot.state,
-    country: spot.country,
-    lat: spot.lat,
-    lng: spot.lng,
-    name: spot.name,
-    description: spot.description,
-    price: spot.price,
-    createdAt: spot.createdAt,
-    updatedAt: spot.updatedAt,
-  };
+    // Swap the order of createdAt and updatedAt
+    const updatedSpot = {
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+    };
 
-  if (updatedSpot) return res.status(201).json(updatedSpot);
-}
-catch(err){
-  next(err)
-}
+    if (updatedSpot) return res.status(201).json(updatedSpot);
+  } catch (err) {
+    next(err);
+  }
 
   // if (spot) return res.status(201).json(spot);
 });
@@ -303,7 +308,6 @@ router.get("/current", requireAuth, async (req, res) => {
 
 //******************** GET DETAILS FOR SPOT BY SPOTID ********************
 router.get("/:spotId", async (req, res) => {
-
   const spot = await Spot.findByPk(req.params.spotId, {
     attributes: [
       "id",
@@ -643,7 +647,6 @@ router.get("/:spotId/reviews", async (req, res) => {
     ],
     group: ["Review.id", "User.id", "ReviewImages.id"],
   });
-
 
   const allReviews = reviews.map((review) => ({
     id: review.id,
