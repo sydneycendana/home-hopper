@@ -14,17 +14,17 @@ module.exports = {
       [
         {
           spotId: 1,
-          url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-755137040389728919/original/ce9f1e95-88e8-410b-b106-5c297aba12e4.jpeg?im_w=1200",
+          url: "https://images.pexels.com/photos/3554424/pexels-photo-3554424.jpeg?auto=compress&cs=tinysrgb&w=1260",
           preview: true,
         },
         {
           spotId: 1,
-          url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-755137040389728919/original/72860fa4-77ef-4455-945f-0197e8b875fe.jpeg?im_w=1200",
+          url: "https://images.pexels.com/photos/4993068/pexels-photo-4993068.jpeg?auto=compress&cs=tinysrgb&w=1260",
           preview: false,
         },
         {
           spotId: 1,
-          url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-755137040389728919/original/20c00454-1711-4ba5-9d4b-10ad9c45bd2f.jpeg?im_w=1440",
+          url: "https://images.pexels.com/photos/11871257/pexels-photo-11871257.jpeg?auto=compress&cs=tinysrgb&w=1260",
           preview: false,
         },
         {
@@ -34,7 +34,7 @@ module.exports = {
         },
         {
           spotId: 1,
-          url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-755137040389728919/original/ebad7c9d-e0ca-483c-9680-1b731cedc5db.jpeg?im_w=1440",
+          url: "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=1260",
           preview: false,
         },
         {
