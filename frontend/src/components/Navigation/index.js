@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import Logo from "../../assets/images/logo.png";
+import SearchBar from "./SearchBar";
 import CreateSpot from "../Spots/CreateSpot";
 
 function Navigation({ isLoaded }) {
@@ -16,6 +17,9 @@ function Navigation({ isLoaded }) {
           {/* <Logo className="logo" alt="logo" /> */}
           <img src={Logo} className="logo" alt="logo" />
         </NavLink>
+      </li>
+      <li>
+        <SearchBar />
       </li>
       <div className="top-right">
         {sessionUser && (
