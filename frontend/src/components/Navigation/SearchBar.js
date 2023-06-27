@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { getSpotsThunk } from "../../store/spots";
 import "./Navigation.css";
 
 function SearchBar() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const spots = useSelector((state) => state.spot.allSpots);
-  const spotsArr = Object.values(spots);
+
+  const [isMounted, setIsMounted] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const spots = useSelector((state) => state.spot.allSpots);
+  const spotsArr = spots ? Object.values(spots) : [];
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setIsMounted(true);
+    }, 1000); // Delay of 1 second
+
+    return () => {
+      clearTimeout(delay);
+    };
+  }, []);
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
@@ -28,6 +42,10 @@ function SearchBar() {
       country.toLowerCase().includes(search)
     );
   });
+
+  if (!isMounted) {
+    return null; // Return null or a loading spinner while waiting for the component to mount
+  }
 
   return (
     <div className="search-bar-container">
