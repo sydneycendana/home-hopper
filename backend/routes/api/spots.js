@@ -209,8 +209,8 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
 
-  const sanitizedLat = lat || null;
-  const sanitizedLng = lng || null;
+  const sanitizedLat = lat !== "" ? lat : null;
+  const sanitizedLng = lng !== "" ? lng : null;
 
   try {
     const spot = await Spot.create({
