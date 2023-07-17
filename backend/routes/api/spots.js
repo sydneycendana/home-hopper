@@ -31,16 +31,16 @@ const validateSpot = [
   check("country")
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
-  // check("lat")
-  //   .exists({ checkFalsy: true })
-  //   .toFloat()
-  //   .isDecimal()
-  //   .withMessage("Latitude is not valid"),
-  // check("lng")
-  //   .exists({ checkFalsy: true })
-  //   .toFloat()
-  //   .isDecimal()
-  //   .withMessage("Longitude is not valid"),
+  check("lat")
+    .exists({ checkFalsy: true })
+    .toFloat()
+    .isDecimal()
+    .withMessage("Latitude is not valid"),
+  check("lng")
+    .exists({ checkFalsy: true })
+    .toFloat()
+    .isDecimal()
+    .withMessage("Longitude is not valid"),
   check("name")
     .isLength({ min: 1, max: 49 })
     .withMessage("Name must be less than 50 characters"),
@@ -209,9 +209,6 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
 
-  const sanitizedLat = lat !== "" ? lat : null;
-  const sanitizedLng = lng !== "" ? lng : null;
-
   try {
     const spot = await Spot.create({
       ownerId,
@@ -219,8 +216,6 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
       city,
       state,
       country,
-      lat: sanitizedLat,
-      lng: sanitizedLng,
       lat,
       lng,
       name,

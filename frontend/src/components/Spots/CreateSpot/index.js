@@ -36,6 +36,8 @@ export default function CreateSpot() {
       if (!address) validationErrors.address = "Address is required";
       if (!city) validationErrors.city = "City is required";
       if (!state) validationErrors.state = "State is required";
+      if (!lat) validationErrors.state = "Latitude is required";
+      if (!lng) validationErrors.state = "Longitude is required";
       if (description.length < 30)
         validationErrors.description =
           "Description needs a minimum of 30 characters";
@@ -80,6 +82,8 @@ export default function CreateSpot() {
     address,
     city,
     state,
+    lat,
+    lng,
     description,
     name,
     price,
@@ -202,6 +206,7 @@ export default function CreateSpot() {
             <div className="input-container-latitude">
               <div className="create-spot__label">
                 <label htmlFor="lat">Latitude</label>
+                {errors && <span className="error">{errors.lat}</span>}
               </div>
               <input
                 className="form-input"
@@ -216,6 +221,7 @@ export default function CreateSpot() {
             <div className="input-container__longitude">
               <div className="create-spot__label">
                 <label htmlFor="lng">Longitude</label>
+                {errors && <span className="error">{errors.lng}</span>}
               </div>
               <input
                 className="form-input"
