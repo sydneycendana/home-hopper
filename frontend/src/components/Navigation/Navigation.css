@@ -75,7 +75,7 @@
   cursor: pointer;
   font-size: 24px;
   color: #333;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
   border-radius: 100vw;
   transition: box-shadow 0.3s ease;
 }
@@ -176,4 +176,34 @@
 
 .search-result:last-child {
   border-bottom: none;
+}
+
+@media (max-width: 60em) {
+  .search-bar-container {
+    max-width: 300px;
+  }
+
+  .create-navbar {
+    display: none;
+  }
+}
+
+@media (max-width: 40em) {
+  .search-bar-container {
+    max-width: 200px;
+  }
+
+  .search-bar-container input {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 32em) {
+  .search-bar-container {
+    max-width: 100px;
+  }
+
+  .search-bar-container input {
+    font-size: 8px;
+  }
 }
