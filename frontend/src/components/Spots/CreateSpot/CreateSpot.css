@@ -58,3 +58,30 @@ input[type="password"] {
 .section-info {
     padding-bottom: 10px;
 }
+
+@media (max-width: 60em) {
+    .create-spot__container {
+        width: 700px;
+    }
+}
+
+@media (max-width: 55em) {
+    .create-spot__container {
+        width: 600px;
+    }
+}
+
+@media (max-width: 40em) {
+
+    .create-spot__container {
+        width: 400px;
+    }
+}
+
+
+@media (max-width: 32em) {
+
+    .create-spot__container {
+        width: 300px;
+    }
+}

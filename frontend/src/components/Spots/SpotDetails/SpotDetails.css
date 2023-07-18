@@ -136,3 +136,40 @@
         max-height: 100px;
     }
 }
+
+@media (max-width: 600px) {
+    .large-images__container {
+        width: 400px;
+        height: 360px;
+    }
+
+    .small-images__container {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .small-image {
+        width: 379px;
+        height: 360px;
+    }
+
+    .spot-details-bottom__container {
+        padding-top: 1100px;
+    }
+}
+
+@media (max-width: 400px) {
+    .large-images__container {
+        width: 300px;
+        height: 270px;
+    }
+
+    .small-image {
+        width: 300px;
+        height: 270px;
+    }
+
+    .spot-details-bottom__container {
+        padding-top: 680px;
+    }
+}
