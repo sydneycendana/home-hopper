@@ -1,8 +1,36 @@
 # Fullstack Airbnb Clone
 
-Welcome to my Fullstack Airbnb Clone project, Home Hopper! This is my first major application meant to mimick a partially functional clone of the popular Airbnb platform.
+Welcome to Home Hopper! This is my first full stack project meant to mimick a partially functional clone of the popular Airbnb platform. Users can create an account, list a place to stay, and add reviews for other people's places. Here is the link to the [live site]([https://www.google.com/](https://home-hopper.onrender.com/)).
 
 <img src="https://github.com/sydneycendana/home-hopper/assets/103895652/76818234-5502-424c-a91a-b6f60190e3da" alt="home-hopper-gif" width="600" />
+
+## How to Run the App
+
+To run the application locally, follow these steps:
+
+1. Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/sydneycendana/home-hopper.git
+```
+
+2. Navigate to the root directory of the project and install the dependencies:
+```
+cd home-hopper
+npm install
+```
+
+3. Next, go to the backend folder and start the server:
+```
+cd backend
+npm start
+```
+
+4. Finally, open a new terminal window, go to the frontend folder, and start the frontend application:
+```
+cd frontend
+npm start
+```
 
 ## Introduction
 
@@ -28,8 +56,4 @@ Here are the technologies I used to create this application:
 | Node.js    | Javascript runtime environment                       |
 | Npm        | Package manager                                      |
 | Render     | Cloud platform for deployment and scaling            |
-
-## Try it Out
-
-If you're interested in trying out this Fullstack Airbnb Clone, feel free to clone the repository and give it a spin! And if you have any questions or feedback, don't hesitate to reach out to me.
 
