@@ -4,6 +4,25 @@ Welcome to Home Hopper! This is my first full stack project meant to mimick a pa
 
 <img src="https://github.com/sydneycendana/home-hopper/assets/103895652/76818234-5502-424c-a91a-b6f60190e3da" alt="home-hopper-gif" width="600" />
 
+## Technologies Used
+
+| Technology | Description                                          |
+| ---------- | ---------------------------------------------------- |
+| Javascript | Main programming language                            |
+| HTML       | Markup language for web development                  |
+| CSS        | Stylesheet language for web development              |
+| React      | Javascript library for building user interfaces      |
+| Redux      | Javascript library for managing application state    |
+| Express.js | Web application framework for Node.js                |
+| Git        | Version control system                               |
+| Postgres   | Relational database management system                |
+| Sequelize  | ORM for Node.js                                      |
+| Sqlite     | Lightweight in-process library                       |
+| Node.js    | Javascript runtime environment                       |
+| Npm        | Package manager                                      |
+| Render     | Cloud platform for deployment and scaling            |
+
+
 ## How to Run the App
 
 To run the application locally, follow these steps:
@@ -37,23 +56,4 @@ npm start
 Creating my first fullstack application was a thrilling undertaking for me as a new developer. This project challenged me to push my skills to the limit and learn new technologies and techniques. I spent countless hours debugging and reading documentation, and encountered many mishaps that I can now look back on with pride.
 
 The end result is an engaging application that I'm excited to share with the world. With Home Hopper, users can browse and interact with different homes as if through a familiar and intuitive interface.
-## Technologies Used
-
-Here are the technologies I used to create this application:
-
-| Technology | Description                                          |
-| ---------- | ---------------------------------------------------- |
-| Javascript | Main programming language                            |
-| HTML       | Markup language for web development                  |
-| CSS        | Stylesheet language for web development              |
-| React      | Javascript library for building user interfaces      |
-| Redux      | Javascript library for managing application state    |
-| Express.js | Web application framework for Node.js                |
-| Git        | Version control system                                |
-| Postgres   | Relational database management system                |
-| Sequelize  | ORM for Node.js                                      |
-| Sqlite     | Lightweight in-process library                        |
-| Node.js    | Javascript runtime environment                       |
-| Npm        | Package manager                                      |
-| Render     | Cloud platform for deployment and scaling            |
 
