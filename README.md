@@ -1,12 +1,14 @@
 # Fullstack Airbnb Clone
 
-Welcome to my Fullstack Airbnb Clone project! This application is my first major application meant to mimick a partially functional clone of the popular Airbnb platform.
+Welcome to my Fullstack Airbnb Clone project, Home Hopper! This is my first major application meant to mimick a partially functional clone of the popular Airbnb platform.
+
+![home-hopper-gif](https://github.com/sydneycendana/home-hopper/assets/103895652/012355d0-62e2-41cd-8b32-db9d72436948)
 
 ## Introduction
 
-Creating my first fullstack application was a thrilling undertaking for me as a new developer. This project challenged me to push my skills to the limit and learn new technologies and techniques along the way. I spent countless hours debugging and reading documentation, and encountered many mishaps that I can now look back on with a smile (and still a bit of frustration).
+Creating my first fullstack application was a thrilling undertaking for me as a new developer. This project challenged me to push my skills to the limit and learn new technologies and techniques. I spent countless hours debugging and reading documentation, and encountered many mishaps that I can now look back on with pride.
 
-The end result is an engaging, fully-featured application that I'm excited to share with the world. With this Fullstack Airbnb Clone, users can browse "Airbnb" and interact with different homes as if through a familiar and intuitive interface. I'm proud to have created my first fullstack application that serves as a showcase for my skills and abilities.
+The end result is an engaging application that I'm excited to share with the world. With Home Hopper, users can browse and interact with different homes as if through a familiar and intuitive interface.
 ## Technologies Used
 
 Here are the technologies I used to create this application:
