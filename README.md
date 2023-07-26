@@ -2,7 +2,7 @@
 
 Welcome to my Fullstack Airbnb Clone project, Home Hopper! This is my first major application meant to mimick a partially functional clone of the popular Airbnb platform.
 
-![home-hopper-gif](https://github.com/sydneycendana/home-hopper/assets/103895652/012355d0-62e2-41cd-8b32-db9d72436948)
+<img src="https://github.com/sydneycendana/home-hopper/assets/103895652/76818234-5502-424c-a91a-b6f60190e3da" alt="home-hopper-gif" width="600" />
 
 ## Introduction
 
