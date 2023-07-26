@@ -1,6 +1,6 @@
 # Fullstack Airbnb Clone
 
-Welcome to Home Hopper! This is my first full stack project meant to mimick a partially functional clone of the popular Airbnb platform. Users can create an account, list a place to stay, and add reviews for other people's places. Here is the link to the [live site]([https://www.google.com/](https://home-hopper.onrender.com/)).
+Welcome to Home Hopper! This is my first full stack project meant to mimick a partially functional clone of the popular Airbnb platform. Users can create an account, list a place to stay, and add reviews for other people's places. Here is the link to the [live site](https://home-hopper.onrender.com/).
 
 <img src="https://github.com/sydneycendana/home-hopper/assets/103895652/76818234-5502-424c-a91a-b6f60190e3da" alt="home-hopper-gif" width="600" />
 
