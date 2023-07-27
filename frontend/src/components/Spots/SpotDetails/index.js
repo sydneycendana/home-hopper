@@ -99,12 +99,14 @@ export default function SpotDetails() {
           </div>
           <div className="small-images__container">
             {otherImages.map((image, index) => (
-              <img
-                key={index}
-                src={image.url}
-                alt={spot.name}
-                className="small-image"
-              />
+              <div className="small-image__container">
+                <img
+                  key={index}
+                  src={image.url}
+                  alt={spot.name}
+                  className="small-image"
+                />
+              </div>
             ))}
           </div>
         </div>
