@@ -20,13 +20,17 @@
     position: relative;
     cursor: pointer;
     display: block;
-
 }
 
 
 .landing-previewImg__container {
     width: 320px;
     height: 300px;
+    transition: transform 0.3s ease;
+}
+
+.landing-previewImg__container:hover {
+    transform: scale(1.025);
 }
 
 .landing-previewImg {
