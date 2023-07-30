@@ -1,0 +1,88 @@
+.welcome-modal-container {
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+.welcome-modal-text-wrapper {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.welcome-modal-text-wrapper h1 {
+    text-align: center;
+}
+
+.welcome-modal-text-wrapper h3 {
+    text-align: center;
+}
+
+.personal-links {
+    text-align: center;
+}
+
+a[href="https://github.com/sydneycendana"] svg path:hover {
+    fill: #fc3c5c;
+    /* Change the fill color to black on hover */
+}
+
+/* LinkedIn icon */
+a[href="https://www.linkedin.com/in/sydneycendana/"] svg path:hover {
+    fill: #fc3c5c;
+    /* Change the fill color to LinkedIn blue on hover */
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.portfolio-link {
+    margin-top: 20px;
+}
+
+.portfolio-image {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+    width: 300px;
+}
+
+.portfolio-image:hover {
+    transform: scale(1.025);
+}
+
+.close-modal-button {
+    background-color: transparent;
+    border: 1px solid black;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    margin: 0 auto;
+}
+
+.close-modal-button:hover {
+    background-color: #fc3c5c;
+    color: white;
+}
+
+@media (max-width: 800px) {
+    .welcome-modal-container {
+        max-width: 400px;
+    }
+
+    .portfolio-image {
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease;
+        width: 200px;
+    }
+}
+
+@media (max-width: 400px) {
+    .welcome-modal-container {
+        max-width: 300px;
+    }
+}
